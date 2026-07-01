@@ -75,10 +75,7 @@ export default function EstudioPage() {
                     lineHeight: 1.05,
                   }}
                 >
-                  {isEn ? "Design that " : "Diseño que "}
-                  <em style={{ fontFamily: "var(--font-instrument-serif)", fontStyle: "italic", color: "white" }}>
-                    {isEn ? "transforms." : "transforma."}
-                  </em>
+                  {isEn ? "Design that transforms." : "Diseño que transforma."}
                 </motion.h1>
               </motion.div>
             </div>
@@ -119,10 +116,7 @@ export default function EstudioPage() {
                     lineHeight: 1.1,
                   }}
                 >
-                  15 años creando{" "}
-                  <em style={{ fontFamily: "var(--font-instrument-serif)", fontStyle: "italic", color: "var(--accent)" }}>
-                    espacios únicos.
-                  </em>
+                  15 años creando espacios únicos.
                 </motion.h2>
               </div>
               <motion.div variants={fadeUp} className="space-y-4 text-muted" style={{ fontFamily: "var(--font-inter)", lineHeight: 1.8 }}>
@@ -230,10 +224,7 @@ export default function EstudioPage() {
                   lineHeight: 1.1,
                 }}
               >
-                Lo que{" "}
-                <em style={{ fontFamily: "var(--font-instrument-serif)", fontStyle: "italic", color: "rgba(255,255,255,0.7)" }}>
-                  hacemos.
-                </em>
+                Lo que hacemos.
               </motion.h2>
             </motion.div>
 
@@ -360,10 +351,7 @@ export default function EstudioPage() {
                     lineHeight: 1.1,
                   }}
                 >
-                  Cómo{" "}
-                  <em style={{ fontFamily: "var(--font-instrument-serif)", fontStyle: "italic", color: "var(--accent)" }}>
-                    trabajamos.
-                  </em>
+                  Cómo trabajamos.
                 </motion.h2>
               </div>
             </motion.div>

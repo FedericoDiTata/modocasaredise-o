@@ -151,11 +151,16 @@ export default function CTAFinal() {
             </span>
             <span
               style={{
-                fontFamily: "var(--font-instrument-serif)",
-                fontSize: "clamp(1.5rem, 5vw, 3.75rem)",
-                fontStyle: "italic",
-                color: "rgba(255,255,255,0.55)",
+                fontFamily: "var(--font-inter-tight)",
+                fontSize: "clamp(0.9rem, 2vw, 1.15rem)",
+                fontWeight: 400,
+                letterSpacing: "0.32em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.5)",
                 lineHeight: 1,
+                marginLeft: "0.6em",
+                position: "relative",
+                top: "-0.35em",
               }}
             >
               estudio
@@ -198,9 +203,7 @@ export default function CTAFinal() {
               >
                 {isEn ? "Have a space in mind?" : "¿Tenés un espacio en mente?"}
                 <br />
-                <em style={{ fontFamily: "var(--font-instrument-serif)", fontStyle: "italic", fontWeight: 400 }}>
-                  {isEn ? "Let's talk." : "Hablemos."}
-                </em>
+                {isEn ? "Let's talk." : "Hablemos."}
               </h2>
 
               <p
@@ -295,11 +298,12 @@ export default function CTAFinal() {
           >
             <p
               style={{
-                fontFamily: "var(--font-instrument-serif)",
+                fontFamily: "var(--font-inter-tight)",
                 fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)",
-                fontStyle: "italic",
+                fontWeight: 300,
                 color: "white",
                 lineHeight: 1.5,
+                letterSpacing: "-0.01em",
               }}
             >
               {isEn

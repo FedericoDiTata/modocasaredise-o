@@ -67,10 +67,19 @@ export default function Navbar() {
               ModoCasa
             </span>
             <span
-              className={`text-sm italic transition-colors duration-300 ${
-                scrolled ? "text-muted" : "text-white/70"
+              className={`transition-colors duration-300 ${
+                scrolled ? "text-muted" : "text-white/55"
               }`}
-              style={{ fontFamily: "var(--font-instrument-serif)" }}
+              style={{
+                fontFamily: "var(--font-inter-tight)",
+                fontSize: "0.62rem",
+                fontWeight: 400,
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                marginLeft: "0.35em",
+                position: "relative",
+                top: "-0.2em",
+              }}
             >
               estudio
             </span>

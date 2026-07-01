@@ -1,214 +1,164 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
-import { useRef, useState, useEffect } from "react";
-import { fadeUp, wipeUp, staggerContainer, viewportConfig } from "@/lib/motion";
-import {
-  CardCurtainReveal,
-  CardCurtainRevealBody,
-  CardCurtainRevealFooter,
-  CardCurtainRevealDescription,
-  CardCurtain,
-  useCardCurtainRevealContext,
-} from "@/components/ui/card-curtain-reveal";
+import { fadeUp, staggerContainer, viewportConfig } from "@/lib/motion";
 
-const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as [number, number, number, number];
+/**
+ * Servicios como filas editoriales, no como cards h-[520px].
+ * Cada servicio ocupa una fila con hairline separadora arriba:
+ *   [número · título grande · descripción · thumbnail lateral]
+ * Sin CardCurtainReveal, sin secuencia scroll-cards, sin fondo negro.
+ * Fondo paper, texto negro — coherente con el resto del sitio.
+ */
 
-const cardEntrance = {
-  hidden: {
-    clipPath: "inset(100% 0 0 0)",
-    opacity: 0,
-  },
-  visible: (i: number) => ({
-    clipPath: "inset(0% 0 0 0)",
-    opacity: 1,
-    transition: {
-      duration: 0.75,
-      delay: i * 0.15,
-      ease: EASE_OUT_EXPO,
-    },
-  }),
-} as const;
-
-// Card: h-[520px], footer: h-56 (224px), gap-2 (8px) → body: 288px
-// Card visual center from body top = 520/2 = 260px
-// Hover position: just above description (absolute bottom-0 pb-8, ~100px from body bottom → top ≈ 188px; title at 140px leaves ~12px gap)
-function ServiceCardTitle({ title }: { title: string }) {
-  const { isMouseIn } = useCardCurtainRevealContext();
-  return (
-    <motion.h3
-      className="absolute left-0 right-0 px-8 text-2xl font-medium leading-tight text-white"
-      style={{
-        fontFamily: "var(--font-inter-tight)",
-        textAlign: isMouseIn ? "left" : "center",
-      }}
-      animate={isMouseIn
-        ? { top: 140, y: "0%" }
-        : { top: 260, y: "-50%" }
-      }
-      transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
-    >
-      {title}
-    </motion.h3>
-  );
-}
+const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 export default function Servicios() {
   const locale = useLocale();
   const isEn = locale === "en";
-  const gridRef = useRef(null);
-  const isInView = useInView(gridRef, { once: true, margin: "-100px" });
-  const [activeCards, setActiveCards] = useState([false, false, false]);
-
-  useEffect(() => {
-    if (!isInView) return;
-    const timers = [
-      setTimeout(() => setActiveCards((p) => [true, p[1], p[2]]), 0),
-      setTimeout(() => setActiveCards((p) => [p[0], true, p[2]]), 700),
-      setTimeout(() => setActiveCards((p) => [p[0], p[1], true]), 1400),
-    ];
-    return () => timers.forEach(clearTimeout);
-  }, [isInView]);
 
   const services = [
     {
       id: "diseno-interior",
+      number: "01",
       title: isEn ? "Interior Design" : "Diseño Interior",
       description: isEn
         ? "We transform spaces into unique experiences, studying every detail of lighting, textures and layout to reflect your identity."
-        : "Transformamos ambientes en experiencias únicas, estudiando cada detalle de iluminación, texturas y distribución para reflejar tu identidad.",
-      image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80",
-      alt: isEn ? "Modern interior design living room" : "Sala de diseño interior moderno",
-      number: "01",
+        : "Transformamos ambientes en experiencias únicas — estudiamos cada detalle de iluminación, texturas y distribución para reflejar tu identidad.",
+      image:
+        "https://estudiomodocasa.com/wp-content/uploads/2025/06/image-1.jpg",
+      alt: isEn ? "Interior design project" : "Proyecto de diseño interior",
     },
     {
       id: "arquitectura",
+      number: "02",
       title: isEn ? "Architecture" : "Arquitectura",
       description: isEn
         ? "We design and manage construction projects with a specialized team, ensuring aesthetic and functional coherence at every stage."
-        : "Proyectamos y dirigimos obras con un equipo especializado, garantizando coherencia estética y funcional en cada etapa del proceso.",
-      image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800&q=80",
-      alt: isEn ? "Contemporary architecture project" : "Proyecto de arquitectura contemporánea",
-      number: "02",
+        : "Proyectamos y dirigimos obras con un equipo especializado — coherencia estética y funcional en cada etapa del proceso.",
+      image:
+        "https://estudiomodocasa.com/wp-content/uploads/2022/12/hudson_2025_02.jpg",
+      alt: isEn ? "Architecture project" : "Proyecto de arquitectura",
     },
     {
       id: "muebles",
+      number: "03",
       title: isEn ? "Custom Furniture" : "Muebles a medida",
       description: isEn
         ? "We design and craft unique furniture that integrates into each space with millimetric precision and first-rate materials."
-        : "Diseñamos y fabricamos muebles únicos que se integran a cada espacio con precisión milimétrica y materiales de primera calidad.",
-      image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80",
-      alt: isEn ? "Custom design furniture" : "Muebles de diseño personalizado",
-      number: "03",
+        : "Diseñamos y fabricamos muebles únicos — se integran a cada espacio con precisión milimétrica y materiales de primera calidad.",
+      image:
+        "https://estudiomodocasa.com/wp-content/uploads/2023/09/unkanny_v2-004.jpg",
+      alt: isEn ? "Custom furniture" : "Muebles de diseño personalizado",
     },
   ];
 
   return (
     <section className="section bg-background">
       <div className="container">
-        {/* Header — description left-aligned below title */}
+        {/* Header */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}
           variants={staggerContainer}
-          className="mb-14 lg:mb-20"
+          className="mb-10 grid grid-cols-12 gap-6 lg:mb-14"
         >
-          <motion.p variants={fadeUp} className="eyebrow mb-4">
-            {isEn ? "Our services" : "Nuestros servicios"}
-          </motion.p>
-          <div className="clip-text">
+          <div className="col-span-12 lg:col-span-6">
+            <motion.p variants={fadeUp} className="eyebrow mb-4">
+              {isEn ? "Services" : "Servicios"}
+            </motion.p>
             <motion.h2
-              variants={wipeUp}
+              variants={fadeUp}
               style={{
                 fontFamily: "var(--font-inter-tight)",
-                fontSize: "clamp(2rem, 4vw, 3.25rem)",
+                fontSize: "clamp(1.75rem, 4vw, 3rem)",
                 fontWeight: 400,
-                lineHeight: 1.1,
+                lineHeight: 1.05,
+                letterSpacing: "-0.025em",
                 color: "var(--fg)",
               }}
             >
-              {isEn ? "Every space has a story." : "Cada espacio tiene una historia."}
-              <br />
-              <em
-                style={{
-                  fontFamily: "var(--font-instrument-serif)",
-                  fontStyle: "italic",
-                  color: "var(--fg)",
-                }}
-              >
-                {isEn ? "We design it." : "Nosotros la diseñamos."}
-              </em>
+              {isEn
+                ? "Three integrated lines of practice."
+                : "Tres líneas integradas de práctica."}
             </motion.h2>
           </div>
           <motion.p
             variants={fadeUp}
-            className="mt-5 max-w-md text-sm leading-relaxed text-muted"
+            className="col-span-12 max-w-sm self-end text-sm leading-relaxed text-muted lg:col-span-4 lg:col-start-9"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             {isEn
-              ? "Three integrated service lines to bring each project to life, from concept to delivery."
-              : "Tres líneas de servicio integradas para dar vida a cada proyecto, desde el concepto hasta la entrega."}
+              ? "From concept to delivery, we accompany each project as a single point of contact — with a specialized team behind every decision."
+              : "Del concepto a la entrega, acompañamos cada proyecto como interlocutor único — con un equipo especializado detrás de cada decisión."}
           </motion.p>
         </motion.div>
 
-        {/* Cards — each animates independently with staggered clip-path wipe */}
-        <div ref={gridRef} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Rows */}
+        <ul className="border-t border-border">
           {services.map((service, i) => (
-            <motion.div
+            <motion.li
               key={service.id}
-              custom={i}
-              variants={cardEntrance}
-              initial="hidden"
-              whileInView="visible"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={viewportConfig}
+              transition={{ duration: 0.7, delay: i * 0.08, ease: EASE }}
+              className="border-b border-border"
             >
-              <CardCurtainReveal
-                active={activeCards[i]}
-                className="h-[520px] cursor-default rounded-xl text-white"
-                style={{ backgroundColor: "#08090A" }}
-              >
-                <CardCurtainRevealBody className="relative">
-                  {/* Number — top-left */}
-                  <span
-                    className="absolute top-8 left-8 text-[0.65rem] font-medium uppercase tracking-widest text-white/30"
-                    style={{ fontFamily: "var(--font-inter-tight)" }}
-                  >
-                    {service.number}
-                  </span>
+              <div className="grid grid-cols-12 items-center gap-6 py-8 lg:py-10">
+                {/* Number */}
+                <span
+                  className="col-span-2 lg:col-span-1 text-xs text-muted/70 tabular-nums"
+                  style={{
+                    fontFamily: "var(--font-inter-tight)",
+                    letterSpacing: "0.14em",
+                  }}
+                >
+                  {service.number}
+                </span>
 
-                  {/* Title — centered in rest, moves above description on hover */}
-                  <ServiceCardTitle title={service.title} />
+                {/* Title */}
+                <h3
+                  className="col-span-10 lg:col-span-3"
+                  style={{
+                    fontFamily: "var(--font-inter-tight)",
+                    fontSize: "clamp(1.5rem, 2.4vw, 2rem)",
+                    fontWeight: 400,
+                    lineHeight: 1.1,
+                    letterSpacing: "-0.02em",
+                    color: "var(--fg)",
+                  }}
+                >
+                  {service.title}
+                </h3>
 
-                  {/* Description — bottom of card body, revealed on hover */}
-                  <CardCurtainRevealDescription className="absolute bottom-0 left-0 right-0 px-8 pb-8">
-                    <p
-                      className="text-sm leading-relaxed text-white/65"
-                      style={{ fontFamily: "var(--font-inter)" }}
-                    >
-                      {service.description}
-                    </p>
-                  </CardCurtainRevealDescription>
+                {/* Description */}
+                <p
+                  className="col-span-12 max-w-xl text-sm leading-relaxed text-muted lg:col-span-5"
+                  style={{ fontFamily: "var(--font-inter)" }}
+                >
+                  {service.description}
+                </p>
 
-                  {/* Mix-blend-difference sweep — the signature curtain effect */}
-                  <CardCurtain className="bg-white" />
-                </CardCurtainRevealBody>
-
-                <CardCurtainRevealFooter className="relative h-56 shrink-0 overflow-hidden">
-                  <Image
-                    src={service.image}
-                    alt={service.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                </CardCurtainRevealFooter>
-              </CardCurtainReveal>
-            </motion.div>
+                {/* Thumbnail — small square, right side */}
+                <div className="col-span-12 lg:col-span-3">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md lg:aspect-square lg:h-24 lg:w-24 lg:ml-auto">
+                    <Image
+                      src={service.image}
+                      alt={service.alt}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 96px"
+                    />
+                  </div>
+                </div>
+              </div>
+            </motion.li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

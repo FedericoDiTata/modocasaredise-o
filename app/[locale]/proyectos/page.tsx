@@ -51,16 +51,7 @@ export default function ProyectosPage() {
                   lineHeight: 1.05,
                 }}
               >
-                {isEn ? "Our " : "Nuestros "}
-                <em
-                  style={{
-                    fontFamily: "var(--font-instrument-serif)",
-                    fontStyle: "italic",
-                    color: "var(--accent)",
-                  }}
-                >
-                  {isEn ? "projects." : "proyectos."}
-                </em>
+                {isEn ? "Our projects." : "Nuestros proyectos."}
               </motion.h1>
             </motion.div>
           </div>

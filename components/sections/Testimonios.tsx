@@ -123,16 +123,7 @@ export default function Testimonios() {
                 color: "var(--fg)",
               }}
             >
-              {isEn ? "What our " : "Lo que dicen "}
-              <em
-                style={{
-                  fontFamily: "var(--font-instrument-serif)",
-                  fontStyle: "italic",
-                  color: "var(--fg)",
-                }}
-              >
-                {isEn ? "clients say." : "nuestros clientes."}
-              </em>
+              {isEn ? "What our clients say." : "Lo que dicen nuestros clientes."}
             </motion.h2>
           </div>
         </motion.div>
@@ -160,11 +151,12 @@ export default function Testimonios() {
               <p
                 className="mb-6"
                 style={{
-                  fontFamily: "var(--font-instrument-serif)",
-                  fontSize: "clamp(1.25rem, 2.4vw, 2rem)",
-                  fontStyle: "italic",
-                  lineHeight: 1.5,
+                  fontFamily: "var(--font-inter-tight)",
+                  fontSize: "clamp(1.15rem, 2.2vw, 1.75rem)",
+                  fontWeight: 300,
+                  lineHeight: 1.45,
                   color: "var(--fg)",
+                  letterSpacing: "-0.01em",
                 }}
               >
                 &ldquo;{testimonials[current].quote}&rdquo;

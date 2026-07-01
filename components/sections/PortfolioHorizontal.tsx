@@ -51,16 +51,7 @@ export default function PortfolioHorizontal() {
               lineHeight: 1.15,
             }}
           >
-            {isEn ? "Latest " : "Últimas "}
-            <em
-              style={{
-                fontFamily: "var(--font-instrument-serif)",
-                fontStyle: "italic",
-                color: "var(--fg)",
-              }}
-            >
-              {isEn ? "works." : "obras."}
-            </em>
+            {isEn ? "Latest works." : "Últimas obras."}
           </h2>
         </div>
 
@@ -152,16 +143,7 @@ export default function PortfolioHorizontal() {
                   lineHeight: 1.15,
                 }}
               >
-                {isEn ? "Latest " : "Últimas "}
-                <em
-                  style={{
-                    fontFamily: "var(--font-instrument-serif)",
-                    fontStyle: "italic",
-                    color: "white",
-                  }}
-                >
-                  {isEn ? "works." : "obras."}
-                </em>
+                {isEn ? "Latest works." : "Últimas obras."}
               </h2>
             </div>
 
@@ -207,10 +189,10 @@ export default function PortfolioHorizontal() {
               >
                 <p
                   style={{
-                    fontFamily: "var(--font-instrument-serif)",
-                    fontSize: "clamp(1.25rem, 2vw, 1.75rem)",
-                    fontStyle: "italic",
-                    color: "rgba(255,255,255,0.5)",
+                    fontFamily: "var(--font-inter-tight)",
+                    fontSize: "clamp(1.1rem, 1.8vw, 1.5rem)",
+                    fontWeight: 300,
+                    color: "rgba(255,255,255,0.55)",
                     lineHeight: 1.4,
                     marginBottom: "2rem",
                   }}

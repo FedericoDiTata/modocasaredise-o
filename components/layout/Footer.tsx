@@ -30,8 +30,17 @@ export default function Footer() {
                 ModoCasa
               </span>
               <span
-                className="text-base italic text-white/50"
-                style={{ fontFamily: "var(--font-instrument-serif)" }}
+                className="text-white/45"
+                style={{
+                  fontFamily: "var(--font-inter-tight)",
+                  fontSize: "0.62rem",
+                  fontWeight: 400,
+                  letterSpacing: "0.3em",
+                  textTransform: "uppercase",
+                  marginLeft: "0.35em",
+                  position: "relative",
+                  top: "-0.2em",
+                }}
               >
                 estudio
               </span>

@@ -51,28 +51,19 @@ export default function PortfolioDestacado() {
                   color: "var(--fg)",
                 }}
               >
-                {isEn ? "Latest " : "Últimas "}
-                <em
-                  style={{
-                    fontFamily: "var(--font-instrument-serif)",
-                    fontStyle: "italic",
-                    color: "var(--fg)",
-                  }}
-                >
-                  {isEn ? "works." : "obras."}
-                </em>
+                {isEn ? "Latest works." : "Últimas obras."}
               </motion.h2>
             </div>
             <motion.p
               variants={fadeUp}
               className="mt-4 max-w-xs text-sm leading-relaxed text-muted"
-              style={{ fontFamily: "var(--font-instrument-serif)", fontStyle: "italic" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               &ldquo;{isEn
                 ? "Every space is an opportunity to tell a story."
                 : "Cada espacio es una oportunidad de contar una historia."}&rdquo;
               <span
-                className="mt-1 block not-italic text-xs tracking-wider text-muted/60"
+                className="mt-1 block text-xs tracking-wider text-muted/60"
                 style={{ fontFamily: "var(--font-inter-tight)" }}
               >
                 — Gustavo Yankelevich

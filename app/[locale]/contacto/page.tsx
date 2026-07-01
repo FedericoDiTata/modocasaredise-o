@@ -59,10 +59,7 @@ export default function ContactoPage() {
                     lineHeight: 1.05,
                   }}
                 >
-                  {isEn ? "Start your " : "Empezá tu "}
-                  <em style={{ fontFamily: "var(--font-instrument-serif)", fontStyle: "italic", color: "var(--accent)" }}>
-                    {isEn ? "project." : "proyecto."}
-                  </em>
+                  {isEn ? "Start your project." : "Empezá tu proyecto."}
                 </motion.h1>
               </div>
               <motion.p

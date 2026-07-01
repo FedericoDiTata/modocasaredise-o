@@ -56,10 +56,15 @@ export default function IntroLoader() {
               </span>
               <span
                 style={{
-                  fontFamily: "var(--font-instrument-serif)",
-                  fontSize: "clamp(1.5rem, 3.5vw, 2.5rem)",
-                  fontStyle: "italic",
-                  color: "white",
+                  fontFamily: "var(--font-inter-tight)",
+                  fontSize: "clamp(0.7rem, 1.4vw, 0.95rem)",
+                  fontWeight: 400,
+                  letterSpacing: "0.32em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.55)",
+                  marginLeft: "0.6em",
+                  position: "relative",
+                  top: "-0.4em",
                 }}
               >
                 estudio

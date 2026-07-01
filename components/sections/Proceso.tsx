@@ -183,10 +183,7 @@ export default function Proceso() {
               lineHeight: 1.1,
             }}
           >
-            {isEn ? "How we " : "Cómo "}
-            <em style={{ fontFamily: "var(--font-instrument-serif)", fontStyle: "italic" }}>
-              {isEn ? "work." : "trabajamos."}
-            </em>
+            {isEn ? "How we work." : "Cómo trabajamos."}
           </h2>
           <div className="space-y-10">
             {STEPS.map((step) => {
@@ -277,16 +274,7 @@ export default function Proceso() {
                 lineHeight: 1.08,
               }}
             >
-              {isEn ? "How we " : "Cómo "}
-              <em
-                style={{
-                  fontFamily: "var(--font-instrument-serif)",
-                  fontStyle: "italic",
-                  color: "white",
-                }}
-              >
-                {isEn ? "work." : "trabajamos."}
-              </em>
+              {isEn ? "How we work." : "Cómo trabajamos."}
             </h2>
           </motion.div>
         </div>

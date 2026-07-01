@@ -1,234 +1,206 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
-import { wipeUp, fadeUp, staggerContainer, viewportConfig } from "@/lib/motion";
+import { fadeUp, staggerContainer } from "@/lib/motion";
+import { projects } from "@/lib/projects";
 
-const images = [
-  {
-    src: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1920&q=80",
-    alt: "Diseño interior de sala de estar de lujo",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1920&q=80",
-    alt: "Espacio de cocina contemporáneo",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&q=80",
-    alt: "Sala de estar minimalista",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&q=80",
-    alt: "Dormitorio de diseño premium",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=1920&q=80",
-    alt: "Interior arquitectónico",
-  },
-];
+/**
+ * Hero editorial estilo "book cover".
+ * — Arriba: metadata (línea de estudio) + statement tipográfico grande +
+ *   subhead corto + 2 CTAs discretos + índice de obras seleccionadas.
+ * — Abajo: UNA imagen estática de proyecto real (no carrusel, sin
+ *   rotación, sin Ken Burns, sin "SCROLL" indicator, sin combos italic).
+ * — Fondo blanco/off-white — el peso lo hace la tipografía + la foto.
+ *
+ * Cambio deliberado respecto al pattern "photos passing + text on left"
+ * anterior, que gritaba IA.
+ */
 
-const INTERVAL = 6000;
+// Featured hero project — foto real del WP, no Unsplash placeholder.
+const featured = projects[0]; // Hudson
 
 export default function Hero() {
   const locale = useLocale();
   const isEn = locale === "en";
 
-  const [current, setCurrent] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(true);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  useEffect(() => {
-    const tick = () => {
-      setIsAnimating(false);
-      setTimeout(() => {
-        setCurrent((prev) => (prev + 1) % images.length);
-        setIsAnimating(true);
-      }, 50);
-    };
-
-    intervalRef.current = setInterval(tick, INTERVAL);
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, []);
-
-  const goTo = (index: number) => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    setCurrent(index);
-    intervalRef.current = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % images.length);
-    }, INTERVAL);
-  };
-
   return (
-    <section className="relative h-[100svh] min-h-[600px] overflow-hidden">
-      {/* Image carousel */}
-      {images.map((img, i) => (
-        <div
-          key={img.src}
-          className="absolute inset-0 transition-opacity duration-1000"
-          style={{
-            opacity: i === current ? 1 : 0,
-            zIndex: i === current ? 1 : 0,
-          }}
-        >
-          <div
-            key={`${img.src}-${current === i}`}
-            className={current === i && isAnimating ? "animate-ken-burns absolute inset-0" : "absolute inset-0"}
-            style={{
-              animation: current === i && isAnimating
-                ? `${i % 2 === 0 ? "kenBurns" : "kenBurns2"} 8s ease-in-out forwards`
-                : "none",
-            }}
-          >
-            <Image
-              src={img.src}
-              alt={img.alt}
-              fill
-              className="object-cover"
-              priority={i === 0}
-              sizes="100vw"
-            />
-          </div>
-        </div>
-      ))}
-
-      {/* Overlays */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
-      <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/20 to-transparent" />
-
-      {/* Content */}
-      <div className="relative z-20 flex h-full flex-col justify-end">
-        <div className="container pb-20 lg:pb-28">
+    <section className="relative flex min-h-[100svh] flex-col bg-background text-foreground">
+      {/* Top block — text */}
+      <div className="flex flex-1 items-end pt-28 pb-10 lg:pt-32 lg:pb-14">
+        <div className="container">
           <motion.div
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
-            className="max-w-3xl"
+            className="grid grid-cols-12 gap-6 lg:gap-10"
           >
-            {/* Eyebrow */}
-            <motion.p
-              variants={fadeUp}
-              className="eyebrow-light mb-6"
-            >
-              Buenos Aires · Argentina
-            </motion.p>
+            {/* Left — metadata + statement */}
+            <div className="col-span-12 lg:col-span-8">
+              <motion.p variants={fadeUp} className="eyebrow mb-6">
+                {isEn
+                  ? "Interior Design & Architecture · Buenos Aires · Since 2010"
+                  : "Diseño Interior & Arquitectura · Buenos Aires · Desde 2010"}
+              </motion.p>
 
-            {/* Headline */}
-            <h1
-              className="mb-6 leading-[1.05] tracking-tight text-white"
-              style={{
-                fontFamily: "var(--font-inter-tight)",
-                fontSize: "clamp(2.8rem, 6.5vw, 5.5rem)",
-                fontWeight: 400,
-              }}
-            >
-              <div className="clip-text">
-                <motion.span variants={wipeUp} className="block">
-                  {isEn ? "Spaces that" : "Espacios que"}
-                </motion.span>
-              </div>
-              <div className="clip-text">
-                <motion.span variants={wipeUp} className="block" style={{ transitionDelay: "0.1s" }}>
-                  <em
-                    className="not-italic"
-                    style={{
-                      fontFamily: "var(--font-instrument-serif)",
-                      fontStyle: "italic",
-                      color: "white",
-                    }}
-                  >
-                    {isEn ? "define" : "definen"}
-                  </em>{" "}
-                  {isEn ? "who we are." : "quiénes somos."}
-                </motion.span>
-              </div>
-            </h1>
-
-            {/* Subheadline */}
-            <motion.p
-              variants={fadeUp}
-              className="mb-10 max-w-lg text-base leading-relaxed text-white/70 lg:text-lg"
-              style={{ fontFamily: "var(--font-inter)" }}
-            >
-              {isEn
-                ? "High-end interior design and architecture for those who value every detail."
-                : "Diseño interior y arquitectura de alta gama para quienes valoran cada detalle."}
-            </motion.p>
-
-            {/* CTAs */}
-            <motion.div
-              variants={fadeUp}
-              className="flex flex-wrap items-center gap-4"
-            >
-              <Link
-                href={`/${locale}/proyectos`}
-                data-magnetic
-                className="inline-flex h-12 items-center rounded-full bg-white px-7 text-sm font-medium text-foreground transition-all duration-300 hover:bg-white/90 hover:scale-[1.02]"
-                style={{ fontFamily: "var(--font-inter-tight)" }}
+              <motion.h1
+                variants={fadeUp}
+                className="mb-8 text-balance"
+                style={{
+                  fontFamily: "var(--font-inter-tight)",
+                  fontSize: "clamp(2.5rem, 6.5vw, 6rem)",
+                  fontWeight: 400,
+                  lineHeight: 0.98,
+                  letterSpacing: "-0.035em",
+                  color: "var(--fg)",
+                }}
               >
-                {isEn ? "View projects" : "Ver proyectos"}
-              </Link>
-              <Link
-                href={`/${locale}/estudio`}
-                data-magnetic
-                className="inline-flex h-12 items-center rounded-full border border-white/40 px-7 text-sm font-medium text-white backdrop-blur-sm transition-all duration-300 hover:border-white/80 hover:bg-white/10"
-                style={{ fontFamily: "var(--font-inter-tight)" }}
+                {isEn ? (
+                  <>
+                    Spaces thought
+                    <br />
+                    from the detail.
+                  </>
+                ) : (
+                  <>
+                    Espacios pensados
+                    <br />
+                    desde el detalle.
+                  </>
+                )}
+              </motion.h1>
+
+              <motion.p
+                variants={fadeUp}
+                className="max-w-lg text-base leading-relaxed text-muted lg:text-lg"
+                style={{ fontFamily: "var(--font-inter)" }}
               >
-                {isEn ? "Meet the studio" : "Conocer el estudio"}
-              </Link>
-            </motion.div>
+                {isEn
+                  ? "High-end interior design and architecture for those who value every decision. Fifteen years shaping residential and commercial spaces in Buenos Aires."
+                  : "Diseño interior y arquitectura de alta gama para quienes valoran cada decisión. Quince años proyectando espacios residenciales y comerciales en Buenos Aires."}
+              </motion.p>
+
+              <motion.div
+                variants={fadeUp}
+                className="mt-10 flex flex-wrap items-center gap-6"
+              >
+                <Link
+                  href={`/${locale}/proyectos`}
+                  className="group inline-flex items-center gap-3 text-sm font-medium tracking-wide text-foreground transition-opacity hover:opacity-70"
+                  style={{ fontFamily: "var(--font-inter-tight)" }}
+                >
+                  <span
+                    className="block h-px w-8 bg-foreground transition-all duration-500 group-hover:w-12"
+                    aria-hidden="true"
+                  />
+                  {isEn ? "View projects" : "Ver proyectos"}
+                </Link>
+                <Link
+                  href={`/${locale}/estudio`}
+                  className="text-sm font-medium tracking-wide text-muted transition-colors hover:text-foreground"
+                  style={{ fontFamily: "var(--font-inter-tight)" }}
+                >
+                  {isEn ? "Meet the studio" : "Conocer el estudio"}
+                </Link>
+              </motion.div>
+            </div>
+
+            {/* Right — mini project index (magazine feel) */}
+            <div className="col-span-12 lg:col-span-4 lg:pt-4">
+              <motion.div variants={fadeUp} className="hairline mb-6" />
+              <motion.p variants={fadeUp} className="eyebrow mb-4">
+                {isEn ? "Selected works" : "Obras seleccionadas"}
+              </motion.p>
+              <motion.ul variants={staggerContainer} className="space-y-0">
+                {projects.slice(0, 5).map((p, i) => (
+                  <motion.li key={p.id} variants={fadeUp}>
+                    <Link
+                      href={`/${locale}/proyectos/${p.id}`}
+                      className="group flex items-baseline justify-between gap-4 border-b border-border/60 py-3 text-sm transition-colors hover:border-foreground"
+                    >
+                      <span className="flex items-baseline gap-3">
+                        <span
+                          className="w-6 text-xs text-muted/60 tabular-nums"
+                          style={{ fontFamily: "var(--font-inter-tight)" }}
+                        >
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span
+                          className="text-foreground transition-transform duration-300 group-hover:translate-x-1"
+                          style={{ fontFamily: "var(--font-inter-tight)" }}
+                        >
+                          {p.name}
+                        </span>
+                      </span>
+                      <span
+                        className="shrink-0 text-xs text-muted/60 tabular-nums"
+                        style={{ fontFamily: "var(--font-inter-tight)" }}
+                      >
+                        {p.year}
+                      </span>
+                    </Link>
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </div>
           </motion.div>
         </div>
+      </div>
 
-        {/* Carousel indicators */}
-        <div className="absolute bottom-8 right-8 z-20 flex items-center gap-2">
-          {images.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => goTo(i)}
-              aria-label={`Imagen ${i + 1}`}
-              className="transition-all duration-300"
-            >
+      {/* Bottom block — single static hero image with credit line */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="relative h-[52svh] min-h-[380px] w-full overflow-hidden"
+      >
+        <Image
+          src={featured.image}
+          alt={featured.alt}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        {/* Subtle bottom gradient just for text contrast */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/60 to-transparent" />
+
+        {/* Credit line: minimal, editorial, tiny */}
+        <div className="absolute inset-x-0 bottom-0 z-10">
+          <div className="container flex flex-wrap items-center justify-between gap-4 py-6 text-white">
+            <div className="flex items-baseline gap-3">
               <span
-                className={`block h-px transition-all duration-500 ${
-                  i === current ? "w-8 bg-white" : "w-3 bg-white/30"
-                }`}
-              />
-            </button>
-          ))}
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 flex flex-col items-center gap-2">
-          <span
-            className="text-[0.65rem] uppercase tracking-widest text-white/40"
-            style={{ fontFamily: "var(--font-inter-tight)" }}
-          >
-            Scroll
-          </span>
-          <div className="animate-scroll-pulse">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              className="text-white/40"
+                className="text-[0.65rem] tracking-[0.22em] uppercase text-white/50"
+                style={{ fontFamily: "var(--font-inter-tight)" }}
+              >
+                {isEn ? "Featured" : "Destacado"} · 01
+              </span>
+              <span className="text-white/40" aria-hidden="true">
+                /
+              </span>
+              <Link
+                href={`/${locale}/proyectos/${featured.id}`}
+                className="text-sm text-white transition-opacity hover:opacity-80"
+                style={{ fontFamily: "var(--font-inter-tight)" }}
+              >
+                {featured.name}
+                <span className="text-white/50">
+                  {" — "}
+                  {featured.location} · {featured.year}
+                </span>
+              </Link>
+            </div>
+            <span
+              className="hidden text-[0.65rem] tracking-[0.22em] uppercase text-white/40 md:inline-block"
+              style={{ fontFamily: "var(--font-inter-tight)" }}
             >
-              <path
-                d="M8 3v10M3.5 8.5L8 13l4.5-4.5"
-                stroke="currentColor"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+              {featured.category}
+            </span>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
