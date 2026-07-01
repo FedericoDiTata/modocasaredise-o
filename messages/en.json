@@ -1,0 +1,17 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "studio": "Studio",
+    "contact": "Contact",
+    "cta": "Schedule a meeting"
+  },
+  "hero": {
+    "eyebrow": "Buenos Aires · Argentina",
+    "headline1": "Spaces that",
+    "headline2": "define",
+    "headline3": "who we are.",
+    "subheadline": "High-end interior design and architecture for those who value every detail.",
+    "cta1": "View projects",
+    "cta2": "Meet the studio"
+  }
+}

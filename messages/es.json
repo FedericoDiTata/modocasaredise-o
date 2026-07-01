@@ -1,0 +1,17 @@
+{
+  "nav": {
+    "projects": "Proyectos",
+    "studio": "Estudio",
+    "contact": "Contacto",
+    "cta": "Agendar reunión"
+  },
+  "hero": {
+    "eyebrow": "Buenos Aires · Argentina",
+    "headline1": "Espacios que",
+    "headline2": "definen",
+    "headline3": "quiénes somos.",
+    "subheadline": "Diseño interior y arquitectura de alta gama para quienes valoran cada detalle.",
+    "cta1": "Ver proyectos",
+    "cta2": "Conocer el estudio"
+  }
+}

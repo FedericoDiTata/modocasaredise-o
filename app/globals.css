@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens ──────────────────────────────────────────── */
+:root {
+  --bg: #FFFFFF;
+  --fg: #08090A;
+  --surface: #f7f6f4;
+  --dark: #08090A;
+  --muted: #888888;
+  --border: #e5e3df;
+  --accent: #08090A;
+
+  --font-display: var(--font-inter-tight);
+  --font-serif: var(--font-instrument-serif);
+  --font-body: var(--font-inter);
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-dark: var(--dark);
+  --color-border: var(--border);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-inter-tight);
+  --font-serif: var(--font-instrument-serif);
+}
+
+/* ─── Base ───────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip; /* clip ≠ hidden: no crea scroll container, sticky funciona */
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-x: clip;
+}
+
+
+::selection {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cccccc;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #aaaaaa;
+}
+
+/* ─── Typography helpers ──────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+
+.font-serif {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+/* ─── Keyframes ──────────────────────────────────────────────── */
+@keyframes kenBurns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.1) translate(-2%, -1%);
+  }
+}
+
+@keyframes kenBurns2 {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.08) translate(2%, -1%);
+  }
+}
+
+@keyframes scrollPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.3;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Custom utilities ───────────────────────────────────────── */
+.animate-ken-burns {
+  animation: kenBurns 8s ease-in-out forwards;
+}
+
+.animate-ken-burns-alt {
+  animation: kenBurns2 8s ease-in-out forwards;
+}
+
+.animate-scroll-pulse {
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+/* ─── Eyebrow label ──────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.eyebrow-light {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ─── Section spacing ────────────────────────────────────────── */
+.section {
+  padding-top: clamp(5rem, 10vw, 9rem);
+  padding-bottom: clamp(5rem, 10vw, 9rem);
+}
+
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.25rem, 5vw, 4rem);
+  padding-right: clamp(1.25rem, 5vw, 4rem);
+}
+
+/* ─── Clip overflow helper ───────────────────────────────────── */
+.clip-text {
+  overflow: hidden;
+  display: block;
+}
+
+/* ─── Image cover helper ─────────────────────────────────────── */
+.img-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
