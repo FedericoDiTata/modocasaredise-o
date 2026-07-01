@@ -242,7 +242,7 @@ export default function PorQueElegirnos() {
                           textTransform: "uppercase",
                         }}
                       >
-                        Próximamente
+                        Foto
                       </span>
                     </button>
                   ))}

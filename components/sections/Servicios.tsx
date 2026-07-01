@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import { fadeUp, staggerContainer, viewportConfig } from "@/lib/motion";
@@ -113,14 +112,31 @@ export default function Servicios() {
                     imageFirst ? "lg:order-1" : "lg:order-2"
                   }`}
                 >
-                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg lg:aspect-[16/10]">
-                    <Image
-                      src={service.image}
-                      alt={service.alt}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1024px) 100vw, 60vw"
+                  <div
+                    className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-surface lg:aspect-[16/10]"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(rgba(8,9,10,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(8,9,10,0.04) 1px, transparent 1px)",
+                      backgroundSize: "48px 48px",
+                    }}
+                  >
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-4 border border-dashed border-muted/40"
                     />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span
+                        className="text-muted/60"
+                        style={{
+                          fontFamily: "var(--font-inter-tight)",
+                          fontSize: "0.7rem",
+                          letterSpacing: "0.32em",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        Foto
+                      </span>
+                    </div>
                   </div>
                 </div>
 

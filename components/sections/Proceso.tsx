@@ -6,13 +6,13 @@ import { useLocale } from "next-intl";
 import { fadeUp, staggerContainer, viewportConfig } from "@/lib/motion";
 
 /**
- * Proceso como "mapa" en zigzag diagonal. Los pasos se colocan
- * alternando izquierda / derecha en una grilla de 12 columnas,
- * conectados por un SVG path curvo que se dibuja al scroll (como
- * ruta trazándose en un mapa). Cada paso tiene su número grande
- * como ancla visual + título justo al lado (no separado) +
- * descripción debajo. Cada waypoint se revela con animación tipo
- * "pin drop" cuando entra en viewport.
+ * Timeline zigzag como "mapa". Los waypoints (dots) se posicionan cerca
+ * del centro del viewport y las cards se colocan a los EXTREMOS
+ * (izquierda o derecha) para que el layout no quede apretado al medio.
+ * Un hairline horizontal conecta cada card con su dot, y un SVG path
+ * cÃºbico curvo une los dots entre sÃ­, dibujÃ¡ndose progresivamente al
+ * scroll. Cada dot tiene un ring pulsante y cada card entra con slide
+ * desde su lado.
  */
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
@@ -21,8 +21,8 @@ const STEPS = [
   {
     number: "01",
     es: {
-      title: "Diagnóstico estratégico",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Analizamos el contexto, la visión y las necesidades del proyecto para definir los ejes de trabajo.",
+      title: "DiagnÃ³stico estratÃ©gico",
+      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Analizamos el contexto, la visiÃ³n y las necesidades del proyecto para definir los ejes de trabajo.",
     },
     en: {
       title: "Strategic diagnosis",
@@ -32,8 +32,8 @@ const STEPS = [
   {
     number: "02",
     es: {
-      title: "Definición de flujos",
-      desc: "Praesent commodo cursus magna, vel scelerisque nisl. Organizamos circulaciones, áreas técnicas y recorridos, diferenciando lo público de lo privado.",
+      title: "DefiniciÃ³n de flujos",
+      desc: "Praesent commodo cursus magna, vel scelerisque nisl. Organizamos circulaciones, Ã¡reas tÃ©cnicas y recorridos, diferenciando lo pÃºblico de lo privado.",
     },
     en: {
       title: "Flow definition",
@@ -44,7 +44,7 @@ const STEPS = [
     number: "03",
     es: {
       title: "Concepto e identidad",
-      desc: "Nullam quis risus eget urna mollis ornare vel eu leo. Traducimos el posicionamiento del proyecto en lenguaje arquitectónico, atmósfera y paleta.",
+      desc: "Nullam quis risus eget urna mollis ornare vel eu leo. Traducimos el posicionamiento del proyecto en lenguaje arquitectÃ³nico, atmÃ³sfera y paleta.",
     },
     en: {
       title: "Concept and identity",
@@ -55,7 +55,7 @@ const STEPS = [
     number: "04",
     es: {
       title: "Proyecto ejecutivo",
-      desc: "Donec ullamcorper nulla non metus auctor fringilla. Resolución técnica: pliegos, planimetrías, cortes constructivos y renders fotorrealistas.",
+      desc: "Donec ullamcorper nulla non metus auctor fringilla. ResoluciÃ³n tÃ©cnica: pliegos, planimetrÃ­as, cortes constructivos y renders fotorrealistas.",
     },
     en: {
       title: "Executive project",
@@ -65,8 +65,8 @@ const STEPS = [
   {
     number: "05",
     es: {
-      title: "Dirección de obra",
-      desc: "Vestibulum id ligula porta felis euismod semper. Coordinamos gremios, tiempos y entregas con supervisión permanente del equipo del estudio.",
+      title: "DirecciÃ³n de obra",
+      desc: "Vestibulum id ligula porta felis euismod semper. Coordinamos gremios, tiempos y entregas con supervisiÃ³n permanente del equipo del estudio.",
     },
     en: {
       title: "Construction management",
@@ -77,7 +77,7 @@ const STEPS = [
     number: "06",
     es: {
       title: "Entrega llave en mano",
-      desc: "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Un espacio listo para habitarse desde el primer día, con acompañamiento post-entrega.",
+      desc: "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Un espacio listo para habitarse desde el primer dÃ­a, con acompaÃ±amiento post-entrega.",
     },
     en: {
       title: "Turnkey delivery",
@@ -86,23 +86,16 @@ const STEPS = [
   },
 ];
 
-// Coordenadas normalizadas (0-100) de cada waypoint en el SVG virtual
-// para el path curvo. Zigzag alternando left/right.
+// Waypoints en coordenadas 0-100 del SVG. Zigzag suave cerca del centro.
 const WAYPOINTS = [
-  { x: 22, y: 8 },   // 01, izquierda arriba
-  { x: 78, y: 25 },  // 02, derecha
-  { x: 22, y: 42 },  // 03, izquierda
-  { x: 78, y: 59 },  // 04, derecha
-  { x: 22, y: 76 },  // 05, izquierda
-  { x: 78, y: 92 },  // 06, derecha abajo
+  { x: 38, y: 8, side: "left" as const },
+  { x: 62, y: 24, side: "right" as const },
+  { x: 38, y: 40, side: "left" as const },
+  { x: 62, y: 56, side: "right" as const },
+  { x: 38, y: 72, side: "left" as const },
+  { x: 62, y: 88, side: "right" as const },
 ];
 
-/**
- * Construye un path SVG cúbico que atraviesa todos los waypoints con
- * curvas suaves. Cada segmento entre dos puntos usa Bezier cúbica con
- * puntos de control desplazados horizontalmente para dar sensación de
- * ruta orgánica en zigzag.
- */
 function buildPath() {
   const start = WAYPOINTS[0];
   let d = `M ${start.x} ${start.y}`;
@@ -110,11 +103,9 @@ function buildPath() {
     const prev = WAYPOINTS[i - 1];
     const curr = WAYPOINTS[i];
     const midY = (prev.y + curr.y) / 2;
-    // Puntos de control en el eje X del waypoint anterior/actual para
-    // que la curva "abrace" cada waypoint antes de cruzar
-    const cp1 = { x: prev.x, y: midY };
-    const cp2 = { x: curr.x, y: midY };
-    d += ` C ${cp1.x} ${cp1.y}, ${cp2.x} ${cp2.y}, ${curr.x} ${curr.y}`;
+    // Control points en el X del prev y curr para que la curva
+    // "abrace" cada waypoint antes de cruzar el eje vertical.
+    d += ` C ${prev.x} ${midY}, ${curr.x} ${midY}, ${curr.x} ${curr.y}`;
   }
   return d;
 }
@@ -128,11 +119,10 @@ export default function Proceso() {
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end center"],
+    offset: ["start 85%", "end 15%"],
   });
 
-  // El path se dibuja de 0 a 1 conforme el usuario scrollea por la sección
-  const pathLength = useTransform(scrollYProgress, [0.05, 0.85], [0, 1]);
+  const pathLength = useTransform(scrollYProgress, [0, 0.85], [0, 1]);
 
   return (
     <section className="section bg-dark text-white">
@@ -146,7 +136,7 @@ export default function Proceso() {
           className="mb-14 max-w-2xl lg:mb-20"
         >
           <motion.p variants={fadeUp} className="eyebrow-light mb-4">
-            {isEn ? "Process" : "Cómo trabajamos"}
+            {isEn ? "Process" : "CÃ³mo trabajamos"}
           </motion.p>
           <motion.h2
             variants={fadeUp}
@@ -171,110 +161,193 @@ export default function Proceso() {
           >
             {isEn
               ? "An ordered, transparent method, designed so the client can focus on their project while the studio takes care of every detail."
-              : "Un método ordenado y transparente, diseñado para que el cliente pueda enfocarse en su proyecto mientras el estudio se ocupa de cada detalle."}
+              : "Un mÃ©todo ordenado y transparente, diseÃ±ado para que el cliente pueda enfocarse en su proyecto mientras el estudio se ocupa de cada detalle."}
           </motion.p>
         </motion.div>
 
-        {/* Mapa / zigzag, solo desktop */}
+        {/* Desktop, mapa zigzag */}
         <div
           ref={containerRef}
           className="relative hidden lg:block"
-          style={{ height: "1400px" }}
+          style={{ height: "1500px" }}
         >
-          {/* SVG del path curvo, se dibuja al scroll */}
+          {/* Halo radial suave detrÃ¡s del path para dar profundidad */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(ellipse 42% 55% at 50% 50%, rgba(255,255,255,0.035), transparent 70%)",
+            }}
+          />
+
+          {/* SVG con path animado */}
           <svg
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 h-full w-full"
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
           >
-            {/* Path base semitransparente, línea fantasma */}
+            {/* Path fantasma, siempre visible pero suave */}
             <path
               d={PATH_D}
               fill="none"
-              stroke="rgba(255,255,255,0.06)"
-              strokeWidth="0.15"
-              strokeDasharray="0.8 0.8"
+              stroke="rgba(255,255,255,0.1)"
+              strokeWidth="0.35"
+              strokeLinecap="round"
               vectorEffect="non-scaling-stroke"
             />
-            {/* Path que se dibuja al scroll, sobre el ghost */}
+            {/* Path principal, se dibuja segÃºn scroll */}
             <motion.path
               d={PATH_D}
               fill="none"
-              stroke="rgba(255,255,255,0.55)"
-              strokeWidth="0.18"
+              stroke="rgba(255,255,255,0.7)"
+              strokeWidth="0.5"
               strokeLinecap="round"
-              strokeDasharray="0.9 0.7"
               vectorEffect="non-scaling-stroke"
               style={{ pathLength }}
             />
           </svg>
 
-          {/* Waypoints con motion.dot (bullet en la línea) + card cerca */}
+          {/* Waypoints (dots + cards) */}
           {STEPS.map((step, i) => {
             const wp = WAYPOINTS[i];
-            const isRight = wp.x > 50;
+            const isRight = wp.side === "right";
             const { title, desc } = isEn ? step.en : step.es;
 
             return (
               <div key={step.number}>
-                {/* Dot en la línea */}
+                {/* Ring pulsante detrÃ¡s del dot, loop infinito */}
+                <motion.span
+                  initial={{ scale: 0.4, opacity: 0 }}
+                  whileInView={{
+                    scale: [0.6, 1.8, 0.6],
+                    opacity: [0, 0.3, 0],
+                  }}
+                  viewport={{ once: false, amount: 0.4 }}
+                  transition={{
+                    duration: 2.6,
+                    delay: 0.35,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  aria-hidden="true"
+                  className="absolute h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white"
+                  style={{ left: `${wp.x}%`, top: `${wp.y}%` }}
+                />
+
+                {/* Dot sÃ³lido, aparece con scale spring */}
                 <motion.span
                   initial={{ scale: 0, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
                   viewport={{ once: true, amount: 0.5 }}
-                  transition={{ duration: 0.45, delay: 0.15, ease: EASE }}
+                  transition={{ duration: 0.5, delay: 0.2, ease: EASE }}
                   aria-hidden="true"
-                  className="absolute h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white ring-4 ring-white/10"
+                  className="absolute h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white ring-2 ring-white/70"
                   style={{ left: `${wp.x}%`, top: `${wp.y}%` }}
                 />
 
-                {/* Card, aparece con "pin drop" y offset según lado */}
-                <motion.article
-                  initial={{ opacity: 0, y: 30, x: isRight ? 20 : -20 }}
-                  whileInView={{ opacity: 1, y: 0, x: 0 }}
-                  viewport={{ once: true, amount: 0.4 }}
-                  transition={{ duration: 0.8, delay: 0.28, ease: EASE }}
-                  className="absolute w-[min(340px,26vw)]"
+                {/* Hairline conector desde el dot hasta el borde interno de la card */}
+                <motion.span
+                  initial={{ scaleX: 0, opacity: 0 }}
+                  whileInView={{ scaleX: 1, opacity: 1 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.65, delay: 0.4, ease: EASE }}
+                  aria-hidden="true"
+                  className="absolute h-px -translate-y-1/2 bg-white/40"
                   style={{
-                    left: isRight
-                      ? `calc(${wp.x}% - 340px - 32px)`
-                      : `calc(${wp.x}% + 32px)`,
-                    top: `calc(${wp.y}% - 60px)`,
+                    left: isRight ? `${wp.x}%` : `${wp.x - 32}%`,
+                    top: `${wp.y}%`,
+                    width: "32%",
+                    transformOrigin: isRight ? "left center" : "right center",
+                  }}
+                />
+
+                {/* Card en el extremo opuesto (fuera del centro) */}
+                <motion.article
+                  initial={{ opacity: 0, x: isRight ? -30 : 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ duration: 0.8, delay: 0.5, ease: EASE }}
+                  className="absolute"
+                  style={{
+                    left: isRight ? "auto" : "1%",
+                    right: isRight ? "1%" : "auto",
+                    top: `calc(${wp.y}% - 68px)`,
+                    width: "min(340px, 30%)",
+                    textAlign: isRight ? "right" : "left",
                   }}
                 >
-                  <div className="flex items-baseline gap-4">
-                    <span
-                      className="leading-none"
-                      style={{
-                        fontFamily: "var(--font-inter-tight)",
-                        fontSize: "3.5rem",
-                        fontWeight: 300,
-                        letterSpacing: "-0.04em",
-                        color: "rgba(255,255,255,0.85)",
-                      }}
-                    >
-                      {step.number}
-                    </span>
-                    <h3
-                      style={{
-                        fontFamily: "var(--font-inter-tight)",
-                        fontSize: "1.35rem",
-                        fontWeight: 500,
-                        lineHeight: 1.1,
-                        letterSpacing: "-0.02em",
-                        color: "white",
-                      }}
-                    >
-                      {title}
-                    </h3>
+                  <div
+                    className={`flex items-baseline gap-4 ${
+                      isRight ? "justify-end" : "justify-start"
+                    }`}
+                  >
+                    {!isRight && (
+                      <>
+                        <span
+                          className="leading-none"
+                          style={{
+                            fontFamily: "var(--font-inter-tight)",
+                            fontSize: "3.75rem",
+                            fontWeight: 300,
+                            letterSpacing: "-0.04em",
+                            color: "rgba(255,255,255,0.9)",
+                          }}
+                        >
+                          {step.number}
+                        </span>
+                        <h3
+                          style={{
+                            fontFamily: "var(--font-inter-tight)",
+                            fontSize: "1.35rem",
+                            fontWeight: 500,
+                            lineHeight: 1.1,
+                            letterSpacing: "-0.02em",
+                            color: "white",
+                          }}
+                        >
+                          {title}
+                        </h3>
+                      </>
+                    )}
+                    {isRight && (
+                      <>
+                        <h3
+                          style={{
+                            fontFamily: "var(--font-inter-tight)",
+                            fontSize: "1.35rem",
+                            fontWeight: 500,
+                            lineHeight: 1.1,
+                            letterSpacing: "-0.02em",
+                            color: "white",
+                          }}
+                        >
+                          {title}
+                        </h3>
+                        <span
+                          className="leading-none"
+                          style={{
+                            fontFamily: "var(--font-inter-tight)",
+                            fontSize: "3.75rem",
+                            fontWeight: 300,
+                            letterSpacing: "-0.04em",
+                            color: "rgba(255,255,255,0.9)",
+                          }}
+                        >
+                          {step.number}
+                        </span>
+                      </>
+                    )}
                   </div>
                   <div
                     aria-hidden="true"
-                    className="my-4 h-px w-10 bg-white/25"
+                    className={`mt-4 h-px w-12 bg-white/25 ${
+                      isRight ? "ml-auto" : ""
+                    }`}
                   />
                   <p
-                    className="text-[13.5px] leading-relaxed text-white/55"
+                    className="mt-4 text-[13.5px] leading-relaxed text-white/55"
                     style={{ fontFamily: "var(--font-inter)" }}
                   >
                     {desc}
@@ -285,8 +358,7 @@ export default function Proceso() {
           })}
         </div>
 
-        {/* Fallback mobile / tablet, layout apilado sencillo con
-            número grande y título/descripción justo al lado */}
+        {/* Mobile / tablet fallback, stacked simple */}
         <ol className="space-y-10 lg:hidden">
           {STEPS.map((step, i) => {
             const { title, desc } = isEn ? step.en : step.es;

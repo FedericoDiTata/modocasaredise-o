@@ -56,10 +56,10 @@ export default function Hero() {
           className="mb-8 lg:mb-10"
           style={{
             fontFamily: "var(--font-inter-tight)",
-            fontSize: "clamp(2.75rem, 8vw, 8rem)",
+            fontSize: "clamp(2.25rem, 5.2vw, 5rem)",
             fontWeight: 400,
-            lineHeight: 0.95,
-            letterSpacing: "-0.04em",
+            lineHeight: 1.02,
+            letterSpacing: "-0.035em",
             color: "white",
           }}
         >

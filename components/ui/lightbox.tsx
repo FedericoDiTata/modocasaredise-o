@@ -119,7 +119,7 @@ export function Lightbox({ images, index, onClose, onPrev, onNext }: LightboxPro
                 textTransform: "uppercase",
               }}
             >
-              Placeholder
+              Foto
             </span>
           </div>
         ) : (
