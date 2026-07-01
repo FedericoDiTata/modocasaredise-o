@@ -6,10 +6,12 @@ import { useLocale } from "next-intl";
 import { fadeUp, staggerContainer, viewportConfig } from "@/lib/motion";
 
 /**
- * "Por qué elegirnos" como fila de 4 diferenciadores editoriales sobre
- * fondo oscuro. Sin `h-screen`, sin cards visualmente pesadas —
- * imagen chica arriba, número + título + descripción alineados a la
- * izquierda. Grid de 4 columnas en desktop, se apila en mobile.
+ * Grid de 4 diferenciadores sobre fondo oscuro. Cambios respecto a la
+ * iteración anterior:
+ *   — sin números en las cards
+ *   — descripción del header en el mismo bloque de título, no en la
+ *     esquina superior derecha
+ *   — fotos en color (no grayscale)
  */
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
@@ -23,7 +25,6 @@ export default function PorQueElegirnos() {
   const differentiators = [
     {
       id: "vision",
-      number: "01",
       title: isEn ? "Integrated vision" : "Visión integral",
       description: isEn
         ? "One point of contact for the entire process — project, materials, construction and delivery."
@@ -33,7 +34,6 @@ export default function PorQueElegirnos() {
     },
     {
       id: "experiencia",
-      number: "02",
       title: isEn ? "15 years" : "15 años",
       description: isEn
         ? "More than a decade with the finest materials and suppliers in Argentina — over 25 high-end projects delivered."
@@ -43,7 +43,6 @@ export default function PorQueElegirnos() {
     },
     {
       id: "personalizado",
-      number: "03",
       title: isEn ? "Bespoke" : "Personalizado",
       description: isEn
         ? "Every project starts from scratch — we listen, interpret and create something unique. No two projects alike."
@@ -53,7 +52,6 @@ export default function PorQueElegirnos() {
     },
     {
       id: "acompanamiento",
-      number: "04",
       title: isEn ? "Full support" : "Acompañamiento",
       description: isEn
         ? "Present at every decision — from the initial sketch to delivery day. Your vision is our permanent priority."
@@ -66,37 +64,36 @@ export default function PorQueElegirnos() {
   return (
     <section className="section bg-dark text-white">
       <div className="container">
-        {/* Header */}
+        {/* Header — alineado a la izquierda, sin bloque en la esquina derecha */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}
           variants={staggerContainer}
-          className="mb-12 grid grid-cols-12 gap-6 lg:mb-16"
+          className="mb-12 max-w-2xl lg:mb-16"
         >
-          <div className="col-span-12 lg:col-span-7">
-            <motion.p variants={fadeUp} className="eyebrow-light mb-4">
-              {isEn ? "Why choose us" : "Por qué elegirnos"}
-            </motion.p>
-            <motion.h2
-              variants={fadeUp}
-              style={{
-                fontFamily: "var(--font-inter-tight)",
-                fontSize: "clamp(1.75rem, 4vw, 3rem)",
-                fontWeight: 400,
-                lineHeight: 1.05,
-                letterSpacing: "-0.025em",
-                color: "white",
-              }}
-            >
-              {isEn
-                ? "The difference is in the details."
-                : "La diferencia está en los detalles."}
-            </motion.h2>
-          </div>
+          <motion.p variants={fadeUp} className="eyebrow-light mb-4">
+            {isEn ? "Why choose us" : "Por qué elegirnos"}
+          </motion.p>
+          <motion.h2
+            variants={fadeUp}
+            className="mb-6"
+            style={{
+              fontFamily: "var(--font-inter-tight)",
+              fontSize: "clamp(1.75rem, 4vw, 3rem)",
+              fontWeight: 400,
+              lineHeight: 1.05,
+              letterSpacing: "-0.025em",
+              color: "white",
+            }}
+          >
+            {isEn
+              ? "The difference is in the details."
+              : "La diferencia está en los detalles."}
+          </motion.h2>
           <motion.p
             variants={fadeUp}
-            className="col-span-12 max-w-sm self-end text-sm leading-relaxed text-white/50 lg:col-span-4 lg:col-start-9"
+            className="max-w-lg text-sm leading-relaxed text-white/55"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             {isEn
@@ -105,7 +102,7 @@ export default function PorQueElegirnos() {
           </motion.p>
         </motion.div>
 
-        {/* 4-column grid, no cards, editorial */}
+        {/* 4-column grid, sin números, fotos en color */}
         <div className="grid grid-cols-1 gap-8 border-t border-white/12 pt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
           {differentiators.map((item, i) => (
             <motion.article
@@ -116,38 +113,30 @@ export default function PorQueElegirnos() {
               transition={{ duration: 0.7, delay: i * 0.08, ease: EASE }}
               className="flex flex-col gap-5"
             >
-              {/* Small thumbnail */}
+              {/* Foto en color, no grayscale */}
               <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md">
                 <Image
                   src={item.imageUrl}
                   alt={item.imageAlt}
                   fill
-                  className="object-cover grayscale"
+                  className="object-cover"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
               </div>
 
-              {/* Number + title */}
-              <div>
-                <p
-                  className="mb-2 text-[0.65rem] tracking-[0.22em] uppercase text-white/40"
-                  style={{ fontFamily: "var(--font-inter-tight)" }}
-                >
-                  {item.number}
-                </p>
-                <h3
-                  style={{
-                    fontFamily: "var(--font-inter-tight)",
-                    fontSize: "1.25rem",
-                    fontWeight: 400,
-                    lineHeight: 1.15,
-                    letterSpacing: "-0.015em",
-                    color: "white",
-                  }}
-                >
-                  {item.title}
-                </h3>
-              </div>
+              {/* Title */}
+              <h3
+                style={{
+                  fontFamily: "var(--font-inter-tight)",
+                  fontSize: "1.25rem",
+                  fontWeight: 400,
+                  lineHeight: 1.15,
+                  letterSpacing: "-0.015em",
+                  color: "white",
+                }}
+              >
+                {item.title}
+              </h3>
 
               {/* Description */}
               <p
