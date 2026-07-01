@@ -114,7 +114,7 @@ export default function ProjectDetailPage({
                   >
                     <Image
                       src={src}
-                      alt={`${project.name} — imagen ${i + 1}`}
+                      alt={`${project.name}, imagen ${i + 1}`}
                       fill
                       className="object-cover"
                       sizes={fullWidth ? "100vw" : "(max-width: 640px) 100vw, 50vw"}

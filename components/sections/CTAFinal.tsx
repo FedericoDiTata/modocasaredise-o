@@ -274,7 +274,7 @@ export default function CTAFinal() {
                 />
               </div>
 
-              {/* Botón — mismo espacio que el espaciador de la izquierda */}
+              {/* Botón, mismo espacio que el espaciador de la izquierda */}
               <div className="pt-10">
                 <button
                   type="submit"

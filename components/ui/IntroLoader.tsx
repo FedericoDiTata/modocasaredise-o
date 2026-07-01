@@ -96,7 +96,7 @@ export default function IntroLoader() {
             style={{ width: "100%" }}
           />
 
-          {/* Corner marks — architectural detail */}
+          {/* Corner marks, architectural detail */}
           {[
             "top-8 left-8",
             "top-8 right-8",

@@ -8,9 +8,9 @@ import { fadeUp, staggerContainer, viewportConfig } from "@/lib/motion";
 /**
  * Servicios como bloques alternados grande imagen + texto, tipo revista.
  * Cambios respecto a la iteración anterior:
- *   — sin enumeración (01, 02, 03)
- *   — sin thumbnails chicas al costado, se van a imágenes grandes
- *   — cada servicio se lee como un "spread" editorial, no como una fila
+ *  , sin enumeración (01, 02, 03)
+ *  , sin thumbnails chicas al costado, se van a imágenes grandes
+ *  , cada servicio se lee como un "spread" editorial, no como una fila
  *     horizontal plana
  */
 
@@ -26,7 +26,7 @@ export default function Servicios() {
       title: isEn ? "Interior Design" : "Diseño Interior",
       description: isEn
         ? "We transform spaces into unique experiences, studying every detail of lighting, textures and layout to reflect your identity."
-        : "Transformamos ambientes en experiencias únicas — estudiamos cada detalle de iluminación, texturas y distribución para reflejar tu identidad.",
+        : "Transformamos ambientes en experiencias únicas, estudiamos cada detalle de iluminación, texturas y distribución para reflejar tu identidad.",
       image:
         "https://estudiomodocasa.com/wp-content/uploads/2025/06/image-1.jpg",
       alt: isEn ? "Interior design project" : "Proyecto de diseño interior",
@@ -36,7 +36,7 @@ export default function Servicios() {
       title: isEn ? "Architecture" : "Arquitectura",
       description: isEn
         ? "We design and manage construction projects with a specialized team, ensuring aesthetic and functional coherence at every stage."
-        : "Proyectamos y dirigimos obras con un equipo especializado — coherencia estética y funcional en cada etapa del proceso.",
+        : "Proyectamos y dirigimos obras con un equipo especializado, coherencia estética y funcional en cada etapa del proceso.",
       image:
         "https://estudiomodocasa.com/wp-content/uploads/2022/12/hudson_2025_02.jpg",
       alt: isEn ? "Architecture project" : "Proyecto de arquitectura",
@@ -46,7 +46,7 @@ export default function Servicios() {
       title: isEn ? "Custom Furniture" : "Muebles a medida",
       description: isEn
         ? "We design and craft unique furniture that integrates into each space with millimetric precision and first-rate materials."
-        : "Diseñamos y fabricamos muebles únicos — se integran a cada espacio con precisión milimétrica y materiales de primera calidad.",
+        : "Diseñamos y fabricamos muebles únicos, se integran a cada espacio con precisión milimétrica y materiales de primera calidad.",
       image:
         "https://estudiomodocasa.com/wp-content/uploads/2023/09/unkanny_v2-004.jpg",
       alt: isEn ? "Custom furniture" : "Muebles de diseño personalizado",
@@ -56,7 +56,7 @@ export default function Servicios() {
   return (
     <section className="section bg-background">
       <div className="container">
-        {/* Header — sin bloque de descripción en la esquina derecha */}
+        {/* Header, sin bloque de descripción en la esquina derecha */}
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -89,8 +89,8 @@ export default function Servicios() {
             style={{ fontFamily: "var(--font-inter)" }}
           >
             {isEn
-              ? "From concept to delivery, we accompany each project as a single point of contact — with a specialized team behind every decision."
-              : "Del concepto a la entrega, acompañamos cada proyecto como interlocutor único — con un equipo especializado detrás de cada decisión."}
+              ? "From concept to delivery, we accompany each project as a single point of contact, with a specialized team behind every decision."
+              : "Del concepto a la entrega, acompañamos cada proyecto como interlocutor único, con un equipo especializado detrás de cada decisión."}
           </motion.p>
         </motion.div>
 

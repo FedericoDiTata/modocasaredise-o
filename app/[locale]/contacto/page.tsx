@@ -209,7 +209,7 @@ export default function ContactoPage() {
                   },
                   {
                     label: isEn ? "Office hours" : "Horario de atención",
-                    content: isEn ? "Monday to Friday\n9:00 AM — 6:00 PM" : "Lunes a viernes\n9:00 — 18:00 hs",
+                    content: isEn ? "Monday to Friday\n9:00 AM, 6:00 PM" : "Lunes a viernes\n9:00, 18:00 hs",
                     href: null,
                   },
                 ].map((item) => (

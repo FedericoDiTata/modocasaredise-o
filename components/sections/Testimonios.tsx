@@ -21,12 +21,12 @@ const testimonials = [
     author: "Marcelo R.",
     project: "Proyecto Palermo",
     image: `${WP}/2023/09/unkanny_v2-001.jpg`,
-    alt: "Proyecto editorial — Palermo",
+    alt: "Proyecto editorial, Palermo",
     gallery: [
-      { src: `${WP}/2023/09/unkanny_v2-001.jpg`, alt: "Unkanny — Palermo" },
-      { src: `${WP}/2023/09/unkanny_v2-003.jpg`, alt: "Unkanny — Palermo" },
-      { src: `${WP}/2023/09/unkanny_v2-004.jpg`, alt: "Unkanny — Palermo" },
-      { src: `${WP}/2023/09/unkanny_v2-005.jpg`, alt: "Unkanny — Palermo" },
+      { src: `${WP}/2023/09/unkanny_v2-001.jpg`, alt: "Unkanny, Palermo" },
+      { src: `${WP}/2023/09/unkanny_v2-003.jpg`, alt: "Unkanny, Palermo" },
+      { src: `${WP}/2023/09/unkanny_v2-004.jpg`, alt: "Unkanny, Palermo" },
+      { src: `${WP}/2023/09/unkanny_v2-005.jpg`, alt: "Unkanny, Palermo" },
     ],
   },
   {
@@ -36,12 +36,12 @@ const testimonials = [
     author: "Sofía L.",
     project: "Proyecto Belgrano",
     image: `${WP}/2021/10/MODO-CASA-PEDRO-GOYENA-PH_FEDERICO_KULEKDJIAN-11.jpg`,
-    alt: "Proyecto residencial — Belgrano",
+    alt: "Proyecto residencial, Belgrano",
     gallery: [
-      { src: `${WP}/2021/10/MODO-CASA-PEDRO-GOYENA-PH_FEDERICO_KULEKDJIAN-11.jpg`, alt: "Goyena — Belgrano" },
-      { src: `${WP}/2021/10/MODO-CASA-PEDRO-GOYENA-PH_FEDERICO_KULEKDJIAN-01.jpg`, alt: "Goyena — Belgrano" },
-      { src: `${WP}/2021/10/MODO-CASA-PEDRO-GOYENA-PH_FEDERICO_KULEKDJIAN-02.jpg`, alt: "Goyena — Belgrano" },
-      { src: `${WP}/2021/10/MODO-CASA-PEDRO-GOYENA-PH_FEDERICO_KULEKDJIAN-03.jpg`, alt: "Goyena — Belgrano" },
+      { src: `${WP}/2021/10/MODO-CASA-PEDRO-GOYENA-PH_FEDERICO_KULEKDJIAN-11.jpg`, alt: "Goyena, Belgrano" },
+      { src: `${WP}/2021/10/MODO-CASA-PEDRO-GOYENA-PH_FEDERICO_KULEKDJIAN-01.jpg`, alt: "Goyena, Belgrano" },
+      { src: `${WP}/2021/10/MODO-CASA-PEDRO-GOYENA-PH_FEDERICO_KULEKDJIAN-02.jpg`, alt: "Goyena, Belgrano" },
+      { src: `${WP}/2021/10/MODO-CASA-PEDRO-GOYENA-PH_FEDERICO_KULEKDJIAN-03.jpg`, alt: "Goyena, Belgrano" },
     ],
   },
   {
@@ -51,7 +51,7 @@ const testimonials = [
     author: "Fernando M.",
     project: "Proyecto Puerto Madero",
     image: `${WP}/2021/08/MODO-CASA-SLS-PUERTO-MADERO-PH_FEDERICO_KULEKDJIAN-19-1.jpg`,
-    alt: "Penthouse — Puerto Madero",
+    alt: "Penthouse, Puerto Madero",
     gallery: [
       { src: `${WP}/2021/08/MODO-CASA-SLS-PUERTO-MADERO-PH_FEDERICO_KULEKDJIAN-19-1.jpg`, alt: "SLS Puerto Madero" },
       { src: `${WP}/2021/10/MODO-CASA-SLS-PUERTO-MADERO-PH_FEDERICO_KULEKDJIAN-01.jpg`, alt: "SLS Puerto Madero" },
@@ -101,7 +101,7 @@ export default function Testimonios() {
   return (
     <section className="h-screen flex items-center bg-background overflow-hidden">
       <div className="container w-full">
-        {/* Header — centered */}
+        {/* Header, centered */}
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -128,7 +128,7 @@ export default function Testimonios() {
           </div>
         </motion.div>
 
-        {/* Testimonial — centered, full width */}
+        {/* Testimonial, centered, full width */}
         <div className="mx-auto max-w-3xl text-center">
           <div className="overflow-hidden">
           <div style={{ display: "grid" }}>
@@ -257,7 +257,7 @@ export default function Testimonios() {
           </div>
           </div>
 
-          {/* Navigation — dots only */}
+          {/* Navigation, dots only */}
           <div className="mt-4 flex items-center justify-center gap-2">
             {testimonials.map((_, i) => (
               <button

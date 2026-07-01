@@ -8,13 +8,13 @@ import { fadeUp, wipeUp, staggerContainer, scaleIn, viewportConfig } from "@/lib
 import { projects as allProjects } from "@/lib/projects";
 
 const FEATURED_IDS = [
-  "hudson",                  // Left col top — exterior architecture, open sky
-  "casa-terravista",         // Left col bottom — nature, open spaces, horizontal planes
-  "palacio-estrugamou",      // Right col top — elegant interior
-  "sls",                     // Right col bottom — dark luxury interior
-  "nordelta-barrio-el-golf", // Row 2 — modern exterior + lush garden
-  "aleph",                   // Row 2 — geometric architecture
-  "sls-puerto-madero",       // Row 2 — penthouse + city views
+  "hudson",                  // Left col top, exterior architecture, open sky
+  "casa-terravista",         // Left col bottom, nature, open spaces, horizontal planes
+  "palacio-estrugamou",      // Right col top, elegant interior
+  "sls",                     // Right col bottom, dark luxury interior
+  "nordelta-barrio-el-golf", // Row 2, modern exterior + lush garden
+  "aleph",                   // Row 2, geometric architecture
+  "sls-puerto-madero",       // Row 2, penthouse + city views
 ];
 
 const projects = FEATURED_IDS
@@ -66,7 +66,7 @@ export default function PortfolioDestacado() {
                 className="mt-1 block text-xs tracking-wider text-muted/60"
                 style={{ fontFamily: "var(--font-inter-tight)" }}
               >
-                — Gustavo Yankelevich
+               , Gustavo Yankelevich
               </span>
             </motion.p>
           </div>
@@ -104,7 +104,7 @@ export default function PortfolioDestacado() {
           viewport={viewportConfig}
           variants={staggerContainer}
         >
-          {/* Row 1 — desktop: left col (Hudson + Terravista) + right col (Palacio + SLS) */}
+          {/* Row 1, desktop: left col (Hudson + Terravista) + right col (Palacio + SLS) */}
           <div className="hidden lg:flex gap-3 mb-3" style={{ height: "560px" }}>
             <div className="flex flex-[7] flex-col gap-3">
               <motion.div variants={scaleIn} className="flex-1 min-h-0">
@@ -124,7 +124,7 @@ export default function PortfolioDestacado() {
             </div>
           </div>
 
-          {/* Row 1 — mobile: 2-col grid for first 4 projects */}
+          {/* Row 1, mobile: 2-col grid for first 4 projects */}
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden mb-3">
             {projects.slice(0, 4).map((project, i) => (
               <motion.div key={project.id} variants={scaleIn}>
@@ -135,7 +135,7 @@ export default function PortfolioDestacado() {
             ))}
           </div>
 
-          {/* Row 2: desktop — columnas alineadas con row superior (7/5) */}
+          {/* Row 2: desktop, columnas alineadas con row superior (7/5) */}
           <div className="hidden lg:flex gap-3" style={{ height: "300px" }}>
             {/* Los 2 de la izquierda juntos = mismo ancho que columna izquierda (flex-7) */}
             <div className="flex flex-[7] gap-3">
@@ -211,7 +211,7 @@ function ProjectCard({
         {/* Extra darkening on hover */}
         <div className="absolute inset-0 bg-black/15 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-        {/* Index — top left */}
+        {/* Index, top left */}
         <span
           className="absolute left-4 top-4 text-white/40 transition-colors duration-300 group-hover:text-white/70"
           style={{

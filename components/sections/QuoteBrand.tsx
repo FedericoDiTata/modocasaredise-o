@@ -124,7 +124,7 @@ export default function QuoteBrand() {
               color: "rgba(255,255,255,0.45)",
             }}
           >
-            Gustavo Vankelevich — Director, Estudio Modo Casa
+            Gustavo Vankelevich, Director, Estudio Modo Casa
           </p>
         </motion.div>
       </motion.div>

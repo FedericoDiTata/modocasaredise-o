@@ -21,7 +21,7 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           from: "Estudio Modo Casa <noreply@estudiomodocasa.com>",
           to: ["hola@estudiomodocasa.com"],
-          subject: `Nuevo contacto web — ${nombre}`,
+          subject: `Nuevo contacto web, ${nombre}`,
           html: `
             <h2>Nuevo mensaje desde el sitio web</h2>
             <p><strong>Nombre:</strong> ${nombre}</p>

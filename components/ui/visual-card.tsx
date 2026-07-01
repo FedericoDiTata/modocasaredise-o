@@ -37,7 +37,7 @@ const VisualCard = React.forwardRef<HTMLDivElement, VisualCardProps>(
             className="object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105 transition-all duration-700 ease-out"
             sizes="(max-width: 640px) 100vw, 50vw"
           />
-          {/* Dark veil that lifts on hover — enhances the "illuminate" effect */}
+          {/* Dark veil that lifts on hover, enhances the "illuminate" effect */}
           <div className="absolute inset-0 bg-black/30 group-hover:bg-black/0 transition-colors duration-700" />
         </div>
 

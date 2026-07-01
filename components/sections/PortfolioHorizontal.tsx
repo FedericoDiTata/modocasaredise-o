@@ -29,7 +29,7 @@ export default function PortfolioHorizontal() {
     offset: ["start start", "end end"],
   });
 
-  // 5 cards × 44vw + gaps — minus 100vw visible + 8vw initial padding
+  // 5 cards × 44vw + gaps, minus 100vw visible + 8vw initial padding
   const x = useTransform(scrollYProgress, [0, 1], ["0vw", "-168vw"]);
 
   const titleOpacity = useTransform(scrollYProgress, [0, 0.18], [1, 0]);

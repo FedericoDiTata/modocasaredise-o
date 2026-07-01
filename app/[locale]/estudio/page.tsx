@@ -52,7 +52,7 @@ export default function EstudioPage() {
         <section className="relative h-[65vh] min-h-[480px] overflow-hidden">
           <Image
             src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1920&q=80"
-            alt="Estudio Modo Casa — espacio de trabajo"
+            alt="Estudio Modo Casa, espacio de trabajo"
             fill
             priority
             className="object-cover"
@@ -84,7 +84,7 @@ export default function EstudioPage() {
 
         {/* Historia */}
         <section className="relative overflow-hidden" style={{ paddingTop: "clamp(5rem,10vw,9rem)", paddingBottom: "clamp(2.5rem,5vw,4rem)" }}>
-          {/* Background image — directores juntos, muy transparentada */}
+          {/* Background image, directores juntos, muy transparentada */}
           <div className="absolute inset-0 z-0">
             <Image
               src="https://estudiomodocasa.com/wp-content/uploads/2025/06/Estrugamou-01.jpg"
@@ -359,13 +359,13 @@ export default function EstudioPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-l border-border">
               {valores.map((v, i) => {
                 const icons = [
-                  /* 01 — Oreja (Escucha activa) */
+                  /* 01, Oreja (Escucha activa) */
                   <svg key="ear" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M7 13C7 8.03 10.13 4 14 4C17.87 4 21 8.03 21 13C21 17 19 19 18 21C17.2 22.5 17.3 23.5 15.7 23.5C14.3 23.5 13.3 22.5 13.3 21" />
                     <path d="M13.3 21C13.3 19.5 14 18.5 14.4 17.5C14.8 16.5 14.6 15.5 15 14.3C15.4 13 16.5 12.5 16.8 13.8C17.1 14.8 16.6 16.3 15.6 17.3" />
                     <path d="M10 11.5C10.5 9.5 12 8.3 13.8 8.3" />
                   </svg>,
-                  /* 02 — Diana con dardo (Precisión técnica) */
+                  /* 02, Diana con dardo (Precisión técnica) */
                   <svg key="target" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="13" cy="15" r="7.5" />
                     <circle cx="13" cy="15" r="4" />
@@ -374,7 +374,7 @@ export default function EstudioPage() {
                     <path d="M21.5 6.5L18.5 9.5" />
                     <path d="M18.5 6.5L21.5 6.5L21.5 9.5" />
                   </svg>,
-                  /* 03 — Brillante con facetas (Materiales de calidad) */
+                  /* 03, Brillante con facetas (Materiales de calidad) */
                   <svg key="diamond" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
                     {/* Contorno: tabla + corona + cinturón + pabellón */}
                     <path d="M10 7H18L21 13L14 24L7 13Z" />
@@ -388,7 +388,7 @@ export default function EstudioPage() {
                     <path d="M10.5 13L14 24" />
                     <path d="M17.5 13L14 24" />
                   </svg>,
-                  /* 04 — Dos personas (Acompañamiento total) */
+                  /* 04, Dos personas (Acompañamiento total) */
                   <svg key="people" width="32" height="28" viewBox="0 0 32 28" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="10.5" cy="7" r="3" />
                     <path d="M4 23C4 18.3 7 15.5 10.5 15.5C12.5 15.5 14.3 16.5 15.5 18" />
@@ -409,7 +409,7 @@ export default function EstudioPage() {
                   {/* Ícono visual */}
                   <div className="mb-5 text-accent">{icons[i]}</div>
 
-                  {/* Accent line — grows on hover */}
+                  {/* Accent line, grows on hover */}
                   <div
                     className="mb-6 h-px bg-accent transition-all duration-500 ease-out group-hover:w-12"
                     style={{ width: "2rem" }}
