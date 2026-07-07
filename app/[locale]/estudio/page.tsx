@@ -195,7 +195,7 @@ export default function EstudioPage() {
                     className="text-sm"
                     style={{ fontFamily: "var(--font-inter)", color: "var(--muted)" }}
                   >
-                    Diseñador de interiores
+                    Lorem ipsum dolor
                   </p>
                 </motion.div>
               ))}

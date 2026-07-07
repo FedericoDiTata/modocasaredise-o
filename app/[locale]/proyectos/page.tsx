@@ -27,9 +27,25 @@ export default function ProyectosPage() {
   return (
     <>
       <main>
-        {/* Page header */}
-        <section className="bg-dark pt-32 pb-16 lg:pt-40 lg:pb-20">
-          <div className="container">
+        {/* Page header, foto real de los directores trabajando sobre planos */}
+        <section className="relative overflow-hidden bg-dark pt-32 pb-16 lg:pt-40 lg:pb-20">
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/equipo/directores-planos.jpg"
+              alt="Directores de Estudio Modo Casa trabajando sobre planos"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+              style={{ objectPosition: "center 30%" }}
+            />
+            {/* Overlay para legibilidad, la foto ya es dark pero reforzamos */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"
+            />
+          </div>
+          <div className="container relative z-10">
             <motion.div
               initial="hidden"
               animate="visible"

@@ -1,14 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
 import { useLocale } from "next-intl";
 
 /**
- * Hero minimalista, todo centrado. Sin imágenes (placeholder gradient
- * de fondo), sin metadata en corners, sin credit line, sin strip
- * inferior de thumbs. Solo statement, subhead y CTAs, todo alineado
- * verticalmente.
+ * Hero con foto real del estudio de fondo (oficinas con el equipo
+ * trabajando) + overlay oscuro para legibilidad. Texto centrado.
+ * Sin carrusel, sin metadata en corners, sin credit line.
  */
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
@@ -30,24 +30,23 @@ export default function Hero() {
 
   return (
     <section className="relative flex min-h-[100svh] w-full items-center justify-center overflow-hidden bg-dark text-white">
-      {/* Placeholder de fondo, sin imagen. Gradient radial sutil para dar
-          profundidad y una textura noise SVG bajísima para que no sea un
-          bloque plano de color. */}
+      {/* Foto real del estudio de fondo */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/equipo/oficinas.jpg"
+          alt="Oficinas de Estudio Modo Casa"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+          style={{ objectPosition: "center 62%" }}
+        />
+      </div>
+
+      {/* Overlay oscuro para legibilidad del texto centrado */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 z-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at 50% 40%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 40%, rgba(0,0,0,0) 70%), linear-gradient(180deg, #0d0e10 0%, #08090a 100%)",
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0 opacity-[0.04] mix-blend-overlay"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-        }}
+        className="absolute inset-0 z-0 bg-gradient-to-b from-black/70 via-black/55 to-black/75"
       />
 
       {/* Contenido, todo centrado */}
