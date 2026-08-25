@@ -10,7 +10,7 @@ import { fadeUp, staggerContainer, viewportConfig } from "@/lib/motion";
  * del centro del viewport y las cards se colocan a los EXTREMOS
  * (izquierda o derecha) para que el layout no quede apretado al medio.
  * Un hairline horizontal conecta cada card con su dot, y un SVG path
- * cÃºbico curvo une los dots entre sÃ­, dibujÃ¡ndose progresivamente al
+ * cúbico curvo une los dots entre sí, dibujándose progresivamente al
  * scroll. Cada dot tiene un ring pulsante y cada card entra con slide
  * desde su lado.
  */
@@ -21,8 +21,8 @@ const STEPS = [
   {
     number: "01",
     es: {
-      title: "DiagnÃ³stico estratÃ©gico",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Analizamos el contexto, la visiÃ³n y las necesidades del proyecto para definir los ejes de trabajo.",
+      title: "Diagnóstico estratégico",
+      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Analizamos el contexto, la visión y las necesidades del proyecto para definir los ejes de trabajo.",
     },
     en: {
       title: "Strategic diagnosis",
@@ -32,8 +32,8 @@ const STEPS = [
   {
     number: "02",
     es: {
-      title: "DefiniciÃ³n de flujos",
-      desc: "Praesent commodo cursus magna, vel scelerisque nisl. Organizamos circulaciones, Ã¡reas tÃ©cnicas y recorridos, diferenciando lo pÃºblico de lo privado.",
+      title: "Definición de flujos",
+      desc: "Praesent commodo cursus magna, vel scelerisque nisl. Organizamos circulaciones, áreas técnicas y recorridos, diferenciando lo público de lo privado.",
     },
     en: {
       title: "Flow definition",
@@ -44,7 +44,7 @@ const STEPS = [
     number: "03",
     es: {
       title: "Concepto e identidad",
-      desc: "Nullam quis risus eget urna mollis ornare vel eu leo. Traducimos el posicionamiento del proyecto en lenguaje arquitectÃ³nico, atmÃ³sfera y paleta.",
+      desc: "Nullam quis risus eget urna mollis ornare vel eu leo. Traducimos el posicionamiento del proyecto en lenguaje arquitectónico, atmósfera y paleta.",
     },
     en: {
       title: "Concept and identity",
@@ -55,7 +55,7 @@ const STEPS = [
     number: "04",
     es: {
       title: "Proyecto ejecutivo",
-      desc: "Donec ullamcorper nulla non metus auctor fringilla. ResoluciÃ³n tÃ©cnica: pliegos, planimetrÃ­as, cortes constructivos y renders fotorrealistas.",
+      desc: "Donec ullamcorper nulla non metus auctor fringilla. Resolución técnica: pliegos, planimetrías, cortes constructivos y renders fotorrealistas.",
     },
     en: {
       title: "Executive project",
@@ -65,8 +65,8 @@ const STEPS = [
   {
     number: "05",
     es: {
-      title: "DirecciÃ³n de obra",
-      desc: "Vestibulum id ligula porta felis euismod semper. Coordinamos gremios, tiempos y entregas con supervisiÃ³n permanente del equipo del estudio.",
+      title: "Dirección de obra",
+      desc: "Vestibulum id ligula porta felis euismod semper. Coordinamos gremios, tiempos y entregas con supervisión permanente del equipo del estudio.",
     },
     en: {
       title: "Construction management",
@@ -77,7 +77,7 @@ const STEPS = [
     number: "06",
     es: {
       title: "Entrega llave en mano",
-      desc: "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Un espacio listo para habitarse desde el primer dÃ­a, con acompaÃ±amiento post-entrega.",
+      desc: "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Un espacio listo para habitarse desde el primer día, con acompañamiento post-entrega.",
     },
     en: {
       title: "Turnkey delivery",
@@ -136,7 +136,7 @@ export default function Proceso() {
           className="mb-14 max-w-2xl lg:mb-20"
         >
           <motion.p variants={fadeUp} className="eyebrow-light mb-4">
-            {isEn ? "Process" : "CÃ³mo trabajamos"}
+            {isEn ? "Process" : "Cómo trabajamos"}
           </motion.p>
           <motion.h2
             variants={fadeUp}
@@ -161,7 +161,7 @@ export default function Proceso() {
           >
             {isEn
               ? "An ordered, transparent method, designed so the client can focus on their project while the studio takes care of every detail."
-              : "Un mÃ©todo ordenado y transparente, diseÃ±ado para que el cliente pueda enfocarse en su proyecto mientras el estudio se ocupa de cada detalle."}
+              : "Un método ordenado y transparente, diseñado para que el cliente pueda enfocarse en su proyecto mientras el estudio se ocupa de cada detalle."}
           </motion.p>
         </motion.div>
 
@@ -171,7 +171,7 @@ export default function Proceso() {
           className="relative hidden lg:block"
           style={{ height: "1500px" }}
         >
-          {/* Halo radial suave detrÃ¡s del path para dar profundidad */}
+          {/* Halo radial suave detrás del path para dar profundidad */}
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0"
@@ -197,7 +197,7 @@ export default function Proceso() {
               strokeLinecap="round"
               vectorEffect="non-scaling-stroke"
             />
-            {/* Path principal, se dibuja segÃºn scroll */}
+            {/* Path principal, se dibuja según scroll */}
             <motion.path
               d={PATH_D}
               fill="none"
@@ -217,7 +217,7 @@ export default function Proceso() {
 
             return (
               <div key={step.number}>
-                {/* Ring pulsante detrÃ¡s del dot, loop infinito */}
+                {/* Ring pulsante detrás del dot, loop infinito */}
                 <motion.span
                   initial={{ scale: 0.4, opacity: 0 }}
                   whileInView={{
@@ -236,7 +236,7 @@ export default function Proceso() {
                   style={{ left: `${wp.x}%`, top: `${wp.y}%` }}
                 />
 
-                {/* Dot sÃ³lido, aparece con scale spring */}
+                {/* Dot sólido, aparece con scale spring */}
                 <motion.span
                   initial={{ scale: 0, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
