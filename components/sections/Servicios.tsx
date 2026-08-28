@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import { fadeUp, staggerContainer, viewportConfig } from "@/lib/motion";
@@ -24,8 +25,11 @@ export default function Servicios() {
       id: "diseno-interior",
       title: isEn ? "Interior Design" : "Diseño Interior",
       description: isEn
-        ? "We transform spaces into unique experiences, studying every detail of lighting, textures and layout to reflect your identity."
-        : "Transformamos ambientes en experiencias únicas, estudiamos cada detalle de iluminación, texturas y distribución para reflejar tu identidad.",
+        ? "The core of the studio. We work each space from scratch: functional analysis, concept, materials, custom lighting and colour palette. We coordinate suppliers and supervise every stage so the result matches the project exactly."
+        : "El corazón del estudio. Trabajamos cada espacio desde cero: análisis funcional, concepto, materiales, iluminación a medida y paleta cromática. Coordinamos proveedores y supervisamos cada etapa para que el resultado coincida exactamente con el proyecto.",
+      scope: isEn
+        ? "Residential · Commercial · Full project & turnkey"
+        : "Residencial · Comercial · Proyecto integral y llave en mano",
       image:
         "https://estudiomodocasa.com/wp-content/uploads/2025/06/image-1.jpg",
       alt: isEn ? "Interior design project" : "Proyecto de diseño interior",
@@ -34,8 +38,11 @@ export default function Servicios() {
       id: "arquitectura",
       title: isEn ? "Architecture" : "Arquitectura",
       description: isEn
-        ? "We design and manage construction projects with a specialized team, ensuring aesthetic and functional coherence at every stage."
-        : "Proyectamos y dirigimos obras con un equipo especializado, coherencia estética y funcional en cada etapa del proceso.",
+        ? "We design and manage residential and commercial projects from the preliminary study to the handover of keys: plans, permits, site management and coordination of every trade, with technical precision at each stage."
+        : "Proyectamos y dirigimos obras residenciales y comerciales, desde el anteproyecto hasta la entrega de llaves: planos, permisos, dirección de obra y coordinación de todos los gremios, con precisión técnica en cada etapa.",
+      scope: isEn
+        ? "Design · Site management · Heritage renovation"
+        : "Proyecto · Dirección de obra · Reciclaje patrimonial",
       image:
         "https://estudiomodocasa.com/wp-content/uploads/2022/12/hudson_2025_02.jpg",
       alt: isEn ? "Architecture project" : "Proyecto de arquitectura",
@@ -44,8 +51,11 @@ export default function Servicios() {
       id: "muebles",
       title: isEn ? "Custom Furniture" : "Muebles a medida",
       description: isEn
-        ? "We design and craft unique furniture that integrates into each space with millimetric precision and first-rate materials."
-        : "Diseñamos y fabricamos muebles únicos, se integran a cada espacio con precisión milimétrica y materiales de primera calidad.",
+        ? "We design and build unique pieces that integrate into each space with millimetric precision. We work with the finest woods, lacquers and hardware, with quality control at every step of production."
+        : "Diseñamos y fabricamos piezas únicas que se integran a cada espacio con precisión milimétrica. Trabajamos con las mejores maderas, lacas y herrajes, con control de calidad en cada etapa de producción.",
+      scope: isEn
+        ? "Joinery · Equipment · Unique pieces"
+        : "Carpintería · Equipamiento · Piezas únicas",
       image:
         "https://estudiomodocasa.com/wp-content/uploads/2023/09/unkanny_v2-004.jpg",
       alt: isEn ? "Custom furniture" : "Muebles de diseño personalizado",
@@ -112,31 +122,14 @@ export default function Servicios() {
                     imageFirst ? "lg:order-1" : "lg:order-2"
                   }`}
                 >
-                  <div
-                    className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-surface lg:aspect-[16/10]"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(rgba(8,9,10,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(8,9,10,0.04) 1px, transparent 1px)",
-                      backgroundSize: "48px 48px",
-                    }}
-                  >
-                    <div
-                      aria-hidden="true"
-                      className="absolute inset-4 border border-dashed border-muted/40"
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-surface lg:aspect-[16/10]">
+                    <Image
+                      src={service.image}
+                      alt={service.alt}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 58vw"
                     />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span
-                        className="text-muted/60"
-                        style={{
-                          fontFamily: "var(--font-inter-tight)",
-                          fontSize: "0.7rem",
-                          letterSpacing: "0.32em",
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        Foto
-                      </span>
-                    </div>
                   </div>
                 </div>
 
@@ -165,6 +158,12 @@ export default function Servicios() {
                     style={{ fontFamily: "var(--font-inter)" }}
                   >
                     {service.description}
+                  </p>
+                  <p
+                    className="mt-5 text-[0.7rem] uppercase tracking-[0.16em] text-foreground/55"
+                    style={{ fontFamily: "var(--font-inter-tight)" }}
+                  >
+                    {service.scope}
                   </p>
                 </div>
               </motion.article>

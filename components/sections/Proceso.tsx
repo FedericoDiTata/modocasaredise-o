@@ -22,66 +22,66 @@ const STEPS = [
     number: "01",
     es: {
       title: "Diagnóstico estratégico",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Analizamos el contexto, la visión y las necesidades del proyecto para definir los ejes de trabajo.",
+      desc: "Analizamos el contexto, la visión y las necesidades del proyecto para definir juntos los ejes de trabajo.",
     },
     en: {
       title: "Strategic diagnosis",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. We analyze the context, vision and needs of the project to define the working axes.",
+      desc: "We analyze the context, vision and needs of the project to define the working axes together.",
     },
   },
   {
     number: "02",
     es: {
       title: "Definición de flujos",
-      desc: "Praesent commodo cursus magna, vel scelerisque nisl. Organizamos circulaciones, áreas técnicas y recorridos, diferenciando lo público de lo privado.",
+      desc: "Organizamos circulaciones, áreas técnicas y recorridos, diferenciando lo público de lo privado en cada ambiente.",
     },
     en: {
       title: "Flow definition",
-      desc: "Praesent commodo cursus magna, vel scelerisque nisl. We organize circulations, technical areas and paths, separating public from private.",
+      desc: "We organize circulations, technical areas and paths, separating public from private in every space.",
     },
   },
   {
     number: "03",
     es: {
       title: "Concepto e identidad",
-      desc: "Nullam quis risus eget urna mollis ornare vel eu leo. Traducimos el posicionamiento del proyecto en lenguaje arquitectónico, atmósfera y paleta.",
+      desc: "Traducimos el carácter del proyecto en lenguaje arquitectónico: atmósfera, materialidad y paleta.",
     },
     en: {
       title: "Concept and identity",
-      desc: "Nullam quis risus eget urna mollis ornare vel eu leo. We translate the project's positioning into architectural language, atmosphere and palette.",
+      desc: "We translate the project's character into architectural language: atmosphere, materials and palette.",
     },
   },
   {
     number: "04",
     es: {
       title: "Proyecto ejecutivo",
-      desc: "Donec ullamcorper nulla non metus auctor fringilla. Resolución técnica: pliegos, planimetrías, cortes constructivos y renders fotorrealistas.",
+      desc: "Resolución técnica completa: pliegos, planimetrías, cortes constructivos y renders fotorrealistas.",
     },
     en: {
       title: "Executive project",
-      desc: "Donec ullamcorper nulla non metus auctor fringilla. Technical resolution: specifications, drawings, construction details and photorealistic renders.",
+      desc: "Full technical resolution: specifications, drawings, construction details and photorealistic renders.",
     },
   },
   {
     number: "05",
     es: {
       title: "Dirección de obra",
-      desc: "Vestibulum id ligula porta felis euismod semper. Coordinamos gremios, tiempos y entregas con supervisión permanente del equipo del estudio.",
+      desc: "Coordinamos gremios, tiempos y entregas con supervisión permanente del equipo del estudio.",
     },
     en: {
       title: "Construction management",
-      desc: "Vestibulum id ligula porta felis euismod semper. We coordinate trades, schedules and deliveries with permanent studio supervision.",
+      desc: "We coordinate trades, schedules and deliveries with permanent studio supervision.",
     },
   },
   {
     number: "06",
     es: {
       title: "Entrega llave en mano",
-      desc: "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Un espacio listo para habitarse desde el primer día, con acompañamiento post-entrega.",
+      desc: "Un espacio listo para habitarse desde el primer día, con acompañamiento post-entrega.",
     },
     en: {
       title: "Turnkey delivery",
-      desc: "Cras justo odio, dapibus ac facilisis in, egestas eget quam. A space ready to move into from day one, with post-delivery support.",
+      desc: "A space ready to move into from day one, with post-delivery support.",
     },
   },
 ];

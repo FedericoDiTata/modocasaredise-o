@@ -33,38 +33,39 @@ export default function IntroLoader() {
             opacity: 0,
             transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.1 },
           }}
-          className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[#0a0a0a]"
+          className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-white"
         >
-          {/* Logo */}
+          {/* Logo, grande y potente sobre fondo blanco */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col items-center gap-1"
+            className="flex flex-col items-center gap-3"
           >
-            <div className="flex items-baseline gap-2">
+            <div className="flex items-baseline gap-3">
               <span
                 style={{
                   fontFamily: "var(--font-inter-tight)",
-                  fontSize: "clamp(2rem, 5vw, 3.5rem)",
-                  fontWeight: 300,
-                  letterSpacing: "-0.02em",
-                  color: "white",
+                  fontSize: "clamp(3rem, 9vw, 7rem)",
+                  fontWeight: 400,
+                  letterSpacing: "-0.035em",
+                  color: "#08090A",
+                  lineHeight: 1,
                 }}
               >
-                ModoCasa
+                Modo Casa
               </span>
               <span
                 style={{
                   fontFamily: "var(--font-inter-tight)",
-                  fontSize: "clamp(0.7rem, 1.4vw, 0.95rem)",
+                  fontSize: "clamp(0.9rem, 2vw, 1.35rem)",
                   fontWeight: 400,
-                  letterSpacing: "0.32em",
+                  letterSpacing: "0.34em",
                   textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.55)",
-                  marginLeft: "0.6em",
+                  color: "rgba(8,9,10,0.45)",
+                  marginLeft: "0.5em",
                   position: "relative",
-                  top: "-0.4em",
+                  top: "-0.55em",
                 }}
               >
                 estudio
@@ -77,10 +78,10 @@ export default function IntroLoader() {
               transition={{ delay: 0.7, duration: 0.6 }}
               style={{
                 fontFamily: "var(--font-inter)",
-                fontSize: "0.7rem",
-                letterSpacing: "0.2em",
+                fontSize: "0.72rem",
+                letterSpacing: "0.24em",
                 textTransform: "uppercase",
-                color: "rgba(255,255,255,0.3)",
+                color: "rgba(8,9,10,0.4)",
               }}
             >
               Buenos Aires · Argentina
@@ -89,7 +90,7 @@ export default function IntroLoader() {
 
           {/* Progress bar */}
           <motion.div
-            className="absolute bottom-0 left-0 h-[2px] bg-white origin-left"
+            className="absolute bottom-0 left-0 h-[2px] bg-[#08090A] origin-left"
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ duration: 2, ease: "linear", delay: 0.1 }}
@@ -110,8 +111,8 @@ export default function IntroLoader() {
               transition={{ delay: 0.3 + i * 0.05, duration: 0.5 }}
               className={`absolute ${pos} h-6 w-6`}
             >
-              <div className="absolute top-0 left-0 h-px w-full bg-white/15" />
-              <div className="absolute top-0 left-0 h-full w-px bg-white/15" />
+              <div className="absolute top-0 left-0 h-px w-full bg-[#08090A]/15" />
+              <div className="absolute top-0 left-0 h-full w-px bg-[#08090A]/15" />
             </motion.div>
           ))}
         </motion.div>

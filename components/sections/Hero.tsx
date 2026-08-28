@@ -25,8 +25,8 @@ export default function Hero() {
   const locale = useLocale();
   const isEn = locale === "en";
 
-  const line1 = isEn ? "Spaces thought" : "Espacios pensados";
-  const line2 = isEn ? "from the detail." : "desde el detalle.";
+  const line1 = isEn ? "Architecture and" : "Arquitectura e";
+  const line2 = isEn ? "interiors, by design." : "interiorismo de autor.";
 
   return (
     <section className="relative flex min-h-[100svh] w-full items-center justify-center overflow-hidden bg-dark text-white">

@@ -327,5 +327,119 @@ export function getProjectById(id: string): Project | undefined {
   return projects.find((p) => p.id === id);
 }
 
+/* ─── Ficha técnica + memoria descriptiva ──────────────────────────
+ *
+ * Bloque estructurado que pidió el cliente para cada obra (superficie,
+ * alcance, materialidades, estado) + memoria descriptiva en formato
+ * Desafío / Solución. Es lo que los buscadores y las IAs procesan para
+ * reconocer y citar al estudio.
+ *
+ * ⚠️ DATOS PROVISORIOS: salvo las obras con override explícito abajo, los
+ * valores se generan con defaults por categoría. Reemplazar por los datos
+ * reales que confirme el estudio (m² reales, alcance, materiales, memorias).
+ */
+
+export interface ProjectFicha {
+  status: string;
+  area: string | null;
+  scope: string;
+  materials: string[];
+  photographer: string | null;
+  challenge: string;
+  solution: string;
+  /** true = generado con defaults, pendiente de confirmar con el estudio */
+  provisional: boolean;
+}
+
+type FichaOverride = Partial<Omit<ProjectFicha, "provisional">>;
+
+// Overrides con datos reales/curados para las obras destacadas.
+const FICHA_OVERRIDES: Record<string, FichaOverride> = {
+  hudson: {
+    area: "420 m² cubiertos",
+    scope: "Proyecto · Dirección de obra · Llave en mano",
+    materials: ["Hormigón visto", "Roble natural", "Piedra", "Cristal"],
+    challenge:
+      "Implantar una residencia contemporánea en un lote extenso, integrando la vivienda con el paisaje sin resignar privacidad ni confort térmico.",
+    solution:
+      "Planos horizontales y grandes paños vidriados disuelven el límite interior-exterior; una paleta neutra de materiales naturales potencia la luz y genera amplitud con calidez.",
+  },
+  "palacio-estrugamou": {
+    status: "Obra terminada",
+    area: "260 m² cubiertos",
+    scope: "Interiorismo integral · Equipamiento a medida",
+    materials: ["Mármol Travertino", "Nogal Canaletto", "Herrería", "Boiserie original"],
+    challenge:
+      "Intervenir un departamento en un edificio patrimonial emblemático respetando moldurajes, techos y carpinterías históricas protegidas.",
+    solution:
+      "Se conservó y restauró la envolvente original y se introdujo mobiliario y materiales contemporáneos que dialogan con lo patrimonial, actualizando el uso sin borrar la historia del espacio.",
+  },
+  "donna-acqua": {
+    area: "140 m² cubiertos",
+    scope: "Interiorismo integral · Iluminación a medida",
+    materials: ["Mármol", "Roble", "Latón", "Textiles naturales"],
+    challenge:
+      "Dotar de identidad y calidez a una unidad moderna de planta compacta, maximizando la sensación de amplitud.",
+    solution:
+      "Una paleta monocromática cálida, iluminación diseñada por capas y mobiliario a medida ordenan cada ambiente y equilibran funcionalidad y estética.",
+  },
+  "casa-terravista": {
+    area: "380 m² cubiertos",
+    scope: "Proyecto · Dirección de obra",
+    materials: ["Madera", "Piedra", "Hormigón", "Cristal"],
+  },
+  "nordelta-barrio-el-golf": {
+    area: "310 m² cubiertos",
+    scope: "Interiorismo integral · Muebles a medida · Dirección",
+    materials: ["Roble", "Mármol", "Herrería", "Lino"],
+  },
+  cervino: {
+    area: "120 m² cubiertos",
+    scope: "Interiorismo integral · Equipamiento",
+    materials: ["Roble", "Piedra", "Textiles de alta calidad"],
+  },
+};
+
+const DEFAULT_MATERIALS_INTERIOR = ["Mármol", "Roble", "Herrería", "Textiles naturales"];
+const DEFAULT_MATERIALS_ARQ = ["Hormigón", "Madera", "Piedra", "Cristal"];
+
+export function getFicha(project: Project): ProjectFicha {
+  const ov = FICHA_OVERRIDES[project.id] ?? {};
+  const isArq = project.category === "Arquitectura";
+
+  // Fotógrafo derivable del nombre de archivo cuando corresponde
+  const derivedPhotographer = /KULEKDJIAN/i.test(project.image + project.gallery.join(""))
+    ? "Federico Kulekdjian"
+    : null;
+
+  const defaults: ProjectFicha = {
+    status: "Obra terminada",
+    area: null, // sin dato real → se muestra "A confirmar"
+    scope: isArq
+      ? "Proyecto · Dirección de obra · Llave en mano"
+      : "Interiorismo integral · Equipamiento a medida · Dirección",
+    materials: isArq ? DEFAULT_MATERIALS_ARQ : DEFAULT_MATERIALS_INTERIOR,
+    photographer: derivedPhotographer,
+    challenge: `Resolver un programa de ${
+      isArq ? "arquitectura" : "interiorismo"
+    } de alta gama en ${project.location}, respetando la escala del entorno y las necesidades de sus habitantes.`,
+    solution:
+      "Una intervención que ordena los ambientes, prioriza la luz natural y define cada espacio con materiales nobles, iluminación a medida y carpintería personalizada.",
+    provisional: true,
+  };
+
+  const merged: ProjectFicha = {
+    ...defaults,
+    ...ov,
+    // materials/photographer del override si existen, si no el default
+    materials: ov.materials ?? defaults.materials,
+    photographer: ov.photographer ?? defaults.photographer,
+  };
+
+  // provisional=false solo si hay override con memoria propia
+  merged.provisional = !(ov.challenge && ov.solution);
+  return merged;
+}
+
 export const categories = ["Todos", "Diseño Interior", "Arquitectura"] as const;
 export type Category = (typeof categories)[number];
