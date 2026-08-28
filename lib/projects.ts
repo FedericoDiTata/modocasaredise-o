@@ -196,7 +196,8 @@ export const projects: Project[] = [
     year: "2021",
     location: "Vicente López, Buenos Aires",
     description: "Residencia frente al río con una propuesta de interiorismo que prioriza las vistas y la relación con el exterior. Materiales naturales y paleta neutra que acompañan el paisaje ribereño.",
-    image: `${WP}/2021/09/MAX_8719.jpg`,
+    // Alojada localmente: la original de WP fallaba de forma intermitente en el optimizador de Next
+    image: `/projects/vicente-lopez-iii.jpg`,
     gallery: [`${WP}/2021/10/MAX_1496.jpg`, `${WP}/2021/10/MAX_1523.jpg`, `${WP}/2021/10/MAX_8558.jpg`, `${WP}/2021/10/MAX_8619.jpg`],
     alt: "Vicente López III Al Río, Diseño interior ribereño",
   },
@@ -284,7 +285,8 @@ export const projects: Project[] = [
     year: "2021",
     location: "Buenos Aires",
     description: "Casa en country con un programa que integra vida familiar y entretenimiento. El diseño propone ambientes amplios, conexión con el jardín y una materialidad natural que dialoga con el entorno verde.",
-    image: `${WP}/2021/10/2.jpg`,
+    // Alojada localmente: la original de WP fallaba de forma intermitente en el optimizador de Next
+    image: `/projects/country-abril.jpg`,
     gallery: [`${WP}/2021/10/1.jpg`, `${WP}/2021/10/2.jpg`, `${WP}/2021/10/3.jpg`, `${WP}/2021/10/4.jpg`],
     alt: "Country Abril Casa Country, Diseño interior",
   },

@@ -10,6 +10,23 @@ import Footer from "@/components/layout/Footer";
 import { projects, getProjectById, getFicha } from "@/lib/projects";
 import { fadeUp, staggerContainer, viewportConfig } from "@/lib/motion";
 
+/** Color aproximado por material, para la paleta de materialidades. */
+function materialSwatch(material: string): string {
+  const m = material.toLowerCase();
+  if (m.includes("travertino")) return "#d8c9b0";
+  if (m.includes("mármol") || m.includes("marmol")) return "#e8e4dd";
+  if (m.includes("nogal")) return "#5b4636";
+  if (m.includes("roble") || m.includes("madera")) return "#b08d57";
+  if (m.includes("herrería") || m.includes("herreria")) return "#2b2b2b";
+  if (m.includes("hormigón") || m.includes("hormigon")) return "#9a9a94";
+  if (m.includes("piedra")) return "#8f8b83";
+  if (m.includes("cristal") || m.includes("vidrio")) return "#c6d2d5";
+  if (m.includes("latón") || m.includes("laton")) return "#b08d3c";
+  if (m.includes("lino") || m.includes("textil")) return "#cfc7b8";
+  if (m.includes("boiserie")) return "#7a5c3e";
+  return "#c9c4bb";
+}
+
 export default function ProjectDetailPage({
   params,
 }: {
@@ -54,13 +71,11 @@ export default function ProjectDetailPage({
     },
   };
 
-  const fichaRows = [
+  const specItems = [
     { label: isEn ? "Status" : "Estado", value: ficha.status },
     { label: isEn ? "Year" : "Año", value: project.year },
-    { label: isEn ? "Location" : "Ubicación", value: project.location },
     { label: isEn ? "Surface" : "Superficie", value: ficha.area ?? (isEn ? "TBC" : "A confirmar") },
     { label: isEn ? "Scope" : "Alcance", value: ficha.scope },
-    { label: isEn ? "Category" : "Categoría", value: project.category },
   ];
 
   return (
@@ -133,122 +148,68 @@ export default function ProjectDetailPage({
           </div>
         </section>
 
-        {/* Ficha técnica + memoria descriptiva */}
-        <section className="border-t border-border bg-surface py-16 lg:py-24">
+        {/* Ficha técnica, spec bar editorial minimalista */}
+        <section className="border-t border-border bg-white">
           <div className="container">
-            <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-20">
-              {/* Ficha técnica */}
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportConfig}
-                variants={fadeUp}
-                className="lg:col-span-5"
-              >
-                <p className="eyebrow mb-6">{isEn ? "Technical sheet" : "Ficha técnica"}</p>
-                <dl>
-                  {fichaRows.map((row) => (
-                    <div
-                      key={row.label}
-                      className="flex items-baseline justify-between gap-6 border-b border-border py-3.5"
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportConfig}
+              variants={fadeUp}
+              className="mx-auto max-w-5xl py-12 lg:py-16"
+            >
+              {/* Specs */}
+              <div className="grid grid-cols-2 gap-y-8 border-y border-border py-8 sm:grid-cols-4 sm:gap-0 sm:divide-x sm:divide-border">
+                {specItems.map((it) => (
+                  <div key={it.label} className="sm:px-7 sm:first:pl-0">
+                    <p
+                      className="mb-2.5 text-[0.6rem] uppercase tracking-[0.18em] text-muted"
+                      style={{ fontFamily: "var(--font-inter-tight)" }}
                     >
-                      <dt
-                        className="text-xs uppercase tracking-[0.12em] text-muted"
-                        style={{ fontFamily: "var(--font-inter-tight)" }}
-                      >
-                        {row.label}
-                      </dt>
-                      <dd
-                        className="text-right text-sm text-foreground"
-                        style={{ fontFamily: "var(--font-inter)" }}
-                      >
-                        {row.value}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
+                      {it.label}
+                    </p>
+                    <p
+                      className="text-[0.95rem] leading-snug text-foreground"
+                      style={{ fontFamily: "var(--font-inter-tight)", fontWeight: 400, letterSpacing: "-0.01em" }}
+                    >
+                      {it.value}
+                    </p>
+                  </div>
+                ))}
+              </div>
 
-                {/* Materialidades */}
+              {/* Materialidades, paleta con swatches */}
+              <div className="mt-9 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-10">
                 <p
-                  className="mb-3 mt-8 text-xs uppercase tracking-[0.12em] text-muted"
+                  className="shrink-0 text-[0.6rem] uppercase tracking-[0.18em] text-muted"
                   style={{ fontFamily: "var(--font-inter-tight)" }}
                 >
-                  {isEn ? "Dominant materials" : "Materialidades dominantes"}
+                  {isEn ? "Materials" : "Materialidades"}
                 </p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-x-7 gap-y-3">
                   {ficha.materials.map((m) => (
                     <span
                       key={m}
-                      className="rounded-full border border-border bg-white px-3.5 py-1.5 text-xs text-foreground"
+                      className="flex items-center gap-2.5 text-sm text-foreground"
                       style={{ fontFamily: "var(--font-inter)" }}
                     >
+                      <span
+                        aria-hidden="true"
+                        className="h-3.5 w-3.5 rounded-full ring-1 ring-black/10"
+                        style={{ backgroundColor: materialSwatch(m) }}
+                      />
                       {m}
                     </span>
                   ))}
                 </div>
+              </div>
 
-                {ficha.photographer && (
-                  <p
-                    className="mt-8 text-xs text-muted"
-                    style={{ fontFamily: "var(--font-inter)" }}
-                  >
-                    {isEn ? "Photography" : "Fotografía"}: {ficha.photographer}
-                  </p>
-                )}
-              </motion.div>
-
-              {/* Memoria descriptiva: Desafío / Solución */}
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportConfig}
-                variants={fadeUp}
-                className="lg:col-span-7"
-              >
-                <p className="eyebrow mb-6">{isEn ? "Design memo" : "Memoria descriptiva"}</p>
-                <div className="space-y-8">
-                  <div>
-                    <h3
-                      className="mb-2 text-sm font-medium text-foreground"
-                      style={{ fontFamily: "var(--font-inter-tight)", letterSpacing: "-0.01em" }}
-                    >
-                      {isEn ? "The challenge" : "El desafío"}
-                    </h3>
-                    <p
-                      className="text-[15px] leading-relaxed text-muted lg:text-base"
-                      style={{ fontFamily: "var(--font-inter)" }}
-                    >
-                      {ficha.challenge}
-                    </p>
-                  </div>
-                  <div>
-                    <h3
-                      className="mb-2 text-sm font-medium text-foreground"
-                      style={{ fontFamily: "var(--font-inter-tight)", letterSpacing: "-0.01em" }}
-                    >
-                      {isEn ? "The solution" : "La solución"}
-                    </h3>
-                    <p
-                      className="text-[15px] leading-relaxed text-muted lg:text-base"
-                      style={{ fontFamily: "var(--font-inter)" }}
-                    >
-                      {ficha.solution}
-                    </p>
-                  </div>
-                </div>
-
-                {ficha.provisional && (
-                  <p
-                    className="mt-10 border-l-2 border-border pl-4 text-xs italic text-muted/70"
-                    style={{ fontFamily: "var(--font-inter)" }}
-                  >
-                    {isEn
-                      ? "Provisional technical data — to be confirmed with the studio."
-                      : "Datos técnicos provisorios — a confirmar con el estudio."}
-                  </p>
-                )}
-              </motion.div>
-            </div>
+              {ficha.photographer && (
+                <p className="mt-8 text-xs text-muted" style={{ fontFamily: "var(--font-inter)" }}>
+                  {isEn ? "Photography" : "Fotografía"}: {ficha.photographer}
+                </p>
+              )}
+            </motion.div>
           </div>
         </section>
 

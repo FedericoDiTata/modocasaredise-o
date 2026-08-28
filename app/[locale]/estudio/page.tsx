@@ -41,15 +41,17 @@ export default function EstudioPage() {
         {/* Hero, foto grande de los dos socios ocupando toda la pantalla */}
         <section className="relative flex h-[92vh] min-h-[560px] items-end overflow-hidden bg-dark">
           <Image
-            src="/equipo/directores-planos.jpg"
+            src="/equipo/directores-hero.jpg"
             alt="Gustavo Yankelevich y Máximo Ferraro, directores de Estudio Modo Casa"
             fill
             priority
             className="object-cover"
-            style={{ objectPosition: "center 35%" }}
+            style={{ objectPosition: "center 34%" }}
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40" />
+          {/* Doble scrim: base inferior + lateral izquierdo para legibilidad del texto */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/45" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
           <div className="container relative z-10 pb-14 lg:pb-20">
             <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="max-w-2xl">
               <motion.p variants={fadeUp} className="eyebrow-light mb-4">
@@ -149,15 +151,21 @@ export default function EstudioPage() {
                 className="lg:col-span-5"
               >
                 <p className="eyebrow mb-5">{isEn ? "Featured in" : "Presencia en prensa"}</p>
-                <div className="flex flex-wrap gap-x-6 gap-y-3">
+                {/* Muro de logos, placeholder tipográfico (masthead serif) hasta
+                    cargar los SVG reales de cada medio. Grises → color en hover. */}
+                <div className="grid grid-cols-2 border-l border-t border-border sm:grid-cols-3">
                   {prensa.map((medio) => (
-                    <span
+                    <div
                       key={medio}
-                      className="text-base text-muted"
-                      style={{ fontFamily: "var(--font-inter-tight)", fontWeight: 500, letterSpacing: "-0.01em" }}
+                      className="group flex h-16 items-center justify-center border-b border-r border-border px-2"
                     >
-                      {medio}
-                    </span>
+                      <span
+                        className="text-lg text-muted/70 transition-colors duration-300 group-hover:text-foreground"
+                        style={{ fontFamily: "var(--font-serif), Georgia, serif", letterSpacing: "-0.01em" }}
+                      >
+                        {medio}
+                      </span>
+                    </div>
                   ))}
                 </div>
               </motion.div>
@@ -205,7 +213,6 @@ export default function EstudioPage() {
                       alt={d.name}
                       fill
                       className="object-cover object-top"
-                      style={{ filter: "grayscale(1)" }}
                       sizes="(max-width: 640px) 100vw, 45vw"
                     />
                   </div>
