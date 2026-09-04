@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import Footer from "@/components/layout/Footer";
@@ -8,28 +9,42 @@ import CTAFinal from "@/components/sections/CTAFinal";
 import { fadeUp, wipeUp, staggerContainer, viewportConfig } from "@/lib/motion";
 
 /**
- * Página "El Estudio", reescrita según el feedback del cliente:
- *  , se elimina el hero redundante "Diseño que transforma".
- *  , entra con una foto grande de los dos socios que ocupa toda la pantalla.
- *  , la trayectoria se cuenta fuerte y corta (fundación, obras, prensa).
- *  , los directores en fotos más grandes y en blanco y negro (elegante).
- *  , se quitó la sección de Servicios (estaba duplicada con el home) y la de
- *    Valores para reducir el scroll: es una página de alto impacto, no larga.
+ * Página "El Estudio", reencuadrada según feedback ronda 2:
+ *  , dejar de comunicar solo "dos socios" → equipo, organización y estructura.
+ *  , cantidad de obras corregida a +150.
+ *  , fotos de equipo en blanco y negro (confirmado por el cliente).
+ *  , bio de Máximo.
+ *  , link a la sección de Prensa (completa).
+ *
+ * PLACEHOLDER: el hero usa la foto de los dos directores hasta tener una foto
+ * GRUPAL real del equipo trabajando (pedida al cliente); la bio de Máximo es
+ * provisional hasta el texto definitivo del equipo de comunicación.
  */
 
 const stats = [
   { value: "2009", label: "Fundación" },
-  { value: "+30", label: "Obras entregadas" },
+  { value: "+150", label: "Proyectos realizados" },
   { value: "15", label: "Años de trayectoria" },
 ];
 
-// Prensa donde apareció el estudio (nota provisoria: confirmar listado completo).
-const prensa = ["Forbes", "Clarín", "La Nación", "Newsweek", "Perfil", "iProfesional"];
-
 const directores = [
-  { name: "Gustavo Yankelevich", image: "/equipo/gustavo-yankelevich.jpg" },
-  { name: "Máximo Ferraro", image: "/equipo/maximo-ferraro.jpg" },
+  {
+    name: "Máximo Ferraro",
+    role: "Cofundador · Dirección",
+    bio: "Lidera Estudio Modo Casa y a su equipo, con foco en la visión de cada proyecto y una obsesión por el detalle que se traslada de la primera idea a la obra terminada.",
+  },
+  {
+    name: "Gustavo Yankelevich",
+    role: "Cofundador · Dirección",
+    bio: "Acompaña la dirección del estudio aportando criterio proyectual y una mirada sobre la materialidad y la resolución técnica de cada espacio.",
+  },
 ];
+
+// El orden de las fotos matchea el orden de arriba (Máximo, Gustavo).
+const directorImages: Record<string, string> = {
+  "Máximo Ferraro": "/equipo/maximo-ferraro.jpg",
+  "Gustavo Yankelevich": "/equipo/gustavo-yankelevich.jpg",
+};
 
 export default function EstudioPage() {
   const locale = useLocale();
@@ -38,18 +53,17 @@ export default function EstudioPage() {
   return (
     <>
       <main>
-        {/* Hero, foto grande de los dos socios ocupando toda la pantalla */}
+        {/* Hero, foto de equipo/dirección en B&N (placeholder hasta foto grupal real) */}
         <section className="relative flex h-[92vh] min-h-[560px] items-end overflow-hidden bg-dark">
           <Image
             src="/equipo/directores-hero.jpg"
-            alt="Gustavo Yankelevich y Máximo Ferraro, directores de Estudio Modo Casa"
+            alt="Dirección y equipo de Estudio Modo Casa"
             fill
             priority
             className="object-cover"
-            style={{ objectPosition: "center 34%" }}
+            style={{ objectPosition: "center 34%", filter: "grayscale(1)" }}
             sizes="100vw"
           />
-          {/* Doble scrim: base inferior + lateral izquierdo para legibilidad del texto */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/45" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
           <div className="container relative z-10 pb-14 lg:pb-20">
@@ -69,9 +83,7 @@ export default function EstudioPage() {
                     letterSpacing: "-0.03em",
                   }}
                 >
-                  {isEn
-                    ? "Two partners, one obsession with detail."
-                    : "Dos socios, una misma obsesión por el detalle."}
+                  {isEn ? "Behind every project, a team." : "Detrás de cada obra, un equipo."}
                 </motion.h1>
               </div>
               <motion.p
@@ -80,14 +92,14 @@ export default function EstudioPage() {
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 {isEn
-                  ? "Gustavo Yankelevich and Máximo Ferraro lead a studio that has been shaping high-end residential and commercial spaces in Buenos Aires for over fifteen years."
-                  : "Gustavo Yankelevich y Máximo Ferraro dirigen un estudio que proyecta espacios residenciales y comerciales de alta gama en Buenos Aires desde hace más de quince años."}
+                  ? "Led by Máximo Ferraro and Gustavo Yankelevich, Estudio Modo Casa is a team of architects, designers and site managers with over 15 years and 150+ projects shaping high-end spaces in Argentina and abroad."
+                  : "Dirigido por Máximo Ferraro y Gustavo Yankelevich, Estudio Modo Casa es un equipo de arquitectos, diseñadores y directores de obra con más de 15 años y 150+ proyectos proyectando espacios de alta gama en Argentina y el exterior."}
               </motion.p>
             </motion.div>
           </div>
         </section>
 
-        {/* Trayectoria, contada fuerte y corta */}
+        {/* Trayectoria */}
         <section className="section bg-white">
           <div className="container">
             {/* Stats */}
@@ -116,7 +128,7 @@ export default function EstudioPage() {
                     {isEn
                       ? s.label
                           .replace("Fundación", "Founded")
-                          .replace("Obras entregadas", "Projects delivered")
+                          .replace("Proyectos realizados", "Projects delivered")
                           .replace("Años de trayectoria", "Years of practice")
                       : s.label}
                   </p>
@@ -124,7 +136,7 @@ export default function EstudioPage() {
               ))}
             </motion.div>
 
-            {/* Texto de trayectoria + prensa */}
+            {/* Texto de trayectoria + equipo/prensa */}
             <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-20">
               <motion.div
                 initial="hidden"
@@ -138,8 +150,16 @@ export default function EstudioPage() {
                   style={{ fontFamily: "var(--font-inter)", lineHeight: 1.7 }}
                 >
                   {isEn
-                    ? "Estudio Modo Casa was born in 2009 from a simple conviction: every space has the potential to transform the lives of those who live in it. Over more than thirty residential and commercial projects, we built a method grounded in listening, technical precision and first-rate materials."
-                    : "Estudio Modo Casa nació en 2009 con una convicción simple: cada espacio tiene el potencial de transformar la vida de quienes lo habitan. A lo largo de más de treinta proyectos residenciales y comerciales, construimos un método basado en la escucha, la precisión técnica y los materiales de primera calidad."}
+                    ? "Estudio Modo Casa was born in 2009 from a simple conviction: every space has the potential to transform the lives of those who live in it. Today it is an organization with a multidisciplinary team and a working method built over more than 150 residential and commercial projects, grounded in listening, technical precision and first-rate materials."
+                    : "Estudio Modo Casa nació en 2009 con una convicción simple: cada espacio tiene el potencial de transformar la vida de quienes lo habitan. Hoy es una organización con un equipo multidisciplinario y un método de trabajo construido a lo largo de más de 150 proyectos residenciales y comerciales, basado en la escucha, la precisión técnica y los materiales de primera calidad."}
+                </p>
+                <p
+                  className="mt-6 text-lg leading-relaxed text-muted lg:text-xl"
+                  style={{ fontFamily: "var(--font-inter)", lineHeight: 1.7 }}
+                >
+                  {isEn
+                    ? "Behind the direction, a team of architects, designers and site managers accompanies every project from the first sketch to the delivery of keys."
+                    : "Detrás de la dirección, un equipo de arquitectos, diseñadores y directores de obra acompaña cada proyecto desde el primer boceto hasta la entrega de llaves."}
                 </p>
               </motion.div>
 
@@ -150,30 +170,26 @@ export default function EstudioPage() {
                 variants={fadeUp}
                 className="lg:col-span-5"
               >
-                <p className="eyebrow mb-5">{isEn ? "Featured in" : "Presencia en prensa"}</p>
-                {/* Muro de logos, placeholder tipográfico (masthead serif) hasta
-                    cargar los SVG reales de cada medio. Grises → color en hover. */}
-                <div className="grid grid-cols-2 border-l border-t border-border sm:grid-cols-3">
-                  {prensa.map((medio) => (
-                    <div
-                      key={medio}
-                      className="group flex h-16 items-center justify-center border-b border-r border-border px-2"
-                    >
-                      <span
-                        className="text-lg text-muted/70 transition-colors duration-300 group-hover:text-foreground"
-                        style={{ fontFamily: "var(--font-serif), Georgia, serif", letterSpacing: "-0.01em" }}
-                      >
-                        {medio}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+                <p className="eyebrow mb-5">{isEn ? "In the press" : "En los medios"}</p>
+                <p className="mb-6 text-sm leading-relaxed text-muted" style={{ fontFamily: "var(--font-inter)" }}>
+                  {isEn
+                    ? "The studio's work has been featured in Forbes, La Nación, Clarín, Infobae, iProfesional, Newsweek and more."
+                    : "El trabajo del estudio apareció en Forbes, La Nación, Clarín, Infobae, iProfesional, Newsweek y más."}
+                </p>
+                <Link
+                  href={`/${locale}/prensa`}
+                  className="group inline-flex items-center gap-2 text-sm font-medium text-foreground transition-colors hover:text-accent"
+                  style={{ fontFamily: "var(--font-inter-tight)" }}
+                >
+                  {isEn ? "See all press" : "Ver toda la prensa"}
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                </Link>
               </motion.div>
             </div>
           </div>
         </section>
 
-        {/* Directores, fotos grandes en blanco y negro */}
+        {/* Dirección, fotos en blanco y negro + bio */}
         <section className="bg-surface pb-20 pt-4 lg:pb-28">
           <div className="container">
             <motion.div
@@ -181,8 +197,11 @@ export default function EstudioPage() {
               whileInView="visible"
               viewport={viewportConfig}
               variants={staggerContainer}
-              className="mb-12 text-center"
+              className="mb-12 max-w-2xl"
             >
+              <motion.p variants={fadeUp} className="eyebrow mb-4">
+                {isEn ? "Direction" : "Dirección"}
+              </motion.p>
               <div className="clip-text">
                 <motion.h2
                   variants={wipeUp}
@@ -193,12 +212,12 @@ export default function EstudioPage() {
                     lineHeight: 1.1,
                   }}
                 >
-                  {isEn ? "Our directors" : "Nuestros directores"}
+                  {isEn ? "Who leads the studio" : "Quiénes dirigen el estudio"}
                 </motion.h2>
               </div>
             </motion.div>
 
-            <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-2 lg:gap-12">
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:gap-12">
               {directores.map((d, i) => (
                 <motion.div
                   key={d.name}
@@ -209,10 +228,11 @@ export default function EstudioPage() {
                 >
                   <div className="relative mb-6 aspect-[4/5] overflow-hidden rounded-lg">
                     <Image
-                      src={d.image}
+                      src={directorImages[d.name]}
                       alt={d.name}
                       fill
                       className="object-cover object-top"
+                      style={{ filter: "grayscale(1)" }}
                       sizes="(max-width: 640px) 100vw, 45vw"
                     />
                   </div>
@@ -220,16 +240,16 @@ export default function EstudioPage() {
                     className="mb-1 text-[0.6rem] uppercase tracking-[0.2em] text-accent"
                     style={{ fontFamily: "var(--font-inter-tight)" }}
                   >
-                    Director
+                    {d.role}
                   </p>
                   <h3
-                    className="mb-1 text-xl font-medium"
+                    className="mb-2 text-xl font-medium"
                     style={{ fontFamily: "var(--font-inter-tight)", color: "var(--fg)" }}
                   >
                     {d.name}
                   </h3>
-                  <p className="text-sm" style={{ fontFamily: "var(--font-inter)", color: "var(--muted)" }}>
-                    Lorem ipsum dolor
+                  <p className="max-w-md text-sm leading-relaxed" style={{ fontFamily: "var(--font-inter)", color: "var(--muted)" }}>
+                    {d.bio}
                   </p>
                 </motion.div>
               ))}

@@ -64,7 +64,7 @@ export default async function LocaleLayout({
     knowsLanguage: ["es", "en"],
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Av. Álvarez Thomas 168",
+      streetAddress: "Av. Álvarez Thomas 198",
       addressLocality: "Ciudad Autónoma de Buenos Aires",
       addressCountry: "AR",
     },

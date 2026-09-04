@@ -3,8 +3,7 @@ import Hero from "@/components/sections/Hero";
 import Servicios from "@/components/sections/Servicios";
 import PorQueElegirnos from "@/components/sections/PorQueElegirnos";
 import PortfolioHorizontal from "@/components/sections/PortfolioHorizontal";
-import Proceso from "@/components/sections/Proceso";
-import Testimonios from "@/components/sections/Testimonios";
+import PrensaStrip from "@/components/sections/PrensaStrip";
 import CTAFinal from "@/components/sections/CTAFinal";
 
 export default async function HomePage() {
@@ -15,8 +14,7 @@ export default async function HomePage() {
         <Servicios />
         <PorQueElegirnos />
         <PortfolioHorizontal />
-        <Proceso />
-        <Testimonios />
+        <PrensaStrip />
         <CTAFinal />
       </main>
       <Footer />

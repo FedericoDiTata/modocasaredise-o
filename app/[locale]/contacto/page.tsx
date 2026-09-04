@@ -68,8 +68,8 @@ export default function ContactoPage() {
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 {isEn
-                  ? "The first meeting is free and no commitment required. Tell us your idea and we'll respond within 24 hours."
-                  : "La primera reunión es sin costo y sin compromiso. Contanos tu idea y te respondemos en menos de 24 horas."}
+                  ? "Tell us about your idea and we'll get back to you shortly."
+                  : "Contanos tu idea y nos ponemos en contacto a la brevedad."}
               </motion.p>
             </motion.div>
           </div>
@@ -194,8 +194,8 @@ export default function ContactoPage() {
                 {[
                   {
                     label: isEn ? "Address" : "Dirección",
-                    content: "Avenida Álvarez Thomas 168\nCiudad Autónoma de Buenos Aires",
-                    href: "https://maps.google.com/?q=Avenida+Alvarez+Thomas+168+Buenos+Aires",
+                    content: "Avenida Álvarez Thomas 198\nCiudad Autónoma de Buenos Aires",
+                    href: "https://maps.google.com/?q=Avenida+Alvarez+Thomas+198+Buenos+Aires",
                   },
                   {
                     label: "Email",

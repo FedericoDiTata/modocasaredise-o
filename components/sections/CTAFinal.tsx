@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import { viewportConfig } from "@/lib/motion";
@@ -136,36 +137,14 @@ export default function CTAFinal() {
           >
             {isEn ? "Studio · Buenos Aires" : "Estudio · Buenos Aires"}
           </p>
-          <div className="flex items-baseline justify-center gap-3">
-            <span
-              style={{
-                fontFamily: "var(--font-inter-tight)",
-                fontSize: "clamp(2.5rem, 8vw, 6rem)",
-                fontWeight: 300,
-                letterSpacing: "-0.03em",
-                color: "white",
-                lineHeight: 1,
-              }}
-            >
-              ModoCasa
-            </span>
-            <span
-              style={{
-                fontFamily: "var(--font-inter-tight)",
-                fontSize: "clamp(0.9rem, 2vw, 1.15rem)",
-                fontWeight: 400,
-                letterSpacing: "0.32em",
-                textTransform: "uppercase",
-                color: "rgba(255,255,255,0.5)",
-                lineHeight: 1,
-                marginLeft: "0.6em",
-                position: "relative",
-                top: "-0.35em",
-              }}
-            >
-              estudio
-            </span>
-          </div>
+          <Image
+            src="/logo-estudio.png"
+            alt="Estudio Modo Casa"
+            width={2560}
+            height={323}
+            className="mx-auto h-auto w-[70%] max-w-[440px]"
+            style={{ filter: "brightness(0) invert(1)" }}
+          />
           <div className="mx-auto mt-8 h-px w-16 bg-white/20" />
         </motion.div>
 
@@ -211,8 +190,8 @@ export default function CTAFinal() {
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 {isEn
-                  ? "Let's talk about your project. The first meeting is free and no-commitment."
-                  : "Conversemos sobre tu proyecto. La primera reunión es sin costo y sin compromiso."}
+                  ? "Let's talk about your project. Tell us your idea and we'll get back to you shortly."
+                  : "Conversemos sobre tu proyecto. Contanos tu idea y te respondemos a la brevedad."}
               </p>
 
               {/* WhatsApp empujado al fondo, alineado con el borde inferior del textarea */}

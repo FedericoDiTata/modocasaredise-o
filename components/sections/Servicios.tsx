@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import { fadeUp, staggerContainer, viewportConfig } from "@/lib/motion";
@@ -170,6 +171,26 @@ export default function Servicios() {
             );
           })}
         </div>
+
+        {/* CTA a la página completa de Servicios (incluye el proceso de trabajo) */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={viewportConfig}
+          transition={{ duration: 0.7, ease: EASE }}
+          className="mt-16 border-t border-border pt-10 lg:mt-24"
+        >
+          <Link
+            href={`/${locale}/servicios`}
+            className="group inline-flex items-center gap-3 text-base font-medium text-foreground transition-colors hover:text-accent"
+            style={{ fontFamily: "var(--font-inter-tight)" }}
+          >
+            {isEn ? "See services and how we work" : "Ver servicios y cómo trabajamos"}
+            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-border transition-transform duration-300 group-hover:translate-x-1">
+              →
+            </span>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

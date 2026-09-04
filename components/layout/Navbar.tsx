@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,6 +14,7 @@ export default function Navbar() {
   const locale = isEs ? "es" : "en";
 
   const navLinks = [
+    { label: isEs ? "Servicios" : "Services", href: `/${locale}/servicios` },
     { label: isEs ? "Proyectos" : "Projects", href: `/${locale}/proyectos` },
     { label: isEs ? "Estudio" : "Studio", href: `/${locale}/estudio` },
     { label: isEs ? "Contacto" : "Contact", href: `/${locale}/contacto` },
@@ -56,33 +58,20 @@ export default function Navbar() {
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/50 to-transparent" />
         )}
         <div className="container relative flex h-16 items-center justify-between lg:h-20">
-          {/* Logo */}
-          <Link href="/es" className="flex items-baseline gap-1 shrink-0">
-            <span
-              className={`font-display tracking-tight transition-colors duration-300 ${
-                scrolled ? "text-foreground" : "text-white"
-              }`}
-              style={{ fontFamily: "var(--font-inter-tight)", fontSize: "1.2rem", fontWeight: 600 }}
-            >
-              ModoCasa
-            </span>
-            <span
-              className={`transition-colors duration-300 ${
-                scrolled ? "text-muted" : "text-white/55"
-              }`}
+          {/* Logo real del estudio, invertido a blanco sobre el hero oscuro */}
+          <Link href={`/${locale}`} className="shrink-0" aria-label="Estudio Modo Casa, inicio">
+            <Image
+              src="/logo-estudio.png"
+              alt="Estudio Modo Casa"
+              width={2560}
+              height={323}
+              priority
+              className="w-auto transition-[filter] duration-300"
               style={{
-                fontFamily: "var(--font-inter-tight)",
-                fontSize: "0.62rem",
-                fontWeight: 400,
-                letterSpacing: "0.3em",
-                textTransform: "uppercase",
-                marginLeft: "0.35em",
-                position: "relative",
-                top: "-0.2em",
+                height: "clamp(18px, 2vw, 22px)",
+                filter: scrolled ? "none" : "brightness(0) invert(1)",
               }}
-            >
-              estudio
-            </span>
+            />
           </Link>
 
           {/* Desktop nav */}

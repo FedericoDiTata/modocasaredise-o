@@ -10,8 +10,10 @@ export default function Footer() {
   const locale = isEs ? "es" : "en";
 
   const navLinks = [
+    { label: isEs ? "Servicios" : "Services", href: `/${locale}/servicios` },
     { label: isEs ? "Proyectos" : "Projects", href: `/${locale}/proyectos` },
     { label: isEs ? "Estudio" : "Studio", href: `/${locale}/estudio` },
+    { label: isEs ? "Prensa" : "Press", href: `/${locale}/prensa` },
     { label: isEs ? "Contacto" : "Contact", href: `/${locale}/contacto` },
   ];
 
@@ -94,7 +96,7 @@ export default function Footer() {
               className="text-sm text-white/45"
               style={{ fontFamily: "var(--font-inter)" }}
             >
-              Av. Álvarez Thomas 168
+              Av. Álvarez Thomas 198
               <br />
               Buenos Aires, Argentina
             </p>

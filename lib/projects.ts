@@ -1,7 +1,16 @@
+/**
+ * Tipo de pieza. Estructura lista para el pedido del cliente de mostrar, además
+ * de obras terminadas, proyectos en desarrollo / renders / real estate. Cuando
+ * la AM pase ese material, cada proyecto se etiqueta con su `type` y se activan
+ * los filtros por tipo en la grilla. Por defecto todo lo actual es "Obra".
+ */
+export type ProjectType = "Obra" | "En desarrollo" | "Render" | "Real estate";
+
 export interface Project {
   id: string;
   name: string;
   category: "Diseño Interior" | "Arquitectura";
+  type?: ProjectType;
   year: string;
   location: string;
   description: string;

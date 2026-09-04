@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function IntroLoader() {
@@ -42,35 +43,14 @@ export default function IntroLoader() {
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col items-center gap-3"
           >
-            <div className="flex items-baseline gap-3">
-              <span
-                style={{
-                  fontFamily: "var(--font-inter-tight)",
-                  fontSize: "clamp(3rem, 9vw, 7rem)",
-                  fontWeight: 400,
-                  letterSpacing: "-0.035em",
-                  color: "#08090A",
-                  lineHeight: 1,
-                }}
-              >
-                Modo Casa
-              </span>
-              <span
-                style={{
-                  fontFamily: "var(--font-inter-tight)",
-                  fontSize: "clamp(0.9rem, 2vw, 1.35rem)",
-                  fontWeight: 400,
-                  letterSpacing: "0.34em",
-                  textTransform: "uppercase",
-                  color: "rgba(8,9,10,0.45)",
-                  marginLeft: "0.5em",
-                  position: "relative",
-                  top: "-0.55em",
-                }}
-              >
-                estudio
-              </span>
-            </div>
+            <Image
+              src="/logo-estudio.png"
+              alt="Estudio Modo Casa"
+              width={2560}
+              height={323}
+              priority
+              className="h-auto w-[74vw] max-w-[560px]"
+            />
 
             <motion.p
               initial={{ opacity: 0 }}
