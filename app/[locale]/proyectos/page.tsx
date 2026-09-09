@@ -27,20 +27,35 @@ export default function ProyectosPage() {
   return (
     <>
       <main>
-        {/* Page header, foto de obra (se sacó la de los directores por pedido del cliente) */}
+        {/* Page header. Fondo negro animado (placeholder estético hasta definir
+            la foto de portada con el cliente). Glows suaves que se desplazan lento. */}
         <section className="relative overflow-hidden bg-dark pt-32 pb-16 lg:pt-40 lg:pb-20">
-          <div className="absolute inset-0 z-0">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="https://estudiomodocasa.com/wp-content/uploads/2025/06/Estrugamou-02.jpg"
-              alt="Proyecto de interiorismo de Estudio Modo Casa"
-              className="absolute inset-0 h-full w-full object-cover"
-              style={{ objectPosition: "center 45%" }}
+          <div className="absolute inset-0 z-0 overflow-hidden">
+            <motion.div
+              aria-hidden="true"
+              className="absolute left-[12%] top-[-40%] h-[70vw] w-[70vw] rounded-full"
+              style={{
+                background: "radial-gradient(circle, rgba(255,255,255,0.08), transparent 62%)",
+                filter: "blur(24px)",
+              }}
+              animate={{ x: ["-8%", "12%", "-8%"], y: ["-6%", "10%", "-6%"], scale: [1, 1.18, 1] }}
+              transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
             />
-            {/* Overlay para legibilidad del texto sobre la foto */}
+            <motion.div
+              aria-hidden="true"
+              className="absolute right-[8%] bottom-[-50%] h-[65vw] w-[65vw] rounded-full"
+              style={{
+                background: "radial-gradient(circle, rgba(255,255,255,0.055), transparent 60%)",
+                filter: "blur(34px)",
+              }}
+              animate={{ x: ["6%", "-10%", "6%"], y: ["4%", "-8%", "4%"], scale: [1.12, 1, 1.12] }}
+              transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
+            />
+            {/* Viñeta sutil para profundidad */}
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80"
+              className="absolute inset-0"
+              style={{ background: "radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.55))" }}
             />
           </div>
           <div className="container relative z-10">
