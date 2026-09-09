@@ -27,22 +27,20 @@ export default function ProyectosPage() {
   return (
     <>
       <main>
-        {/* Page header, foto real de los directores trabajando sobre planos */}
+        {/* Page header, foto de obra (se sacó la de los directores por pedido del cliente) */}
         <section className="relative overflow-hidden bg-dark pt-32 pb-16 lg:pt-40 lg:pb-20">
           <div className="absolute inset-0 z-0">
-            <Image
-              src="/equipo/directores-planos.jpg"
-              alt="Directores de Estudio Modo Casa trabajando sobre planos"
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover"
-              style={{ objectPosition: "center 30%" }}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://estudiomodocasa.com/wp-content/uploads/2025/06/Estrugamou-02.jpg"
+              alt="Proyecto de interiorismo de Estudio Modo Casa"
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ objectPosition: "center 45%" }}
             />
-            {/* Overlay para legibilidad, la foto ya es dark pero reforzamos */}
+            {/* Overlay para legibilidad del texto sobre la foto */}
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"
+              className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80"
             />
           </div>
           <div className="container relative z-10">

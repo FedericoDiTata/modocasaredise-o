@@ -21,13 +21,13 @@ export async function generateMetadata({
   return {
     title: {
       default: isEn
-        ? "Estudio Modo Casa · Interior Design & Architecture"
-        : "Estudio Modo Casa · Diseño Interior & Arquitectura",
+        ? "Estudio Modo Casa · High-end Interior Design"
+        : "Estudio Modo Casa · Diseño de Interiores de Alta Gama",
       template: "%s · Estudio Modo Casa",
     },
     description: isEn
-      ? "Premium interior design and architecture studio in Buenos Aires. Over 15 years transforming residential and commercial spaces."
-      : "Estudio de diseño interior y arquitectura de alta gama en Buenos Aires. Más de 15 años transformando espacios residenciales y comerciales.",
+      ? "High-end interior design specialists in Buenos Aires. Over 15 years and 150+ projects shaping residential and commercial spaces."
+      : "Especialistas en diseño de interiores de alta gama en Buenos Aires. Más de 15 años y 150+ proyectos proyectando espacios residenciales y comerciales.",
     openGraph: {
       type: "website",
       locale: isEn ? "en_US" : "es_AR",
@@ -54,11 +54,11 @@ export default async function LocaleLayout({
   // Schema.org / JSON-LD del estudio (entidad) para SEO + reconocimiento por IA
   const orgJsonLd = {
     "@context": "https://schema.org",
-    "@type": ["ArchitecturalFirm", "ProfessionalService"],
+    "@type": "ProfessionalService",
     name: "Estudio Modo Casa",
     url: "https://estudiomodocasa.com",
     description:
-      "Estudio de diseño interior y arquitectura de alta gama en Buenos Aires. Más de 15 años proyectando espacios residenciales y comerciales.",
+      "Especialistas en diseño de interiores de alta gama en Buenos Aires. Más de 15 años y 150+ proyectos en espacios residenciales y comerciales.",
     foundingDate: "2009",
     areaServed: "Buenos Aires, Argentina",
     knowsLanguage: ["es", "en"],

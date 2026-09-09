@@ -92,8 +92,8 @@ export default function EstudioPage() {
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 {isEn
-                  ? "Led by Máximo Ferraro and Gustavo Yankelevich, Estudio Modo Casa is a team of architects, designers and site managers with over 15 years and 150+ projects shaping high-end spaces in Argentina and abroad."
-                  : "Dirigido por Máximo Ferraro y Gustavo Yankelevich, Estudio Modo Casa es un equipo de arquitectos, diseñadores y directores de obra con más de 15 años y 150+ proyectos proyectando espacios de alta gama en Argentina y el exterior."}
+                  ? "Led by Máximo Ferraro and Gustavo Yankelevich, Estudio Modo Casa specialises in interior design, with a team of over 15 years and 150+ projects shaping high-end spaces in Argentina and abroad."
+                  : "Dirigido por Máximo Ferraro y Gustavo Yankelevich, Estudio Modo Casa es un estudio especializado en interiorismo, con un equipo de más de 15 años y 150+ proyectos proyectando espacios de alta gama en Argentina y el exterior."}
               </motion.p>
             </motion.div>
           </div>
@@ -158,8 +158,8 @@ export default function EstudioPage() {
                   style={{ fontFamily: "var(--font-inter)", lineHeight: 1.7 }}
                 >
                   {isEn
-                    ? "Behind the direction, a team of architects, designers and site managers accompanies every project from the first sketch to the delivery of keys."
-                    : "Detrás de la dirección, un equipo de arquitectos, diseñadores y directores de obra acompaña cada proyecto desde el primer boceto hasta la entrega de llaves."}
+                    ? "Behind the direction, a team of designers, project leads and site managers accompanies every project from the first sketch to the delivery of keys."
+                    : "Detrás de la dirección, un equipo de diseñadores, proyectistas y directores de obra acompaña cada proyecto desde el primer boceto hasta la entrega de llaves."}
                 </p>
               </motion.div>
 

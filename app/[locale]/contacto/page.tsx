@@ -199,8 +199,8 @@ export default function ContactoPage() {
                   },
                   {
                     label: "Email",
-                    content: "hola@estudiomodocasa.com",
-                    href: "mailto:hola@estudiomodocasa.com",
+                    content: "info@estudiomodocasa.com",
+                    href: "mailto:info@estudiomodocasa.com",
                   },
                   {
                     label: isEn ? "Phone" : "Teléfono",

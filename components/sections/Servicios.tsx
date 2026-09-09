@@ -36,17 +36,17 @@ export default function Servicios() {
       alt: isEn ? "Interior design project" : "Proyecto de diseño interior",
     },
     {
-      id: "arquitectura",
-      title: isEn ? "Architecture" : "Arquitectura",
+      id: "salud",
+      title: isEn ? "Healthcare spaces" : "Espacios para la salud",
       description: isEn
-        ? "We design and manage residential and commercial projects from the preliminary study to the handover of keys: plans, permits, site management and coordination of every trade, with technical precision at each stage."
-        : "Proyectamos y dirigimos obras residenciales y comerciales, desde el anteproyecto hasta la entrega de llaves: planos, permisos, dirección de obra y coordinación de todos los gremios, con precisión técnica en cada etapa.",
+        ? "A dedicated vertical: consulting rooms and clinics that balance patient experience, medical functionality and brand aesthetics. It has its own specialised site."
+        : "Una vertical propia: consultorios y clínicas que equilibran la experiencia del paciente, la funcionalidad médica y la estética de marca. Tiene su propio sitio dedicado.",
       scope: isEn
-        ? "Design · Site management · Heritage renovation"
-        : "Proyecto · Dirección de obra · Reciclaje patrimonial",
+        ? "Clinics · Consulting rooms · Medical fit-out"
+        : "Clínicas · Consultorios · Equipamiento médico",
       image:
-        "https://estudiomodocasa.com/wp-content/uploads/2022/12/hudson_2025_02.jpg",
-      alt: isEn ? "Architecture project" : "Proyecto de arquitectura",
+        "https://estudiomodocasa.com/wp-content/uploads/2025/06/salguerotg-03.jpg",
+      alt: isEn ? "Healthcare space project" : "Proyecto de espacio para la salud",
     },
     {
       id: "muebles",
@@ -90,8 +90,8 @@ export default function Servicios() {
             }}
           >
             {isEn
-              ? "Three integrated lines of practice."
-              : "Tres líneas integradas de práctica."}
+              ? "Interior design specialists, end to end."
+              : "Especialistas en interiorismo, de principio a fin."}
           </motion.h2>
           <motion.p
             variants={fadeUp}

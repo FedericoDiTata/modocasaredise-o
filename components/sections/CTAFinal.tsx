@@ -180,7 +180,7 @@ export default function CTAFinal() {
                   letterSpacing: "-0.02em",
                 }}
               >
-                {isEn ? "Have a space in mind?" : "¿Tenés un espacio en mente?"}
+                {isEn ? "Have a project in mind?" : "¿Tenés un proyecto en mente?"}
                 <br />
                 {isEn ? "Let's talk." : "Hablemos."}
               </h2>
