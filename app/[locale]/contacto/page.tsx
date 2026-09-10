@@ -9,7 +9,7 @@ import { fadeUp, wipeUp, staggerContainer, viewportConfig } from "@/lib/motion";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
-const whatsappUrl = `https://wa.me/5491122419894?text=${encodeURIComponent(
+const whatsappUrl = `https://wa.me/5491122419804?text=${encodeURIComponent(
   "Hola, me gustaría consultar sobre sus servicios de diseño interior y arquitectura."
 )}`;
 
@@ -194,8 +194,8 @@ export default function ContactoPage() {
                 {[
                   {
                     label: isEn ? "Address" : "Dirección",
-                    content: "Avenida Álvarez Thomas 198\nCiudad Autónoma de Buenos Aires",
-                    href: "https://maps.google.com/?q=Avenida+Alvarez+Thomas+198+Buenos+Aires",
+                    content: "Av. Álvarez Thomas 198, 5º piso, Of. A\nC1414 · CABA, Argentina",
+                    href: "https://maps.google.com/?q=Avenida+Alvarez+Thomas+198+CABA",
                   },
                   {
                     label: "Email",
@@ -204,8 +204,8 @@ export default function ContactoPage() {
                   },
                   {
                     label: isEn ? "Phone" : "Teléfono",
-                    content: "+54 11 2241-9894",
-                    href: "tel:+541122419894",
+                    content: "+54 911 2241-9804",
+                    href: "tel:+5491122419804",
                   },
                   {
                     label: isEn ? "Office hours" : "Horario de atención",

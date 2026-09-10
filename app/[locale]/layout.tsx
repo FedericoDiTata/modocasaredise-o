@@ -64,12 +64,13 @@ export default async function LocaleLayout({
     knowsLanguage: ["es", "en"],
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Av. Álvarez Thomas 198",
+      streetAddress: "Av. Álvarez Thomas 198, 5º piso, Of. A",
+      postalCode: "C1414",
       addressLocality: "Ciudad Autónoma de Buenos Aires",
       addressCountry: "AR",
     },
-    telephone: "+54 11 2241-9894",
-    email: "hola@estudiomodocasa.com",
+    telephone: "+54 9 11 2241-9804",
+    email: "info@estudiomodocasa.com",
     sameAs: [
       "https://www.instagram.com/estudiomodocasa",
       "https://www.facebook.com/estudiomodocasa",

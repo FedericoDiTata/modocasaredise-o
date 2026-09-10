@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import { viewportConfig } from "@/lib/motion";
 
-const WHATSAPP_NUMBER = "5491122419894";
+const WHATSAPP_NUMBER = "5491122419804";
 
 interface Star {
   x: number;

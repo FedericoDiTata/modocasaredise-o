@@ -53,21 +53,12 @@ export default function EstudioPage() {
   return (
     <>
       <main>
-        {/* Hero, foto de equipo/dirección en B&N (placeholder hasta foto grupal real) */}
-        <section className="relative flex h-[92vh] min-h-[560px] items-end overflow-hidden bg-dark">
-          <Image
-            src="/equipo/directores-hero.jpg"
-            alt="Dirección y equipo de Estudio Modo Casa"
-            fill
-            priority
-            className="object-cover"
-            style={{ objectPosition: "center 34%", filter: "grayscale(1)" }}
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/45" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
-          <div className="container relative z-10 pb-14 lg:pb-20">
-            <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="max-w-2xl">
+        {/* Hero partido: texto + foto grupal de los cuatro (B&N).
+            La foto es vertical (4:5), por eso va en split y no full-bleed. */}
+        <section className="relative grid min-h-[86vh] grid-cols-1 overflow-hidden bg-dark lg:min-h-[88vh] lg:grid-cols-2">
+          {/* Texto */}
+          <div className="order-2 flex items-center px-6 pb-16 pt-10 lg:order-1 lg:px-16 lg:py-0">
+            <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="max-w-lg">
               <motion.p variants={fadeUp} className="eyebrow-light mb-4">
                 {isEn ? "The studio" : "El estudio"}
               </motion.p>
@@ -76,7 +67,7 @@ export default function EstudioPage() {
                   variants={wipeUp}
                   style={{
                     fontFamily: "var(--font-inter-tight)",
-                    fontSize: "clamp(2.25rem, 5vw, 4.25rem)",
+                    fontSize: "clamp(2.25rem, 4.5vw, 4rem)",
                     fontWeight: 400,
                     color: "white",
                     lineHeight: 1.04,
@@ -88,7 +79,7 @@ export default function EstudioPage() {
               </div>
               <motion.p
                 variants={fadeUp}
-                className="mt-5 max-w-xl text-base leading-relaxed text-white/65"
+                className="mt-5 text-base leading-relaxed text-white/65"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 {isEn
@@ -96,6 +87,18 @@ export default function EstudioPage() {
                   : "Dirigido por Máximo Ferraro y Gustavo Yankelevich, Estudio Modo Casa es un estudio especializado en interiorismo, con un equipo de más de 15 años y 150+ proyectos proyectando espacios de alta gama en Argentina y el exterior."}
               </motion.p>
             </motion.div>
+          </div>
+          {/* Foto grupal de los cuatro */}
+          <div className="relative order-1 min-h-[58vh] lg:order-2 lg:min-h-full">
+            <Image
+              src="/equipo/portada-estudio.jpg"
+              alt="Equipo de Estudio Modo Casa"
+              fill
+              priority
+              className="object-cover"
+              style={{ objectPosition: "center 35%", filter: "grayscale(1)" }}
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
           </div>
         </section>
 

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-const WHATSAPP_NUMBER = "5491122419894";
+const WHATSAPP_NUMBER = "5491122419804";
 const WHATSAPP_MESSAGE =
   "Hola, me gustaría consultar sobre sus servicios de diseño interior y arquitectura.";
 

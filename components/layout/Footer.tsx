@@ -52,8 +52,8 @@ export default function Footer() {
               style={{ fontFamily: "var(--font-inter)" }}
             >
               {isEs
-                ? <>Diseño interior y arquitectura de alta gama.<br />Buenos Aires, Argentina.</>
-                : <>High-end interior design and architecture.<br />Buenos Aires, Argentina.</>}
+                ? <>Diseño de interiores de alta gama.<br />Buenos Aires, Argentina.</>
+                : <>High-end interior design.<br />Buenos Aires, Argentina.</>}
             </p>
           </div>
 
@@ -86,19 +86,19 @@ export default function Footer() {
               {isEs ? "Contacto" : "Contact"}
             </p>
             <a
-              href="tel:+541122419894"
+              href="tel:+5491122419804"
               className="text-sm text-white/60 transition-colors hover:text-white"
               style={{ fontFamily: "var(--font-inter)" }}
             >
-              11-2241-9894
+              +54 911 2241-9804
             </a>
             <p
               className="text-sm text-white/45"
               style={{ fontFamily: "var(--font-inter)" }}
             >
-              Av. Álvarez Thomas 198
+              Av. Álvarez Thomas 198, 5º piso Of. A
               <br />
-              Buenos Aires, Argentina
+              C1414, CABA, Argentina
             </p>
           </div>
 
