@@ -7,25 +7,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import Footer from "@/components/layout/Footer";
-import { projects, getProjectById, getFicha } from "@/lib/projects";
+import { projects, getProjectById } from "@/lib/projects";
 import { fadeUp, staggerContainer, viewportConfig } from "@/lib/motion";
-
-/** Color aproximado por material, para la paleta de materialidades. */
-function materialSwatch(material: string): string {
-  const m = material.toLowerCase();
-  if (m.includes("travertino")) return "#d8c9b0";
-  if (m.includes("mármol") || m.includes("marmol")) return "#e8e4dd";
-  if (m.includes("nogal")) return "#5b4636";
-  if (m.includes("roble") || m.includes("madera")) return "#b08d57";
-  if (m.includes("herrería") || m.includes("herreria")) return "#2b2b2b";
-  if (m.includes("hormigón") || m.includes("hormigon")) return "#9a9a94";
-  if (m.includes("piedra")) return "#8f8b83";
-  if (m.includes("cristal") || m.includes("vidrio")) return "#c6d2d5";
-  if (m.includes("latón") || m.includes("laton")) return "#b08d3c";
-  if (m.includes("lino") || m.includes("textil")) return "#cfc7b8";
-  if (m.includes("boiserie")) return "#7a5c3e";
-  return "#c9c4bb";
-}
 
 export default function ProjectDetailPage({
   params,
@@ -43,23 +26,26 @@ export default function ProjectDetailPage({
     .filter((p) => p.id !== project.id && p.category === project.category)
     .slice(0, 3);
 
-  const ficha = getFicha(project);
-
   // Schema.org / JSON-LD, para que Google e IAs reconozcan y citen la obra
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
     name: project.name,
-    description: project.description,
+    description: project.memoriaDescriptiva,
     image: project.image,
     locationCreated: {
       "@type": "Place",
       name: project.location,
-      address: { "@type": "PostalAddress", addressCountry: "AR", addressLocality: project.location },
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "AR",
+        addressLocality: project.location,
+        streetAddress: project.locationFull,
+      },
     },
     dateCreated: project.year,
     genre: project.category,
-    ...(ficha.materials.length ? { material: ficha.materials } : {}),
+    keywords: project.keywords.join(", "),
     creator: {
       "@type": "Organization",
       name: "Estudio Modo Casa",
@@ -72,10 +58,9 @@ export default function ProjectDetailPage({
   };
 
   const specItems = [
-    { label: isEn ? "Status" : "Estado", value: ficha.status },
+    { label: isEn ? "Status" : "Estado", value: project.status },
     { label: isEn ? "Year" : "Año", value: project.year },
-    { label: isEn ? "Surface" : "Superficie", value: ficha.area ?? (isEn ? "TBC" : "A confirmar") },
-    { label: isEn ? "Scope" : "Alcance", value: ficha.scope },
+    { label: isEn ? "Location" : "Ubicación", value: project.location },
   ];
 
   return (
@@ -159,9 +144,9 @@ export default function ProjectDetailPage({
               className="mx-auto max-w-5xl py-12 lg:py-16"
             >
               {/* Specs */}
-              <div className="grid grid-cols-2 gap-y-8 border-y border-border py-8 sm:grid-cols-4 sm:gap-0 sm:divide-x sm:divide-border">
+              <div className="grid grid-cols-3 gap-y-8 border-y border-border py-8 sm:gap-0 sm:divide-x sm:divide-border">
                 {specItems.map((it) => (
-                  <div key={it.label} className="sm:px-7 sm:first:pl-0">
+                  <div key={it.label} className="px-2 sm:px-7 sm:first:pl-0">
                     <p
                       className="mb-2.5 text-[0.6rem] uppercase tracking-[0.18em] text-muted"
                       style={{ fontFamily: "var(--font-inter-tight)" }}
@@ -178,37 +163,31 @@ export default function ProjectDetailPage({
                 ))}
               </div>
 
-              {/* Materialidades, paleta con swatches */}
-              <div className="mt-9 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-10">
-                <p
-                  className="shrink-0 text-[0.6rem] uppercase tracking-[0.18em] text-muted"
-                  style={{ fontFamily: "var(--font-inter-tight)" }}
-                >
-                  {isEn ? "Materials" : "Materialidades"}
-                </p>
-                <div className="flex flex-wrap gap-x-7 gap-y-3">
-                  {ficha.materials.map((m) => (
-                    <span
-                      key={m}
-                      className="flex items-center gap-2.5 text-sm text-foreground"
-                      style={{ fontFamily: "var(--font-inter)" }}
-                    >
-                      <span
-                        aria-hidden="true"
-                        className="h-3.5 w-3.5 rounded-full ring-1 ring-black/10"
-                        style={{ backgroundColor: materialSwatch(m) }}
-                      />
-                      {m}
-                    </span>
-                  ))}
+              {/* Servicios + memoria técnica (contenido real del estudio) */}
+              <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
+                <div className="lg:col-span-4">
+                  <p
+                    className="mb-3 text-[0.6rem] uppercase tracking-[0.18em] text-muted"
+                    style={{ fontFamily: "var(--font-inter-tight)" }}
+                  >
+                    {isEn ? "Services" : "Servicios"}
+                  </p>
+                  <p className="text-sm leading-relaxed text-foreground" style={{ fontFamily: "var(--font-inter)" }}>
+                    {project.services}
+                  </p>
+                </div>
+                <div className="lg:col-span-8">
+                  <p
+                    className="mb-3 text-[0.6rem] uppercase tracking-[0.18em] text-muted"
+                    style={{ fontFamily: "var(--font-inter-tight)" }}
+                  >
+                    {isEn ? "Technical memo" : "Memoria técnica"}
+                  </p>
+                  <p className="text-[15px] leading-relaxed text-muted lg:text-base" style={{ fontFamily: "var(--font-inter)" }}>
+                    {project.memoriaTecnica}
+                  </p>
                 </div>
               </div>
-
-              {ficha.photographer && (
-                <p className="mt-8 text-xs text-muted" style={{ fontFamily: "var(--font-inter)" }}>
-                  {isEn ? "Photography" : "Fotografía"}: {ficha.photographer}
-                </p>
-              )}
             </motion.div>
           </div>
         </section>
