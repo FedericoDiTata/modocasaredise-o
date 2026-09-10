@@ -147,14 +147,14 @@ export default function ServiciosPage() {
                   <div key={p.n} className="border-b border-border">
                     <button
                       onClick={() => setOpen(isOpen ? -1 : i)}
-                      className="group flex w-full items-center gap-5 py-6 text-left lg:gap-8 lg:py-7"
+                      className="group flex w-full items-center gap-5 py-7 text-left lg:gap-10 lg:py-9"
                       aria-expanded={isOpen}
                     >
                       <span
-                        className="shrink-0 leading-none transition-colors duration-300"
+                        className="w-9 shrink-0 leading-none tabular-nums transition-colors duration-500 lg:w-14"
                         style={{
                           fontFamily: "var(--font-inter-tight)",
-                          fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
+                          fontSize: "clamp(1.5rem, 2.6vw, 2.25rem)",
                           fontWeight: 300,
                           letterSpacing: "-0.03em",
                           color: isOpen ? "var(--fg)" : "var(--muted)",
@@ -163,13 +163,13 @@ export default function ServiciosPage() {
                         {p.n}
                       </span>
                       <span
-                        className="flex-1 transition-colors duration-300"
+                        className="flex-1 transition-transform duration-500 ease-out group-hover:translate-x-1"
                         style={{
                           fontFamily: "var(--font-inter-tight)",
-                          fontSize: "clamp(1.15rem, 2vw, 1.6rem)",
+                          fontSize: "clamp(1.2rem, 2.1vw, 1.7rem)",
                           fontWeight: 400,
                           letterSpacing: "-0.02em",
-                          color: isOpen ? "var(--fg)" : "var(--fg)",
+                          color: "var(--fg)",
                         }}
                       >
                         {p.title}
@@ -178,7 +178,7 @@ export default function ServiciosPage() {
                       <span className="relative flex h-6 w-6 shrink-0 items-center justify-center" aria-hidden="true">
                         <span className="absolute h-px w-4 bg-foreground" />
                         <span
-                          className="absolute h-4 w-px bg-foreground transition-transform duration-300"
+                          className="absolute h-4 w-px bg-foreground transition-transform duration-500 ease-out"
                           style={{ transform: isOpen ? "scaleY(0)" : "scaleY(1)" }}
                         />
                       </span>
@@ -190,22 +190,29 @@ export default function ServiciosPage() {
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.5, ease: EASE }}
+                          transition={{ duration: 0.55, ease: EASE }}
                           className="overflow-hidden"
                         >
-                          <div className="grid grid-cols-1 gap-6 pb-8 lg:grid-cols-12 lg:gap-10">
-                            <p
-                              className="lg:col-span-5 lg:col-start-1 lg:pl-[calc(1.5rem+2rem)] text-[15px] leading-relaxed text-muted lg:text-base"
-                              style={{ fontFamily: "var(--font-inter)" }}
+                          <div className="grid grid-cols-1 gap-6 pb-10 lg:grid-cols-12 lg:gap-10">
+                            <div className="lg:col-span-5 lg:col-start-1 lg:pl-24">
+                              <p
+                                className="max-w-md text-[15px] leading-relaxed text-muted lg:text-base"
+                                style={{ fontFamily: "var(--font-inter)" }}
+                              >
+                                {p.desc}
+                              </p>
+                            </div>
+                            <motion.div
+                              className="lg:col-span-6 lg:col-start-7"
+                              initial={{ opacity: 0, y: 14 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.6, delay: 0.12, ease: EASE }}
                             >
-                              {p.desc}
-                            </p>
-                            <div className="lg:col-span-6 lg:col-start-7">
                               <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-surface">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img src={p.image} alt={p.title} className="h-full w-full object-cover" />
                               </div>
-                            </div>
+                            </motion.div>
                           </div>
                         </motion.div>
                       )}

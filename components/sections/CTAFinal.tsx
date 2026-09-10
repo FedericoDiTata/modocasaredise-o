@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
@@ -8,90 +8,34 @@ import { viewportConfig } from "@/lib/motion";
 
 const WHATSAPP_NUMBER = "5491122419804";
 
-interface Star {
-  x: number;
-  y: number;
-  r: number;
-  opacity: number;
-  speed: number;
-  phase: number;
-  dx: number;
-  dy: number;
-}
-
-function Starfield() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const STAR_COUNT = 140;
-    let animId: number;
-    let stars: Star[] = [];
-
-    const buildStars = (w: number, h: number) => {
-      stars = Array.from({ length: STAR_COUNT }, () => {
-        const angle = Math.random() * Math.PI * 2;
-        const moveSpeed = Math.random() * 0.22 + 0.04;
-        return {
-          x: Math.random() * w,
-          y: Math.random() * h,
-          r: Math.random() * 1.4 + 0.2,
-          opacity: Math.random() * 0.5 + 0.1,
-          speed: Math.random() * 0.4 + 0.1,
-          phase: Math.random() * Math.PI * 2,
-          dx: Math.cos(angle) * moveSpeed,
-          dy: Math.sin(angle) * moveSpeed,
-        };
-      });
-    };
-
-    const resize = () => {
-      const dpr = window.devicePixelRatio || 1;
-      const w = canvas.offsetWidth;
-      const h = canvas.offsetHeight;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      ctx.scale(dpr, dpr);
-      buildStars(w, h);
-    };
-
-    resize();
-    window.addEventListener("resize", resize);
-
-    let time = 0;
-    const draw = () => {
-      const w = canvas.offsetWidth;
-      const h = canvas.offsetHeight;
-      ctx.clearRect(0, 0, w, h);
-      time += 0.008;
-      for (const s of stars) {
-        s.x += s.dx;
-        s.y += s.dy;
-        if (s.x < -2) s.x = w + 2;
-        if (s.x > w + 2) s.x = -2;
-        if (s.y < -2) s.y = h + 2;
-        if (s.y > h + 2) s.y = -2;
-        const alpha = s.opacity * (0.55 + 0.45 * Math.sin(time * s.speed + s.phase));
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-        ctx.fill();
-      }
-      animId = requestAnimationFrame(draw);
-    };
-
-    draw();
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener("resize", resize);
-    };
-  }, []);
-
-  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />;
+/**
+ * Fondo sobrio para el bloque de cierre: reemplaza el "starfield" (que se leía
+ * demasiado efectista) por dos glows suaves que se desplazan lento, en la misma
+ * línea que el hero de Proyectos. GPU-friendly (solo transform/opacity).
+ */
+function GlowBackdrop() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+      <motion.div
+        className="absolute left-[20%] top-[-30%] h-[55vw] w-[55vw] rounded-full"
+        style={{
+          background: "radial-gradient(circle, rgba(255,255,255,0.06), transparent 62%)",
+          filter: "blur(30px)",
+        }}
+        animate={{ x: ["-6%", "10%", "-6%"], y: ["-4%", "8%", "-4%"], scale: [1, 1.15, 1] }}
+        transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute right-[8%] bottom-[-40%] h-[50vw] w-[50vw] rounded-full"
+        style={{
+          background: "radial-gradient(circle, rgba(255,255,255,0.045), transparent 60%)",
+          filter: "blur(40px)",
+        }}
+        animate={{ x: ["5%", "-8%", "5%"], y: ["3%", "-6%", "3%"], scale: [1.1, 1, 1.1] }}
+        transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
+      />
+    </div>
+  );
 }
 
 export default function CTAFinal() {
@@ -120,7 +64,7 @@ export default function CTAFinal() {
 
   return (
     <section className="relative overflow-hidden bg-[#08090A] py-24 lg:py-32">
-      <Starfield />
+      <GlowBackdrop />
 
       <div className="container relative z-10">
         {/* Logo grande centrado */}
