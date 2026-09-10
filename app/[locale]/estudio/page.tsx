@@ -192,6 +192,22 @@ export default function EstudioPage() {
           </div>
         </section>
 
+        {/* Franja dramática: los dos directores sobre los planos (B&N, alta) */}
+        <section className="relative h-[52vh] min-h-[380px] w-full overflow-hidden bg-dark lg:h-[62vh]">
+          <Image
+            src="/equipo/directores-planos-hd.jpg"
+            alt="Los directores de Estudio Modo Casa trabajando sobre los planos"
+            fill
+            className="object-cover"
+            style={{ objectPosition: "center 38%", filter: "grayscale(1)" }}
+            sizes="100vw"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/25"
+          />
+        </section>
+
         {/* Dirección, fotos en blanco y negro + bio */}
         <section className="bg-surface pb-20 pt-4 lg:pb-28">
           <div className="container">
