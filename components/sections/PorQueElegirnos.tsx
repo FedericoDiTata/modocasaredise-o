@@ -87,7 +87,9 @@ export default function PorQueElegirnos() {
   const [lightbox, setLightbox] = useState<{ cat: number; idx: number } | null>(null);
 
   useEffect(() => {
-    const onResize = () => setIsDesktop(window.innerWidth >= 768);
+    // 1024: en tablet (<1024) usamos el apilado vertical; el horizontal de 4
+    // columnas necesita ancho de desktop para no encimar título y bajada.
+    const onResize = () => setIsDesktop(window.innerWidth >= 1024);
     onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
@@ -188,6 +190,7 @@ export default function PorQueElegirnos() {
 
                 {/* Galería 2×2 en COLOR (visible al activar) */}
                 <div
+                  aria-hidden={!isActive}
                   className={`absolute inset-0 grid grid-cols-2 grid-rows-2 gap-1 transition-opacity duration-500 ${
                     isActive ? "opacity-100" : "opacity-0 pointer-events-none"
                   }`}
@@ -195,6 +198,7 @@ export default function PorQueElegirnos() {
                   {gallery.map((g, gi) => (
                     <button
                       key={gi}
+                      tabIndex={isActive ? 0 : -1}
                       onClick={(e) => {
                         e.stopPropagation();
                         setLightbox({ cat: i, idx: gi });

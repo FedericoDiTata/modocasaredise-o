@@ -2,7 +2,7 @@
  * Tipo de pieza (obra terminada / en desarrollo / render / real estate).
  * Estructura lista para cuando el estudio sume renders/real estate.
  */
-export type ProjectType = "Obra" | "En desarrollo" | "Render" | "Real estate";
+export type ProjectType = "Obra" | "En desarrollo" | "Render" | "Real estate" | "Salud";
 
 export interface Project {
   id: string;
@@ -15,6 +15,8 @@ export interface Project {
   /** Dirección completa (ficha técnica + JSON-LD) */
   locationFull: string;
   status: string;
+  /** Superficie en m² (opcional; lo pasa Fran por obra) */
+  surface?: string;
   /** Alcance / servicios prestados */
   services: string;
   /** Memoria técnica: materialidades y resolución (dato real del estudio) */
@@ -523,5 +525,28 @@ export function getProjectById(id: string): Project | undefined {
   return projects.find((p) => p.id === id);
 }
 
-export const categories = ["Todos", "Diseño Interior", "Arquitectura"] as const;
-export type Category = (typeof categories)[number];
+/**
+ * Filtro de la grilla por ESTADO/TIPO (pedido de Maxi/Vir 15/09): todos los
+ * proyectos viven en el mismo universo y se diferencian por estado/tipo.
+ * Real Estate y Salud se pueblan cuando Fran pase el material (marcando el
+ * `type` de cada obra); por ahora todas las cargadas son obras terminadas.
+ */
+export type ProjectFilter = "Todos" | "Terminadas" | "En proceso" | "Real Estate" | "Salud";
+
+// Sin "Todos": la Minuta pide exactamente estos 4 buckets, y como hoy todo lo
+// cargado es "terminada", un "Todos" duplicaría la pestaña "Obras terminadas".
+export const projectFilters: { id: Exclude<ProjectFilter, "Todos">; es: string; en: string }[] = [
+  { id: "Terminadas", es: "Obras terminadas", en: "Completed" },
+  { id: "En proceso", es: "Obras en proceso", en: "In progress" },
+  { id: "Real Estate", es: "Real Estate", en: "Real Estate" },
+  { id: "Salud", es: "Espacios para la salud", en: "Healthcare" },
+];
+
+/** Clasifica cada obra en un único bucket del filtro. */
+export function getProjectFilter(p: Project): Exclude<ProjectFilter, "Todos"> {
+  if (p.type === "Salud") return "Salud";
+  if (p.type === "Real estate") return "Real Estate";
+  if (p.type === "En desarrollo" || p.type === "Render") return "En proceso";
+  if (/proceso|desarrollo|ejecuci[oó]n/i.test(p.status)) return "En proceso";
+  return "Terminadas";
+}

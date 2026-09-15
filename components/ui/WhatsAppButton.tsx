@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { track } from "@/lib/analytics";
 
 const WHATSAPP_NUMBER = "5491122419804";
 const WHATSAPP_MESSAGE =
-  "Hola, me gustaría consultar sobre sus servicios de diseño interior y arquitectura.";
+  "Hola, me gustaría consultar sobre sus servicios de diseño de interiores.";
 
 export default function WhatsAppButton() {
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
@@ -14,6 +15,7 @@ export default function WhatsAppButton() {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={() => track("whatsapp_click", { location: "floating" })}
       aria-label="Contactar por WhatsApp"
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}

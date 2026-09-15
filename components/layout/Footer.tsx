@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { track } from "@/lib/analytics";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -87,6 +88,7 @@ export default function Footer() {
             </p>
             <a
               href="tel:+5491122419804"
+              onClick={() => track("phone_click", { location: "footer" })}
               className="text-sm text-white/60 transition-colors hover:text-white"
               style={{ fontFamily: "var(--font-inter)" }}
             >

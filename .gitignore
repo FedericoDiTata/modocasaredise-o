@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# Artefactos del flujo nueva-web (análisis + QA), no forman parte del sitio
+brief/

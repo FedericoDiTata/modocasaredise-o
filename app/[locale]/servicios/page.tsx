@@ -105,8 +105,8 @@ export default function ServiciosPage() {
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 {isEn
-                  ? "We are interior design specialists. We accompany each project as a single point of contact —from diagnosis to the delivery of keys— and add custom furniture and a dedicated vertical for healthcare spaces."
-                  : "Somos especialistas en interiorismo. Acompañamos cada proyecto como interlocutor único —del diagnóstico a la entrega de llaves— y sumamos mobiliario a medida y una vertical dedicada a espacios para la salud."}
+                  ? "We are interior design specialists. We accompany each project as a single point of contact, from diagnosis to the delivery of keys, and add custom furniture and a dedicated vertical for healthcare spaces."
+                  : "Somos especialistas en interiorismo. Acompañamos cada proyecto como interlocutor único, del diagnóstico a la entrega de llaves, y sumamos mobiliario a medida y una vertical dedicada a espacios para la salud."}
               </motion.p>
             </motion.div>
           </div>
@@ -250,8 +250,8 @@ export default function ServiciosPage() {
                 </h2>
                 <p className="mb-7 max-w-md text-sm leading-relaxed text-white/60 lg:text-base" style={{ fontFamily: "var(--font-inter)" }}>
                   {isEn
-                    ? "Consulting rooms and clinics that balance patient experience, medical functionality and brand aesthetics — with its own specialised site."
-                    : "Consultorios y clínicas que equilibran la experiencia del paciente, la funcionalidad médica y la estética de marca — con su propio sitio dedicado."}
+                    ? "Consulting rooms and clinics that balance patient experience, medical functionality and brand aesthetics, with its own specialised site."
+                    : "Consultorios y clínicas que equilibran la experiencia del paciente, la funcionalidad médica y la estética de marca, con su propio sitio dedicado."}
                 </p>
                 <a
                   href="https://salud.estudiomodocasa.com/"

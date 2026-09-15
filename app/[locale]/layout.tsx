@@ -18,20 +18,33 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const isEn = locale === "en";
+  const title = isEn
+    ? "Estudio Modo Casa · High-end Interior Design"
+    : "Estudio Modo Casa · Diseño de Interiores de Alta Gama";
+  const description = isEn
+    ? "High-end interior design specialists in Buenos Aires. Over 15 years and 150 projects shaping residential and commercial spaces."
+    : "Especialistas en diseño de interiores de alta gama en Buenos Aires. Más de 15 años y 150 proyectos proyectando espacios residenciales y comerciales.";
   return {
+    metadataBase: new URL("https://estudiomodocasa.com"),
     title: {
-      default: isEn
-        ? "Estudio Modo Casa · High-end Interior Design"
-        : "Estudio Modo Casa · Diseño de Interiores de Alta Gama",
+      default: title,
       template: "%s · Estudio Modo Casa",
     },
-    description: isEn
-      ? "High-end interior design specialists in Buenos Aires. Over 15 years and 150+ projects shaping residential and commercial spaces."
-      : "Especialistas en diseño de interiores de alta gama en Buenos Aires. Más de 15 años y 150+ proyectos proyectando espacios residenciales y comerciales.",
+    description,
     openGraph: {
       type: "website",
       locale: isEn ? "en_US" : "es_AR",
       siteName: "Estudio Modo Casa",
+      title,
+      description,
+      url: isEn ? "/en" : "/es",
+      images: [{ url: "/opengraph-image.png", width: 1200, height: 630, alt: "Estudio Modo Casa" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/opengraph-image.png"],
     },
   };
 }

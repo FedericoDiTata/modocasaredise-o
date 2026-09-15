@@ -60,8 +60,10 @@ export default function ProjectDetailPage({
   const specItems = [
     { label: isEn ? "Status" : "Estado", value: project.status },
     { label: isEn ? "Year" : "Año", value: project.year },
+    ...(project.surface ? [{ label: isEn ? "Surface" : "Superficie", value: project.surface }] : []),
     { label: isEn ? "Location" : "Ubicación", value: project.location },
   ];
+  const specCols = specItems.length >= 4 ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-3";
 
   return (
     <>
@@ -85,7 +87,7 @@ export default function ProjectDetailPage({
             <div className="container pb-12 lg:pb-16">
               <motion.div initial="hidden" animate="visible" variants={staggerContainer}>
                 <motion.p variants={fadeUp} className="eyebrow-light mb-3">
-                  {project.category}
+                  {project.status}
                 </motion.p>
                 <motion.h1
                   variants={fadeUp}
@@ -144,7 +146,7 @@ export default function ProjectDetailPage({
               className="mx-auto max-w-5xl py-12 lg:py-16"
             >
               {/* Specs */}
-              <div className="grid grid-cols-3 gap-y-8 border-y border-border py-8 sm:gap-0 sm:divide-x sm:divide-border">
+              <div className={`grid ${specCols} gap-y-8 border-y border-border py-8 sm:gap-0 sm:divide-x sm:divide-border`}>
                 {specItems.map((it) => (
                   <div key={it.label} className="px-2 sm:px-7 sm:first:pl-0">
                     <p
@@ -252,7 +254,7 @@ export default function ProjectDetailPage({
                       {p.name}
                     </p>
                     <p className="mt-0.5 text-xs text-muted" style={{ fontFamily: "var(--font-inter)" }}>
-                      {p.category} · {p.year}
+                      {p.location} · {p.year}
                     </p>
                   </Link>
                 ))}

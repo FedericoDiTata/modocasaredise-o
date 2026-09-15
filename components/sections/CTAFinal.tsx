@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import { viewportConfig } from "@/lib/motion";
+import { track } from "@/lib/analytics";
 
 const WHATSAPP_NUMBER = "5491122419804";
 
@@ -43,20 +44,43 @@ export default function CTAFinal() {
   const isEn = locale === "en";
   const [form, setForm] = useState({ nombre: "", mail: "", motivo: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(false);
 
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
     isEn
-      ? "Hello, I'd like to inquire about your interior design and architecture services."
-      : "Hola, me gustaría consultar sobre sus servicios de diseño interior y arquitectura."
+      ? "Hello, I'd like to inquire about your interior design services."
+      : "Hola, me gustaría consultar sobre sus servicios de diseño de interiores."
   )}`;
 
+  const startedRef = useRef(false);
+
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (!startedRef.current) {
+      startedRef.current = true;
+      track("form_start", { form: "contacto" });
+    }
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    track("form_submit", { form: "contacto" });
+    setSubmitting(true);
+    setError(false);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre: form.nombre, email: form.mail, mensaje: form.motivo }),
+      });
+      if (!res.ok) throw new Error();
+      setSubmitted(true);
+    } catch {
+      setError(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const baseInput =
@@ -143,6 +167,7 @@ export default function CTAFinal() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => track("whatsapp_click", { location: "cta" })}
                 className="mt-auto group flex items-center gap-3 border-b border-white/15 pb-4 text-sm text-white/55 transition-all hover:text-white hover:border-white/35"
                 style={{ fontFamily: "var(--font-inter-tight)", letterSpacing: "0.03em" }}
               >
@@ -169,25 +194,26 @@ export default function CTAFinal() {
               className="flex flex-col"
             >
               <div className="mb-7">
-                <label className="mb-2 block text-[0.6rem] tracking-[0.18em] uppercase text-white/35" style={{ fontFamily: "var(--font-inter-tight)" }}>
+                <label htmlFor="cta-nombre" className="mb-2 block text-[0.6rem] tracking-[0.18em] uppercase text-white/35" style={{ fontFamily: "var(--font-inter-tight)" }}>
                   {isEn ? "Name" : "Nombre"} *
                 </label>
-                <input type="text" name="nombre" required value={form.nombre} onChange={handleChange} className={baseInput} style={{ fontFamily: "var(--font-inter)" }} />
+                <input id="cta-nombre" type="text" name="nombre" required value={form.nombre} onChange={handleChange} className={baseInput} style={{ fontFamily: "var(--font-inter)" }} />
               </div>
 
               <div className="mb-7">
-                <label className="mb-2 block text-[0.6rem] tracking-[0.18em] uppercase text-white/35" style={{ fontFamily: "var(--font-inter-tight)" }}>
+                <label htmlFor="cta-mail" className="mb-2 block text-[0.6rem] tracking-[0.18em] uppercase text-white/35" style={{ fontFamily: "var(--font-inter-tight)" }}>
                   Email *
                 </label>
-                <input type="email" name="mail" required value={form.mail} onChange={handleChange} placeholder={isEn ? "your@email.com" : "tu@email.com"} className={baseInput} style={{ fontFamily: "var(--font-inter)" }} />
+                <input id="cta-mail" type="email" name="mail" required value={form.mail} onChange={handleChange} placeholder={isEn ? "your@email.com" : "tu@email.com"} className={baseInput} style={{ fontFamily: "var(--font-inter)" }} />
               </div>
 
               {/* Textarea crece para ocupar el espacio restante */}
               <div className="flex flex-1 flex-col">
-                <label className="mb-2 block text-[0.6rem] tracking-[0.18em] uppercase text-white/35" style={{ fontFamily: "var(--font-inter-tight)" }}>
+                <label htmlFor="cta-motivo" className="mb-2 block text-[0.6rem] tracking-[0.18em] uppercase text-white/35" style={{ fontFamily: "var(--font-inter-tight)" }}>
                   {isEn ? "About your project" : "Contanos brevemente sobre tu proyecto"} *
                 </label>
                 <textarea
+                  id="cta-motivo"
                   name="motivo"
                   required
                   value={form.motivo}
@@ -201,14 +227,22 @@ export default function CTAFinal() {
               <div className="pt-10">
                 <button
                   type="submit"
-                  className="inline-flex h-12 items-center gap-2 rounded-full bg-white px-8 text-sm font-medium text-[#08090A] transition-all hover:bg-white/90 hover:scale-[1.02]"
+                  disabled={submitting}
+                  className="inline-flex h-12 items-center gap-2 rounded-full bg-white px-8 text-sm font-medium text-[#08090A] transition-all hover:bg-white/90 hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100"
                   style={{ fontFamily: "var(--font-inter-tight)", letterSpacing: "0.06em" }}
                 >
-                  {isEn ? "SEND" : "ENVIAR"}
+                  {submitting ? (isEn ? "SENDING…" : "ENVIANDO…") : isEn ? "SEND" : "ENVIAR"}
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </button>
+                {error && (
+                  <p className="mt-4 text-sm text-white/55" style={{ fontFamily: "var(--font-inter)" }}>
+                    {isEn
+                      ? "Something went wrong. Please try again or reach us on WhatsApp."
+                      : "Hubo un problema al enviar. Probá de nuevo o escribinos por WhatsApp."}
+                  </p>
+                )}
               </div>
             </motion.form>
           </div>

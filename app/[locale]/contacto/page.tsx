@@ -1,16 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import Footer from "@/components/layout/Footer";
 import { fadeUp, wipeUp, staggerContainer, viewportConfig } from "@/lib/motion";
+import { track } from "@/lib/analytics";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
 const whatsappUrl = `https://wa.me/5491122419804?text=${encodeURIComponent(
-  "Hola, me gustaría consultar sobre sus servicios de diseño interior y arquitectura."
+  "Hola, me gustaría consultar sobre sus servicios de diseño de interiores."
 )}`;
 
 export default function ContactoPage() {
@@ -19,12 +20,19 @@ export default function ContactoPage() {
   const [form, setForm] = useState({ nombre: "", email: "", telefono: "", mensaje: "" });
   const [status, setStatus] = useState<FormState>("idle");
 
+  const startedRef = useRef(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (!startedRef.current) {
+      startedRef.current = true;
+      track("form_start", { form: "contacto" });
+    }
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    track("form_submit", { form: "contacto" });
     setStatus("loading");
     try {
       const res = await fetch("/api/contact", {
@@ -225,6 +233,9 @@ export default function ContactoPage() {
                         href={item.href}
                         target={item.href.startsWith("http") ? "_blank" : undefined}
                         rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                        onClick={() => {
+                          if (item.href?.startsWith("tel:")) track("phone_click", { location: "contacto" });
+                        }}
                         className="whitespace-pre-line text-base text-foreground hover:text-muted transition-colors"
                         style={{ fontFamily: "var(--font-inter)" }}
                       >
@@ -247,6 +258,7 @@ export default function ContactoPage() {
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => track("whatsapp_click", { location: "contacto" })}
                     className="inline-flex h-11 items-center gap-2.5 rounded-full border border-foreground px-6 text-sm font-medium text-foreground transition-all hover:bg-foreground hover:text-white"
                     style={{ fontFamily: "var(--font-inter-tight)" }}
                   >

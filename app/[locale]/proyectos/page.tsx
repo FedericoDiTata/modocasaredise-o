@@ -1,28 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocale } from "next-intl";
 import Footer from "@/components/layout/Footer";
 import CTAFinal from "@/components/sections/CTAFinal";
-import { projects, categories } from "@/lib/projects";
+import { projects, projectFilters, getProjectFilter, type ProjectFilter } from "@/lib/projects";
 import { fadeUp, staggerContainer, scaleIn, viewportConfig } from "@/lib/motion";
 
 export default function ProyectosPage() {
   const locale = useLocale();
   const isEn = locale === "en";
-  const [active, setActive] = useState<string>("Todos");
+  const [active, setActive] = useState<Exclude<ProjectFilter, "Todos">>("Terminadas");
 
-  const categoryLabels: Record<string, string> = isEn
-    ? { "Todos": "All", "Diseño Interior": "Interior Design", "Arquitectura": "Architecture" }
-    : { "Todos": "Todos", "Diseño Interior": "Diseño Interior", "Arquitectura": "Arquitectura" };
-
-  const filtered =
-    active === "Todos" ? projects : projects.filter((p) => p.category === active);
-
-  const displayed = filtered.slice(0, Math.floor(filtered.length / 3) * 3);
+  const filtered = projects.filter((p) => getProjectFilter(p) === active);
 
   return (
     <>
@@ -90,20 +82,20 @@ export default function ProyectosPage() {
         <section className="sticky top-[60px] z-30 border-b border-border bg-white/95 backdrop-blur-md">
           <div className="container">
             <div className="flex gap-1 overflow-x-auto py-4 scrollbar-hide">
-              {categories.map((cat) => (
+              {projectFilters.map((f) => (
                 <button
-                  key={cat}
-                  onClick={() => setActive(cat)}
+                  key={f.id}
+                  onClick={() => setActive(f.id)}
                   className="shrink-0 rounded-full px-5 py-2 text-sm transition-all duration-200"
                   style={{
                     fontFamily: "var(--font-inter-tight)",
                     letterSpacing: "0.04em",
-                    background: active === cat ? "var(--fg)" : "transparent",
-                    color: active === cat ? "white" : "var(--muted)",
-                    border: active === cat ? "1px solid var(--fg)" : "1px solid var(--border)",
+                    background: active === f.id ? "var(--fg)" : "transparent",
+                    color: active === f.id ? "white" : "var(--muted)",
+                    border: active === f.id ? "1px solid var(--fg)" : "1px solid var(--border)",
                   }}
                 >
-                  {categoryLabels[cat] ?? cat}
+                  {isEn ? f.en : f.es}
                 </button>
               ))}
             </div>
@@ -121,16 +113,18 @@ export default function ProyectosPage() {
                 variants={staggerContainer}
                 className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
               >
-                {displayed.map((project) => (
+                {filtered.map((project) => (
                   <motion.div key={project.id} variants={scaleIn}>
                     <Link href={`/${locale}/proyectos/${project.id}`} className="group block">
                       <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-surface">
-                        <Image
+                        {/* <img> plano a propósito: las imágenes del WP viejo fallan
+                            intermitentemente en el optimizer de Next (mismo criterio que el Hero). */}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
                           src={project.image}
                           alt={project.alt}
-                          fill
-                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          loading="lazy"
+                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                         <div className="absolute inset-x-0 bottom-0 translate-y-2 p-6 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
@@ -138,7 +132,7 @@ export default function ProyectosPage() {
                             className="mb-1 block text-[0.6rem] uppercase tracking-widest text-white/60"
                             style={{ fontFamily: "var(--font-inter-tight)" }}
                           >
-                            {categoryLabels[project.category] ?? project.category} · {project.year}
+                            {project.status} · {project.year}
                           </span>
                           <h3
                             className="text-lg font-medium text-white"
@@ -160,7 +154,7 @@ export default function ProyectosPage() {
                             className="mt-0.5 text-xs text-muted"
                             style={{ fontFamily: "var(--font-inter)" }}
                           >
-                            {categoryLabels[project.category] ?? project.category} · {project.location}
+                            {project.location}
                           </p>
                         </div>
                         <span
@@ -176,10 +170,20 @@ export default function ProyectosPage() {
               </motion.div>
             </AnimatePresence>
 
-            {displayed.length === 0 && (
-              <p className="py-20 text-center text-muted" style={{ fontFamily: "var(--font-inter)" }}>
-                {isEn ? "No projects in this category yet." : "No hay proyectos en esta categoría aún."}
-              </p>
+            {filtered.length === 0 && (
+              <div className="py-24 text-center">
+                <p
+                  className="mx-auto max-w-md text-lg text-foreground"
+                  style={{ fontFamily: "var(--font-inter-tight)", fontWeight: 400 }}
+                >
+                  {isEn ? "Coming soon." : "Muy pronto."}
+                </p>
+                <p className="mx-auto mt-3 max-w-md text-sm text-muted" style={{ fontFamily: "var(--font-inter)" }}>
+                  {isEn
+                    ? "We're preparing this selection of projects."
+                    : "Estamos preparando esta selección de proyectos."}
+                </p>
+              </div>
             )}
           </div>
         </section>

@@ -27,20 +27,22 @@ const stats = [
   { value: "15", label: "Años de trayectoria" },
 ];
 
+// Ambos figuran como cofundadores y directores, con textos de peso similar
+// (pedido de Vir/Maxi 15/09). Gustavo aparece primero. Bios provisionales
+// hasta el texto definitivo del equipo de comunicación.
 const directores = [
   {
-    name: "Máximo Ferraro",
-    role: "Cofundador · Dirección",
-    bio: "Lidera Estudio Modo Casa y a su equipo, con foco en la visión de cada proyecto y una obsesión por el detalle que se traslada de la primera idea a la obra terminada.",
+    name: "Gustavo Yankelevich",
+    role: "Cofundador y director",
+    bio: "Codirige Estudio Modo Casa con una mirada estratégica sobre cada proyecto, desde la visión inicial hasta su materialización, cuidando que cada espacio esté a la altura de quienes lo van a habitar.",
   },
   {
-    name: "Gustavo Yankelevich",
-    role: "Cofundador · Dirección",
-    bio: "Acompaña la dirección del estudio aportando criterio proyectual y una mirada sobre la materialidad y la resolución técnica de cada espacio.",
+    name: "Máximo Ferraro",
+    role: "Cofundador y director",
+    bio: "Al frente del estudio junto a Gustavo, aporta foco en el proceso proyectual y una obsesión por el detalle que se traslada de la primera idea a la entrega de la obra terminada.",
   },
 ];
 
-// El orden de las fotos matchea el orden de arriba (Máximo, Gustavo).
 const directorImages: Record<string, string> = {
   "Máximo Ferraro": "/equipo/maximo-ferraro.jpg",
   "Gustavo Yankelevich": "/equipo/gustavo-yankelevich.jpg",
@@ -83,8 +85,8 @@ export default function EstudioPage() {
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 {isEn
-                  ? "Led by Máximo Ferraro and Gustavo Yankelevich, Estudio Modo Casa specialises in interior design, with a team of over 15 years and 150+ projects shaping high-end spaces in Argentina and abroad."
-                  : "Dirigido por Máximo Ferraro y Gustavo Yankelevich, Estudio Modo Casa es un estudio especializado en interiorismo, con un equipo de más de 15 años y 150+ proyectos proyectando espacios de alta gama en Argentina y el exterior."}
+                  ? "Led by Gustavo Yankelevich and Máximo Ferraro, Estudio Modo Casa specialises in interior design, with a team of over 15 years and 150 projects in high-end spaces across Argentina and abroad."
+                  : "Dirigido por Gustavo Yankelevich y Máximo Ferraro, Estudio Modo Casa es un estudio especializado en interiorismo, con un equipo de más de 15 años y 150 proyectos en espacios de alta gama en Argentina y el exterior."}
               </motion.p>
             </motion.div>
           </div>
@@ -187,6 +189,15 @@ export default function EstudioPage() {
                   {isEn ? "See all press" : "Ver toda la prensa"}
                   <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </Link>
+
+                <div className="mt-10 border-t border-border pt-8">
+                  <p className="eyebrow mb-5">{isEn ? "Exhibitions" : "Exposiciones"}</p>
+                  <p className="text-sm leading-relaxed text-muted" style={{ fontFamily: "var(--font-inter)" }}>
+                    {isEn
+                      ? "Participation in Casa FOA. 2013, 2014, 2015 and 2016 editions."
+                      : "Participación en Casa FOA. Ediciones 2013, 2014, 2015 y 2016."}
+                  </p>
+                </div>
               </motion.div>
             </div>
           </div>

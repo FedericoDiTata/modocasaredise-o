@@ -93,15 +93,15 @@ export default function Hero() {
           style={{
             fontFamily: "var(--font-inter-tight)",
             fontSize: "clamp(1.35rem, 2.6vw, 2.15rem)",
-            fontWeight: 400,
+            fontWeight: 300,
             lineHeight: 1.15,
-            letterSpacing: "-0.02em",
-            color: "white",
+            letterSpacing: "-0.01em",
+            color: "rgba(255,255,255,0.9)",
           }}
         >
           {isEn
-            ? "High-end interior design and architecture"
-            : "Diseño de interiores y arquitectura de alta gama"}
+            ? "High-end interior design"
+            : "Diseño de interiores de alta gama"}
         </motion.h1>
 
         <motion.p
@@ -112,8 +112,8 @@ export default function Hero() {
           style={{ fontFamily: "var(--font-inter)" }}
         >
           {isEn
-            ? "15 years designing residential and commercial spaces in Argentina, nationally and internationally."
-            : "15 años proyectando espacios residenciales y comerciales en Argentina, a nivel nacional e internacional."}
+            ? "15 years designing residential and commercial spaces, nationally and internationally."
+            : "15 años proyectando espacios residenciales y comerciales a nivel nacional e internacional."}
         </motion.p>
 
         <motion.div
