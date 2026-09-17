@@ -44,8 +44,7 @@ export default function Servicios() {
       scope: isEn
         ? "Clinics · Consulting rooms · Medical fit-out"
         : "Clínicas · Consultorios · Equipamiento médico",
-      image:
-        "https://estudiomodocasa.com/wp-content/uploads/2025/06/salguerotg-03.jpg",
+      image: "/salud/chinski-0786b.jpg",
       alt: isEn ? "Healthcare space project" : "Proyecto de espacio para la salud",
     },
     {

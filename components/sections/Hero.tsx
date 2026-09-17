@@ -21,12 +21,14 @@ import { useLocale } from "next-intl";
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
 const WP = "https://estudiomodocasa.com/wp-content/uploads";
 
+// Arranca con un interior luminoso (la de Hudson al atardecer se leía oscura
+// como primera imagen); la exterior oscura queda al final.
 const SLIDES = [
-  `${WP}/2022/12/hudson_2025_01.jpg`,
+  `${WP}/2025/06/donaaqua_02.jpg`,
   `${WP}/2025/06/Estrugamou-02.jpg`,
   `${WP}/2025/06/salguerotg-02.jpg`,
-  `${WP}/2025/06/donaaqua_02.jpg`,
   `${WP}/2022/12/terravista-2.jpg`,
+  `${WP}/2022/12/hudson_2025_01.jpg`,
 ];
 
 export default function Hero() {
@@ -35,7 +37,7 @@ export default function Hero() {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const t = setInterval(() => setIndex((i) => (i + 1) % SLIDES.length), 5000);
+    const t = setInterval(() => setIndex((i) => (i + 1) % SLIDES.length), 3500);
     return () => clearInterval(t);
   }, []);
 
@@ -54,7 +56,7 @@ export default function Hero() {
             style={{
               opacity: i === index ? 1 : 0,
               transform: i === index ? "scale(1.06)" : "scale(1)",
-              transition: "opacity 1.6s cubic-bezier(0.22,1,0.36,1), transform 6s ease-out",
+              transition: "opacity 1.1s cubic-bezier(0.22,1,0.36,1), transform 5s ease-out",
             }}
           />
         ))}
@@ -144,21 +146,6 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Indicadores de slide */}
-      <div className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 gap-2">
-        {SLIDES.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setIndex(i)}
-            aria-label={`Ver imagen ${i + 1}`}
-            className="h-1 rounded-full transition-all duration-500"
-            style={{
-              width: i === index ? 28 : 8,
-              background: i === index ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.35)",
-            }}
-          />
-        ))}
-      </div>
     </section>
   );
 }

@@ -1,78 +1,162 @@
 "use client";
 
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useLocale } from "next-intl";
 import Footer from "@/components/layout/Footer";
 import CTAFinal from "@/components/sections/CTAFinal";
 import { fadeUp, wipeUp, staggerContainer, viewportConfig } from "@/lib/motion";
 
 /**
- * Página Servicios, ronda 3 (reunión 08/09):
- *  , el estudio se posiciona como ESPECIALISTAS EN INTERIORISMO (se sacó
- *    arquitectura como línea de servicio; la dirección de obra queda dentro
- *    del proceso).
- *  , al entrar va directo a "¿Qué hacemos y cómo trabajamos?" con el proceso
- *    de 7 pasos en ACORDEONES (cada paso despliega una descripción + imagen),
- *    como pidió Máximo ("lo más al llano posible, un desplegable en cada
- *    sección con alguna imagen").
+ * Página Servicios. Entra directo a "¿Qué hacemos y cómo trabajamos?" con el
+ * proceso de 7 pasos.
  *
- * Copy provisional (lo afina el equipo de comunicación con el PDF de Francisco).
- * Imágenes de los pasos = placeholder de obras hasta la selección definitiva.
+ * Los pasos usan un scroll-reveal (estilo "Nuestro compromiso" de Estudio
+ * Peiré / "Text Scroll Read" de 21st.dev): cada título se tiñe de gris a negro
+ * a medida que se scrollea, con una línea que crece debajo. Se dejó de usar
+ * fotos por paso porque las que había eran obras terminadas y no representaban
+ * cada momento del proceso (pendiente material real de Fran). Con movimiento
+ * reducido todo queda en su estado final (títulos teñidos, sin líneas).
  */
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
-const WP = "https://estudiomodocasa.com/wp-content/uploads";
 
 const proceso = [
   {
     n: "01",
     title: "Diagnóstico",
+    titleEn: "Diagnosis",
     desc: "Entendimiento inicial del proyecto, la unidad y la forma de vivir o trabajar. Definimos juntos los objetivos y el punto de partida.",
-    image: `${WP}/2025/06/image-1.jpg`,
+    descEn: "Initial understanding of the project, the unit and the way of living or working. Together we define the goals and the starting point.",
   },
   {
     n: "02",
     title: "Anteproyecto",
-    desc: "El proyecto toma forma: concepto, plantas, materialidades, iluminación y paleta. Una propuesta clara para tomar decisiones sobre información real.",
-    image: `${WP}/2025/06/Estrugamou-02.jpg`,
+    titleEn: "Preliminary design",
+    desc: "El proyecto toma forma: concepto, plantas, materialidades, iluminación y paleta. Una propuesta clara para decidir sobre información real.",
+    descEn: "The project takes shape: concept, floor plans, materials, lighting and palette. A clear proposal to decide on real information.",
   },
   {
     n: "03",
     title: "Proyecto ejecutivo",
+    titleEn: "Construction documentation",
     desc: "Documentación técnica completa: planos definitivos, detalles constructivos y pliegos. Todo listo para arrancar la obra sin zonas grises.",
-    image: `${WP}/2022/12/terravista-2.jpg`,
+    descEn: "Complete technical documentation: final drawings, construction details and specs. Everything ready to start the works with no grey areas.",
   },
   {
     n: "04",
     title: "Dirección de obra",
+    titleEn: "Site management",
     desc: "Coordinamos contratistas, controlamos la ejecución y seguimos plazos e imprevistos. Vos ves el avance, nosotros resolvemos.",
-    image: `${WP}/2025/06/donaaqua_02.jpg`,
+    descEn: "We coordinate contractors, oversee execution and track timelines and contingencies. You see the progress, we solve the rest.",
   },
   {
     n: "05",
     title: "Gestión y administración",
+    titleEn: "Management & administration",
     desc: "Administración de la obra, proveedores y presupuesto con total transparencia, para que el proyecto avance ordenado de principio a fin.",
-    image: `${WP}/2025/06/salguerotg-02.jpg`,
+    descEn: "Administration of the works, suppliers and budget with full transparency, so the project advances in order from start to finish.",
   },
   {
     n: "06",
     title: "Ejecución de obra",
+    titleEn: "Construction",
     desc: "Construcción y terminaciones con supervisión permanente del equipo del estudio, cuidando cada detalle hasta el acabado final.",
-    image: `${WP}/2025/06/image-2.jpg`,
+    descEn: "Construction and finishes with permanent supervision from the studio's team, caring for every detail down to the final finish.",
   },
   {
     n: "07",
     title: "Mobiliario a medida",
+    titleEn: "Custom furniture",
     desc: "Diseño y producción del equipamiento a medida que completa cada espacio, con las mejores maderas, lacas y herrajes.",
-    image: `${WP}/2023/09/unkanny_v2-004.jpg`,
+    descEn: "Design and production of the custom furniture that completes each space, with the finest woods, lacquers and hardware.",
   },
 ];
+
+const pasoTitleStyle = {
+  fontFamily: "var(--font-inter-tight)",
+  fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
+  fontWeight: 400,
+  lineHeight: 1.12,
+  letterSpacing: "-0.02em",
+} as const;
+
+function PasoRenglon({
+  n,
+  title,
+  desc,
+  progreso,
+  desde,
+  hasta,
+}: {
+  n: string;
+  title: string;
+  desc: string;
+  progreso: MotionValue<number>;
+  desde: number;
+  hasta: number;
+}) {
+  const avance = useTransform(progreso, [desde, hasta], [0, 1]);
+  const tinta = useTransform(avance, [0.15, 0.85], [0, 1]);
+  const numOpacity = useTransform(avance, [0, 0.6], [0.3, 1]);
+
+  return (
+    <li className="relative grid grid-cols-[auto_1fr] gap-5 border-b border-border py-7 lg:gap-12 lg:py-9">
+      <motion.span
+        style={{ opacity: numOpacity }}
+        className="shrink-0 tabular-nums leading-none text-foreground motion-reduce:opacity-100!"
+      >
+        <span
+          className="block w-9 lg:w-14"
+          style={{
+            fontFamily: "var(--font-inter-tight)",
+            fontSize: "clamp(1.25rem, 2.4vw, 2rem)",
+            fontWeight: 300,
+            letterSpacing: "-0.03em",
+          }}
+        >
+          {n}
+        </span>
+      </motion.span>
+
+      <div>
+        <div className="relative inline-block">
+          <h3 style={{ ...pasoTitleStyle, color: "#8a8780" }}>{title}</h3>
+          <motion.span
+            aria-hidden="true"
+            style={{ ...pasoTitleStyle, color: "var(--fg)", opacity: tinta }}
+            className="absolute inset-0 motion-reduce:opacity-100!"
+          >
+            {title}
+          </motion.span>
+        </div>
+        <p
+          className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted lg:text-base"
+          style={{ fontFamily: "var(--font-inter)" }}
+        >
+          {desc}
+        </p>
+      </div>
+
+      <motion.span
+        aria-hidden="true"
+        style={{ scaleX: avance }}
+        className="absolute inset-x-0 -bottom-px h-px origin-left bg-foreground motion-reduce:hidden"
+      />
+    </li>
+  );
+}
 
 export default function ServiciosPage() {
   const locale = useLocale();
   const isEn = locale === "en";
-  const [open, setOpen] = useState<number>(0);
+
+  const listRef = useRef<HTMLOListElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: listRef,
+    offset: ["start 80%", "end 45%"],
+  });
+  const total = proceso.length;
 
   return (
     <>
@@ -112,7 +196,7 @@ export default function ServiciosPage() {
           </div>
         </section>
 
-        {/* Proceso en acordeones */}
+        {/* Proceso, scroll-reveal */}
         <section className="section bg-background">
           <div className="container">
             <motion.div
@@ -140,87 +224,19 @@ export default function ServiciosPage() {
               </motion.h2>
             </motion.div>
 
-            <div className="border-t border-border">
-              {proceso.map((p, i) => {
-                const isOpen = open === i;
-                return (
-                  <div key={p.n} className="border-b border-border">
-                    <button
-                      onClick={() => setOpen(isOpen ? -1 : i)}
-                      className="group flex w-full items-center gap-5 py-7 text-left lg:gap-10 lg:py-9"
-                      aria-expanded={isOpen}
-                    >
-                      <span
-                        className="w-9 shrink-0 leading-none tabular-nums transition-colors duration-500 lg:w-14"
-                        style={{
-                          fontFamily: "var(--font-inter-tight)",
-                          fontSize: "clamp(1.5rem, 2.6vw, 2.25rem)",
-                          fontWeight: 300,
-                          letterSpacing: "-0.03em",
-                          color: isOpen ? "var(--fg)" : "var(--muted)",
-                        }}
-                      >
-                        {p.n}
-                      </span>
-                      <span
-                        className="flex-1 transition-transform duration-500 ease-out group-hover:translate-x-1"
-                        style={{
-                          fontFamily: "var(--font-inter-tight)",
-                          fontSize: "clamp(1.2rem, 2.1vw, 1.7rem)",
-                          fontWeight: 400,
-                          letterSpacing: "-0.02em",
-                          color: "var(--fg)",
-                        }}
-                      >
-                        {p.title}
-                      </span>
-                      {/* Indicador +/− */}
-                      <span className="relative flex h-6 w-6 shrink-0 items-center justify-center" aria-hidden="true">
-                        <span className="absolute h-px w-4 bg-foreground" />
-                        <span
-                          className="absolute h-4 w-px bg-foreground transition-transform duration-500 ease-out"
-                          style={{ transform: isOpen ? "scaleY(0)" : "scaleY(1)" }}
-                        />
-                      </span>
-                    </button>
-
-                    <AnimatePresence initial={false}>
-                      {isOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.55, ease: EASE }}
-                          className="overflow-hidden"
-                        >
-                          <div className="grid grid-cols-1 gap-6 pb-10 lg:grid-cols-12 lg:gap-10">
-                            <div className="lg:col-span-5 lg:col-start-1 lg:pl-24">
-                              <p
-                                className="max-w-md text-[15px] leading-relaxed text-muted lg:text-base"
-                                style={{ fontFamily: "var(--font-inter)" }}
-                              >
-                                {p.desc}
-                              </p>
-                            </div>
-                            <motion.div
-                              className="lg:col-span-6 lg:col-start-7"
-                              initial={{ opacity: 0, y: 14 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.6, delay: 0.12, ease: EASE }}
-                            >
-                              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-surface">
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img src={p.image} alt={p.title} className="h-full w-full object-cover" />
-                              </div>
-                            </motion.div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              })}
-            </div>
+            <ol ref={listRef} className="border-t border-border">
+              {proceso.map((p, i) => (
+                <PasoRenglon
+                  key={p.n}
+                  n={p.n}
+                  title={isEn ? p.titleEn : p.title}
+                  desc={isEn ? p.descEn : p.desc}
+                  progreso={scrollYProgress}
+                  desde={i / total}
+                  hasta={(i + 1) / total}
+                />
+              ))}
+            </ol>
           </div>
         </section>
 
@@ -273,14 +289,36 @@ export default function ServiciosPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={viewportConfig}
                 transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
-                className="relative aspect-[4/3] w-full overflow-hidden rounded-lg"
+                className="grid grid-cols-2 items-start gap-3"
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`${WP}/2023/09/stthomas_07.jpg`}
-                  alt={isEn ? "Healthcare space" : "Espacio para la salud"}
-                  className="h-full w-full object-cover"
-                />
+                {/* Consultorio (toma vertical): marco retrato para no recortarlo */}
+                <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/salud/chinski-0952b.jpg"
+                    alt={isEn ? "Consulting room by Estudio Modo Casa" : "Consultorio diseñado por Estudio Modo Casa"}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                {/* Dos tomas apaisadas apiladas, alto ~igual al retrato */}
+                <div className="flex flex-col gap-3">
+                  <div className="relative aspect-[3/2] w-full overflow-hidden rounded-lg">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/salud/chinski-0862b.jpg"
+                      alt={isEn ? "Clinic waiting room" : "Sala de espera de clínica"}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                  <div className="relative aspect-[3/2] w-full overflow-hidden rounded-lg">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/salud/recepcion-03.jpg"
+                      alt={isEn ? "Clinic reception area" : "Recepción de clínica"}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                </div>
               </motion.div>
             </div>
           </div>
