@@ -48,6 +48,34 @@ const directorImages: Record<string, string> = {
   "Gustavo Yankelevich": "/equipo/gustavo-yankelevich.jpg",
 };
 
+// Premios y reconocimientos reales (PDF de desarrollos inmobiliarios, Fran).
+const premios = [
+  {
+    es: "Premio Estilo Pilar · 2013",
+    en: "Estilo Pilar Award · 2013",
+    detEs: "Reconocimiento a la creatividad e innovación en diseño de interiores.",
+    detEn: "Recognition for creativity and innovation in interior design.",
+  },
+  {
+    es: "Medalla de Oro Casa FOA · 2015",
+    en: "Casa FOA Gold Medal · 2015",
+    detEs: "Máxima distinción del certamen, por excelencia absoluta en diseño.",
+    detEn: "The competition's highest distinction, for absolute design excellence.",
+  },
+  {
+    es: "Menciones Casa FOA · 2015, 2016 y 2018",
+    en: "Casa FOA Mentions · 2015, 2016 & 2018",
+    detEs: "",
+    detEn: "",
+  },
+  {
+    es: "Premio Mejor Aplicación de Producto",
+    en: "Best Product Application Award",
+    detEs: "Knauf · Calello · Atrim · Vite · Egger.",
+    detEn: "Knauf · Calello · Atrim · Vite · Egger.",
+  },
+];
+
 export default function EstudioPage() {
   const locale = useLocale();
   const isEn = locale === "en";
@@ -191,12 +219,24 @@ export default function EstudioPage() {
                 </Link>
 
                 <div className="mt-10 border-t border-border pt-8">
-                  <p className="eyebrow mb-5">{isEn ? "Exhibitions" : "Exposiciones"}</p>
-                  <p className="text-sm leading-relaxed text-muted" style={{ fontFamily: "var(--font-inter)" }}>
-                    {isEn
-                      ? "Participation in Casa FOA. 2013, 2014, 2015 and 2016 editions."
-                      : "Participación en Casa FOA. Ediciones 2013, 2014, 2015 y 2016."}
-                  </p>
+                  <p className="eyebrow mb-5">{isEn ? "Awards & recognition" : "Premios y reconocimientos"}</p>
+                  <ul className="space-y-4">
+                    {premios.map((pr) => (
+                      <li key={pr.es}>
+                        <p
+                          className="text-sm font-medium text-foreground"
+                          style={{ fontFamily: "var(--font-inter-tight)", letterSpacing: "-0.01em" }}
+                        >
+                          {isEn ? pr.en : pr.es}
+                        </p>
+                        {(isEn ? pr.detEn : pr.detEs) && (
+                          <p className="mt-0.5 text-xs leading-relaxed text-muted" style={{ fontFamily: "var(--font-inter)" }}>
+                            {isEn ? pr.detEn : pr.detEs}
+                          </p>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </motion.div>
             </div>
