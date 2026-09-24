@@ -621,9 +621,9 @@ export const projects: Project[] = [
     memoriaDescriptiva: "En Bariloche, una casa de montaña donde la piedra y la madera dialogan con el paisaje patagónico. Refugio cálido frente a la cordillera.",
     keywords: ["casa de montaña Bariloche", "arquitectura patagónica", "casas de descanso Bariloche"],
     description: "En Bariloche, una casa de montaña donde la piedra y la madera dialogan con el paisaje patagónico. Refugio cálido frente a la cordillera.",
-    image: "/projects/casa-bariloche-1.jpg",
-    gallery: ["/projects/casa-bariloche-1.jpg", "/projects/casa-bariloche-2.jpg", "/projects/casa-bariloche-3.jpg", "/projects/casa-bariloche-4.jpg"],
-    alt: "Casa Bariloche, render de casa de montaña en Bariloche",
+    image: "/projects/casa-bariloche-2.jpg",
+    gallery: ["/projects/casa-bariloche-2.jpg", "/projects/casa-bariloche-3.jpg", "/projects/casa-bariloche-4.jpg"],
+    alt: "Casa Bariloche, render de interior de casa de montaña en Bariloche",
   },
 
   // ---- Real Estate (desarrollos inmobiliarios; espacios comunes) ----

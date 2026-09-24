@@ -16,6 +16,24 @@ export default function ProyectosPage() {
 
   const filtered = projects.filter((p) => getProjectFilter(p) === active);
 
+  // Cuando una categoría tiene pocos proyectos (ej. Salud), centramos la
+  // grilla en un ancho menor para que no queden huecos vacíos.
+  const gridClass =
+    filtered.length === 1
+      ? "grid grid-cols-1 gap-4 max-w-md mx-auto"
+      : filtered.length === 2
+        ? "grid grid-cols-1 gap-4 sm:grid-cols-2 max-w-3xl mx-auto"
+        : "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3";
+
+  // Chip persistente para distinguir renders/obras no terminadas en la card
+  // (el estado en hover no se ve en celular; un render terminado parecía obra).
+  const chipLabel = (p: (typeof projects)[number]): string | null => {
+    const b = getProjectFilter(p);
+    if (b === "En proceso") return isEn ? "In progress" : "En proceso";
+    if (b === "Real Estate") return "Real Estate";
+    return null;
+  };
+
   return (
     <>
       <main>
@@ -111,7 +129,7 @@ export default function ProyectosPage() {
                 initial="hidden"
                 animate="visible"
                 variants={staggerContainer}
-                className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+                className={gridClass}
               >
                 {filtered.map((project) => (
                   <motion.div key={project.id} variants={scaleIn}>
@@ -126,6 +144,14 @@ export default function ProyectosPage() {
                           loading="lazy"
                           className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                         />
+                        {chipLabel(project) && (
+                          <span
+                            className="absolute left-3 top-3 z-10 rounded-full bg-black/55 px-2.5 py-1 text-[0.58rem] uppercase tracking-[0.12em] text-white backdrop-blur-sm"
+                            style={{ fontFamily: "var(--font-inter-tight)" }}
+                          >
+                            {chipLabel(project)}
+                          </span>
+                        )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                         <div className="absolute inset-x-0 bottom-0 translate-y-2 p-6 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
                           <span
