@@ -70,7 +70,7 @@ export default function PorQueElegirnos() {
       blurb: isEn
         ? "Every project starts from scratch. No two projects alike."
         : "Cada proyecto parte de cero. No hay dos proyectos iguales.",
-      projectIds: ["saint-thomas", "cramer", "arcos-belgrano", "aleph"],
+      projectIds: ["devoto", "cramer", "arcos-belgrano", "aleph"],
     },
     {
       id: "acompanamiento",
